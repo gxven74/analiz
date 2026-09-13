@@ -122,7 +122,7 @@ TAKIM_PROFILLERI = {
     "barcelona": {"hucum": 2.45, "savunma": 1.10, "seviye": 1.45},
     "atletico madrid": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.35},
     "athletic bilbao": {"hucum": 1.65, "savunma": 1.05, "seviye": 1.20},
-    "realBulunan": "real sociedad", "sociedad": "real sociedad",
+    "real sociedad": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
     "villareal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
     "real betis": {"hucum": 1.45, "savunma": 1.15, "seviye": 1.15},
     "girona": {"hucum": 1.65, "savunma": 1.30, "seviye": 1.15},
@@ -287,19 +287,14 @@ def takim_bul(girdi):
         return TAKMA_ADLAR.get(yakin[0], yakin[0])
     return None
 
-def mac_hesapla(ev_key, dep_key, form_ev=1.00, form_dep=1.00):
+def mac_hesapla(ev_key, dep_key):
     ep = TAKIM_PROFILLERI[ev_key]
     dp = TAKIM_PROFILLERI[dep_key]
 
-    hucum_ev = ep["hucum"] * form_ev
-    savunma_ev = ep["savunma"] / form_ev
-    hucum_dep = dp["hucum"] * form_dep
-    savunma_dep = dp["savunma"] / form_dep
+    exp_h = (ep["hucum"] * dp["savunma"] / 1.35) * 1.10
+    exp_a = (dp["hucum"] * ep["savunma"] / 1.35) * 0.90
 
-    exp_h = (hucum_ev * savunma_dep / 1.35) * 1.10
-    exp_a = (hucum_dep * savunma_ev / 1.35) * 0.90
-
-    seviye = ((ep["seviye"] * form_ev) / (dp["seviye"] * form_dep)) ** 0.45
+    seviye = (ep["seviye"] / dp["seviye"]) ** 0.45
     exp_h *= min(1.25, max(0.80, seviye))
     exp_a /= min(1.25, max(0.80, seviye))
 
@@ -327,7 +322,7 @@ def mac_hesapla(ev_key, dep_key, form_ev=1.00, form_dep=1.00):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
-    # Orijinal dengeli bülten karar motoru
+    # Dengeli Karar Motoru
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -385,16 +380,20 @@ with tab1:
     c1, c2 = st.columns(2)
     with c1:
         ev = st.selectbox("🏠 Ev Sahibi", takim_listesi, index=takim_listesi.index("galatasaray") if "galatasaray" in takim_listesi else 0)
-        form_ev = st.slider("📈 Ev Sahibi Formu", min_value=0.85, max_value=1.15, value=1.00, step=0.05, help="1.00 Normal, >1.00 Formda, <1.00 Eksikli")
     with c2:
         dep = st.selectbox("✈️ Deplasman", takim_listesi, index=takim_listesi.index("fenerbahce") if "fenerbahce" in takim_listesi else 1)
-        form_dep = st.slider("📈 Deplasman Formu", min_value=0.85, max_value=1.15, value=1.00, step=0.05, help="1.00 Normal, >1.00 Formda, <1.00 Eksikli")
 
     if st.button("🚀 Analiz Et", use_container_width=True):
-        res = mac_hesapla(ev, dep, form_ev, form_dep)
+        res = mac_hesapla(ev, dep)
         matrix = res["matrix"]
 
         st.divider()
+        
+        # En Tepede Net Karar / Olası Sonuç
+        if res["durum"] == "YESIL":
+            st.success(f"🎯 **EN OLASI SONUÇ / TAHMİN:** {res['aksiyon']} (%{res['guven_orani']:.1f})")
+        else:
+            st.warning("⚠️ **EN OLASI SONUÇ / TAHMİN:** PAS GEÇ / BELİRSİZ MAÇ")
 
         skorlar = {f"{h}-{a}": matrix[h, a] for h in range(6) for a in range(6)}
         sirali = sorted(skorlar.items(), key=lambda x: x[1], reverse=True)[:3]
