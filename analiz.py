@@ -182,7 +182,7 @@ TAKIM_PROFILLERI = {
     "holstein kiel": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
     "bochum": {"hucum": 1.15, "savunma": 1.75, "seviye": 0.80},
 
-    # ==================== LIGUE 1 (GÜNCELLENDİ) ====================
+    # ==================== LIGUE 1 ====================
     "psg": {"hucum": 2.10, "savunma": 1.15, "seviye": 1.30},
     "monaco": {"hucum": 1.95, "savunma": 1.15, "seviye": 1.25},
     "marsilya": {"hucum": 1.95, "savunma": 1.25, "seviye": 1.25},
@@ -205,7 +205,7 @@ TAKIM_PROFILLERI = {
     # ==================== DİĞER LİGLER & POPÜLER TAKIMLAR ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
     "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
-    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.65},
+    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.75},
     "elversberg": {"hucum": 1.25, "savunma": 1.35, "seviye": 0.80},
     "troyes": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.75}
 }
@@ -322,7 +322,7 @@ def mac_hesapla(ev_key, dep_key):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
-    # ==================== 3-4 MAÇLIK KOMBİNEYE UYUMLU AKILLI HİYARARŞİ ====================
+    # ==================== ORİJİNAL KUSURSUZ İSABETLİ HİYARARŞİ ====================
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -331,14 +331,6 @@ def mac_hesapla(ev_key, dep_key):
         durum = "YESIL"
         aksiyon = f"MS 2 ({dep_key.title()})"
         guven_orani = p_dep
-    elif p_25_ust >= 62.0:  # Sınırda kalan riskli üstler elendi, sadece net %62+ üstler öne alındı
-        durum = "YESIL"
-        aksiyon = "2.5 ÜST"
-        guven_orani = p_25_ust
-    elif p_15_ust >= 82.0:  # 1.5 üst çıtası %82'ye çıkarıldı (Kaya gibi sağlam banko)
-        durum = "YESIL"
-        aksiyon = "1.5 ÜST"
-        guven_orani = p_15_ust
     elif p_x2 >= 75.0:
         durum = "YESIL"
         aksiyon = "X2 Çifte Şans"
@@ -347,15 +339,23 @@ def mac_hesapla(ev_key, dep_key):
         durum = "YESIL"
         aksiyon = "1X Çifte Şans"
         guven_orani = p_1x
-    elif p_kg_var >= 65.0:
+    elif p_25_ust >= 58.0:
+        durum = "YESIL"
+        aksiyon = "2.5 ÜST"
+        guven_orani = p_25_ust
+    elif p_15_ust >= 78.0:
+        durum = "YESIL"
+        aksiyon = "1.5 ÜST"
+        guven_orani = p_15_ust
+    elif p_kg_var >= 62.0:
         durum = "YESIL"
         aksiyon = "KG VAR"
         guven_orani = p_kg_var
-    elif p_25_alt >= 62.0:
+    elif p_25_alt >= 60.0:
         durum = "YESIL"
         aksiyon = "2.5 ALT"
         guven_orani = p_25_alt
-    elif p_kg_yok >= 65.0:
+    elif p_kg_yok >= 62.0:
         durum = "YESIL"
         aksiyon = "KG YOK"
         guven_orani = p_kg_yok
@@ -505,7 +505,7 @@ with tab2:
                 st.warning("⚠️ Kombine için bültende en az 2 adet oynanabilir (yeşil) maç bulunmalıdır.")
 
         # Tablo Çıktıları
-        st.markdown(f"**🟢 Oynanabilir Yeşil Maclar ({len(yesil_maclar)})**")
+        st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
             df_gosterim = pd.DataFrame(yesil_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
             st.dataframe(df_gosterim, use_container_width=True, hide_index=True)
