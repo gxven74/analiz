@@ -138,7 +138,6 @@ TAKIM_PROFILLERI = {
     "leganes": {"hucum": 1.05, "savunma": 1.25, "seviye": 0.85},
     "valladolid": {"hucum": 1.00, "savunma": 1.60, "seviye": 0.85},
     "valencia": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.90},
-    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.65},
 
     # ==================== SERIE A ====================
     "inter": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.40},
@@ -203,9 +202,12 @@ TAKIM_PROFILLERI = {
     "le havre": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.85},
     "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
 
-    # ==================== DİĞER LİGLERDEN BÜYÜKLER ====================
+    # ==================== DİĞER LİGLER & POPÜLER TAKIMLAR ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
-    "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85}
+    "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
+    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.65},
+    "elversberg": {"hucum": 1.25, "savunma": 1.35, "seviye": 0.80},
+    "troyes": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.75}
 }
 
 TAKMA_ADLAR = {
@@ -262,11 +264,13 @@ TAKMA_ADLAR = {
     "rbl": "leipzig", "rb leipzig": "leipzig",
     "frankfurt": "eintracht frankfurt", "bremen": "werder bremen",
     "gladbach": "borussia monchengladbach", "monchengladbach": "borussia monchengladbach",
+    "elversberg": "elversberg", "elvers": "elversberg",
     
     # Fransa
     "psg": "psg", "paris": "psg", "paris saint germain": "psg",
     "om": "marsilya", "ol": "lyon", "asm": "monaco",
     "st etienne": "saint-etienne", "saint etienne": "saint-etienne",
+    "troyes": "troyes",
 
     # Hollanda
     "psv": "psv", "sparta": "sparta rotterdam", "rotterdam": "sparta rotterdam"
@@ -439,7 +443,8 @@ with tab2:
         "inter - juventus\n"
         "bayern munih - dortmund\n"
         "psg - marsilya\n"
-        "kocaelispor - amed"
+        "kocaelispor - amed\n"
+        "troyes - brest"
     )
     bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=140, label_visibility="collapsed")
 
