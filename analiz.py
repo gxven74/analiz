@@ -240,7 +240,7 @@ TAKMA_ADLAR = {
     # İspanya
     "real": "real madrid", "barca": "barcelona", "barça": "barcelona",
     "atletico": "atletico madrid", "atm": "atletico madrid",
-    "sociedad": "realBulunan": "real sociedad", "sociedad": "real sociedad",
+    "sociedad": "real sociedad", "socciedad": "real sociedad",
     "bilbao": "athletic bilbao", "betis": "real betis", "celta": "celta vigo",
     "rayo": "rayo vallecano", "espanyol": "espanyol",
     
