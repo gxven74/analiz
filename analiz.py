@@ -182,7 +182,7 @@ TAKIM_PROFILLERI = {
     "holstein kiel": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
     "bochum": {"hucum": 1.15, "savunma": 1.75, "seviye": 0.80},
 
-    # ==================== LIGUE 1 (GÜNÜMÜZ GERÇEKÇİ PSG) ====================
+    # ==================== LIGUE 1 ====================
     "psg": {"hucum": 2.10, "savunma": 1.15, "seviye": 1.30},
     "monaco": {"hucum": 1.95, "savunma": 1.15, "seviye": 1.25},
     "marsilya": {"hucum": 1.95, "savunma": 1.25, "seviye": 1.25},
@@ -322,7 +322,7 @@ def mac_hesapla(ev_key, dep_key):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
-    # ==================== OKSİJEN HİYARARŞİ (ORİJİNAL %80 BAŞARI) ====================
+    # ==================== DÜZELTİLMİŞ AKILLI HİYARARŞİ (1.5 ÜST ÖNDE) ====================
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -331,6 +331,14 @@ def mac_hesapla(ev_key, dep_key):
         durum = "YESIL"
         aksiyon = f"MS 2 ({dep_key.title()})"
         guven_orani = p_dep
+    elif p_15_ust >= 78.0:  # Kaya gibi sağlam 1.5 Üst artık 2.5 Üst'ün ÖNÜNDE!
+        durum = "YESIL"
+        aksiyon = "1.5 ÜST"
+        guven_orani = p_15_ust
+    elif p_25_ust >= 58.0:
+        durum = "YESIL"
+        aksiyon = "2.5 ÜST"
+        guven_orani = p_25_ust
     elif p_x2 >= 75.0:
         durum = "YESIL"
         aksiyon = "X2 Çifte Şans"
@@ -339,14 +347,6 @@ def mac_hesapla(ev_key, dep_key):
         durum = "YESIL"
         aksiyon = "1X Çifte Şans"
         guven_orani = p_1x
-    elif p_25_ust >= 58.0:
-        durum = "YESIL"
-        aksiyon = "2.5 ÜST"
-        guven_orani = p_25_ust
-    elif p_15_ust >= 78.0:
-        durum = "YESIL"
-        aksiyon = "1.5 ÜST"
-        guven_orani = p_15_ust
     elif p_kg_var >= 62.0:
         durum = "YESIL"
         aksiyon = "KG VAR"
