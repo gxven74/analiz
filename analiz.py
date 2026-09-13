@@ -182,7 +182,7 @@ TAKIM_PROFILLERI = {
     "holstein kiel": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
     "bochum": {"hucum": 1.15, "savunma": 1.75, "seviye": 0.80},
 
-    # ==================== LIGUE 1 ====================
+    # ==================== LIGUE 1 (GÜNÜMÜZ GERÇEKÇİ PSG) ====================
     "psg": {"hucum": 2.10, "savunma": 1.15, "seviye": 1.30},
     "monaco": {"hucum": 1.95, "savunma": 1.15, "seviye": 1.25},
     "marsilya": {"hucum": 1.95, "savunma": 1.25, "seviye": 1.25},
@@ -322,7 +322,7 @@ def mac_hesapla(ev_key, dep_key):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
-    # ==================== ORİJİNAL KUSURSUZ İSABETLİ HİYARARŞİ ====================
+    # ==================== OKSİJEN HİYARARŞİ (ORİJİNAL %80 BAŞARI) ====================
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
