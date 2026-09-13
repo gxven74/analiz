@@ -322,7 +322,6 @@ def mac_hesapla(ev_key, dep_key):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
-    # Dengeli Karar Motoru
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -389,7 +388,6 @@ with tab1:
 
         st.divider()
         
-        # En Tepede Net Karar / Olası Sonuç
         if res["durum"] == "YESIL":
             st.success(f"🎯 **EN OLASI SONUÇ / TAHMİN:** {res['aksiyon']} (%{res['guven_orani']:.1f})")
         else:
@@ -424,11 +422,11 @@ with tab1:
 
         with st.expander("📊 Skor Olasılık Matrisini Gör"):
             df_matrix = pd.DataFrame(
-                matrix,
+                np.round(matrix, 1),
                 index=[f"{ev[:4]}. {i}" for i in range(6)],
                 columns=[f"{dep[:4]}. {j}" for j in range(6)]
             )
-            st.dataframe(df_matrix.style.background_gradient(cmap="YlGnBu", axis=None).format("{:.1f}%"), use_container_width=True)
+            st.dataframe(df_matrix, use_container_width=True)
 
 # ================= TAB 2: TOPLU BÜLTEN & KOMBİNE MOTORU =================
 with tab2:
