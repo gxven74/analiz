@@ -3,10 +3,6 @@ import numpy as np
 import pandas as pd
 from scipy.stats import poisson
 import difflib
-streamlit
-numpy
-scipy
-pandas
 
 st.set_page_config(page_title="Poisson Tahmin Paneli", page_icon="⚽", layout="wide")
 
@@ -170,7 +166,6 @@ def mac_hesapla(ev_key, dep_key):
     durum = "SARI"
     aksiyon = "PAS GEÇ / RİSKLİ"
 
-    # --- GELİŞMİŞ VE ESNETİLMİŞ KARAR MOTORU ---
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()}) (%{p_ev:.1f})"
