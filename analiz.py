@@ -58,6 +58,7 @@ TAKIM_PROFILLERI = {
     "besiktas": {"hucum": 1.75, "savunma": 1.15, "seviye": 1.20},
     "trabzonspor": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.10},
     "basaksehir": {"hucum": 1.45, "savunma": 1.40, "seviye": 0.95},
+    "amed": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.10},
     "samsunspor": {"hucum": 1.45, "savunma": 1.10, "seviye": 1.10},
     "eyupspor": {"hucum": 1.40, "savunma": 1.20, "seviye": 1.00},
     "goztepe": {"hucum": 1.35, "savunma": 1.15, "seviye": 1.00},
@@ -80,7 +81,6 @@ TAKIM_PROFILLERI = {
     "istanbulspor": {"hucum": 1.20, "savunma": 1.30, "seviye": 0.75},
     "pendikspor": {"hucum": 1.20, "savunma": 1.30, "seviye": 0.75},
     "sakaryaspor": {"hucum": 1.15, "savunma": 1.25, "seviye": 0.75},
-    "amed": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.10},
     "bandirmaspor": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
     "corum fk": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
     "erzurumspor": {"hucum": 1.15, "savunma": 1.20, "seviye": 0.75},
@@ -138,6 +138,7 @@ TAKIM_PROFILLERI = {
     "leganes": {"hucum": 1.05, "savunma": 1.25, "seviye": 0.85},
     "valladolid": {"hucum": 1.00, "savunma": 1.60, "seviye": 0.85},
     "valencia": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.90},
+    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.65},
 
     # ==================== SERIE A ====================
     "inter": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.40},
@@ -200,11 +201,11 @@ TAKIM_PROFILLERI = {
     "angers": {"hucum": 1.20, "savunma": 1.40, "seviye": 0.85},
     "saint-etienne": {"hucum": 1.15, "savunma": 1.65, "seviye": 0.85},
     "le havre": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.85},
-    "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80}
-    # ==================== DIGER ====================
-    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.65},
+    "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
+
+    # ==================== DİĞER LİGLERDEN BÜYÜKLER ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
-    "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
+    "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85}
 }
 
 TAKMA_ADLAR = {
@@ -214,6 +215,7 @@ TAKMA_ADLAR = {
     "bjk": "besiktas", "besik": "besiktas",
     "ts": "trabzonspor", "trabzon": "trabzonspor",
     "ibfk": "basaksehir", "basak": "basaksehir",
+    "amed": "amed", "amedspor": "amed",
     "samsun": "samsunspor", "eyup": "eyupspor",
     "gozgoz": "goztepe", "sivas": "sivasspor",
     "antalya": "antalyaspor", "alanya": "alanyaspor",
@@ -246,7 +248,7 @@ TAKMA_ADLAR = {
     "atletico": "atletico madrid", "atm": "atletico madrid",
     "sociedad": "real sociedad", "socciedad": "real sociedad",
     "bilbao": "athletic bilbao", "betis": "real betis", "celta": "celta vigo",
-    "rayo": "rayo vallecano", "espanyol": "espanyol",
+    "rayo": "rayo vallecano", "espanyol": "espanyol", "tenerife": "tenerife",
     
     # İtalya
     "juve": "juventus", "inter milan": "inter", "ac milan": "milan",
@@ -264,7 +266,10 @@ TAKMA_ADLAR = {
     # Fransa
     "psg": "psg", "paris": "psg", "paris saint germain": "psg",
     "om": "marsilya", "ol": "lyon", "asm": "monaco",
-    "st etienne": "saint-etienne", "saint etienne": "saint-etienne"
+    "st etienne": "saint-etienne", "saint etienne": "saint-etienne",
+
+    # Hollanda
+    "psv": "psv", "sparta": "sparta rotterdam", "rotterdam": "sparta rotterdam"
 }
 
 def takim_bul(girdi):
