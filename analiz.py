@@ -327,6 +327,8 @@ def mac_hesapla(ev_key, dep_key, form_ev=1.00, form_dep=1.00):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
+    # ==================== YENİLENEN YÜKSEK ORAN ÖNCELİKLİ KARAR MOTORU ====================
+    # 1. Öncelik: Doğrudan Galibiyetler (Dolgun Oran)
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -335,27 +337,23 @@ def mac_hesapla(ev_key, dep_key, form_ev=1.00, form_dep=1.00):
         durum = "YESIL"
         aksiyon = f"MS 2 ({dep_key.title()})"
         guven_orani = p_dep
-    elif p_x2 >= 75.0:
-        durum = "YESIL"
-        aksiyon = "X2 Çifte Şans"
-        guven_orani = p_x2
-    elif p_1x >= 75.0:
-        durum = "YESIL"
-        aksiyon = "1X Çifte Şans"
-        guven_orani = p_1x
+    # 2. Öncelik: 2.5 ÜST (Harika Oran ~1.70 - 2.05)
     elif p_25_ust >= 58.0:
         durum = "YESIL"
         aksiyon = "2.5 ÜST"
         guven_orani = p_25_ust
-    elif p_15_ust >= 78.0:
+    # 3. Öncelik: 1.5 ÜST (Kaya Banko Oran ~1.25 - 1.45)
+    elif p_15_ust >= 80.0:
         durum = "YESIL"
         aksiyon = "1.5 ÜST"
         guven_orani = p_15_ust
+    # 4. Öncelik: KG VAR (İdeal Oran ~1.65 - 1.85)
     elif p_kg_var >= 62.0:
         durum = "YESIL"
         aksiyon = "KG VAR"
         guven_orani = p_kg_var
-    elif p_25_alt >= 60.0:
+    # 5. Öncelik: Kısır Maçlarda 2.5 Alt veya KG Yok
+    elif p_25_alt >= 62.0:
         durum = "YESIL"
         aksiyon = "2.5 ALT"
         guven_orani = p_25_alt
@@ -363,6 +361,15 @@ def mac_hesapla(ev_key, dep_key, form_ev=1.00, form_dep=1.00):
         durum = "YESIL"
         aksiyon = "KG YOK"
         guven_orani = p_kg_yok
+    # Son Çare: Eğer maç gollü değilse ve taraf da çıkmıyorsa ancak o zaman Çifte Şans
+    elif p_x2 >= 78.0 and p_15_ust < 75.0:
+        durum = "YESIL"
+        aksiyon = "X2 Çifte Şans"
+        guven_orani = p_x2
+    elif p_1x >= 78.0 and p_15_ust < 75.0:
+        durum = "YESIL"
+        aksiyon = "1X Çifte Şans"
+        guven_orani = p_1x
 
     return {
         "exp_h": exp_h, "exp_a": exp_a, "matrix": matrix,
@@ -487,10 +494,14 @@ with tab2:
 
         st.divider()
 
-        # Otomatik Kombine Kartı
+        # Otomatik Kombine Kartı (Çifte şans dışındaki yüksek oranlı baremlere odaklanır)
         if kombine_btn or (tara_btn and len(yesil_maclar) >= 2):
-            if len(yesil_maclar) >= 2:
-                sirali_yesiller = sorted(yesil_maclar, key=lambda x: x["guven_raw"], reverse=True)
+            oranli_yesiller = [m for m in yesil_maclar if "Çifte Şans" not in m["aksiyon_raw"]]
+            if len(oranli_yesiller) < 2:
+                oranli_yesiller = yesil_maclar
+
+            if len(oranli_yesiller) >= 2:
+                sirali_yesiller = sorted(oranli_yesiller, key=lambda x: x["guven_raw"], reverse=True)
                 secilenler = sirali_yesiller[:2]
                 toplam_guven = (secilenler[0]["guven_raw"] / 100) * (secilenler[1]["guven_raw"] / 100) * 100
 
@@ -498,7 +509,7 @@ with tab2:
                 st.markdown(f"""
                 <div class="kombine-box">
                     <h4 style="margin:0; color:#2ecc71;">⚡ Modelin Seçtiği İdeal Kupon</h4>
-                    <p style="font-size:0.9rem; opacity:0.85; margin-bottom:10px;">En yüksek olasılıklı ve riski en düşük 2 maç birleştirildi.</p>
+                    <p style="font-size:0.9rem; opacity:0.85; margin-bottom:10px;">Çifte şans tuzağına düşmeden dolgun oranlı 2 maç birleştirildi.</p>
                     <hr style="border:0.5px solid rgba(255,255,255,0.2); margin:8px 0;">
                     <b>1. Maç:</b> {secilenler[0]['Maç']} ➔ <b>{secilenler[0]['aksiyon_raw']}</b> (%{secilenler[0]['guven_raw']:.1f})<br>
                     <b>2. Maç:</b> {secilenler[1]['Maç']} ➔ <b>{secilenler[1]['aksiyon_raw']}</b> (%{secilenler[1]['guven_raw']:.1f})
