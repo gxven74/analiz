@@ -122,7 +122,7 @@ TAKIM_PROFILLERI = {
     "barcelona": {"hucum": 2.45, "savunma": 1.10, "seviye": 1.45},
     "atletico madrid": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.35},
     "athletic bilbao": {"hucum": 1.65, "savunma": 1.05, "seviye": 1.20},
-    "real sociedad": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
+    "realBulunan": "real sociedad", "sociedad": "real sociedad",
     "villareal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
     "real betis": {"hucum": 1.45, "savunma": 1.15, "seviye": 1.15},
     "girona": {"hucum": 1.65, "savunma": 1.30, "seviye": 1.15},
@@ -327,7 +327,7 @@ def mac_hesapla(ev_key, dep_key, form_ev=1.00, form_dep=1.00):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
-    # ==================== ORİJİNAL DENGELİ KARAR MOTORU ====================
+    # Orijinal dengeli bülten karar motoru
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -395,10 +395,6 @@ with tab1:
         matrix = res["matrix"]
 
         st.divider()
-        if res["durum"] == "YESIL":
-            st.success(f"**KARAR:** {res['aksiyon']} (%{res['guven_orani']:.1f})")
-        else:
-            st.warning("**KARAR:** PAS GEÇ / RİSKLİ")
 
         skorlar = {f"{h}-{a}": matrix[h, a] for h in range(6) for a in range(6)}
         sirali = sorted(skorlar.items(), key=lambda x: x[1], reverse=True)[:3]
