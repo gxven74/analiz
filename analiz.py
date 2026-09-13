@@ -117,7 +117,7 @@ TAKIM_PROFILLERI = {
     "ipswich": {"hucum": 1.15, "savunma": 1.60, "seviye": 0.85},
     "southampton": {"hucum": 1.10, "savunma": 1.65, "seviye": 0.85},
 
-    # ==================== LA LIGA ====================
+    # ==================== LA LIGA & DİĞER İSPANYA ====================
     "real madrid": {"hucum": 2.35, "savunma": 1.00, "seviye": 1.45},
     "barcelona": {"hucum": 2.45, "savunma": 1.10, "seviye": 1.45},
     "atletico madrid": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.35},
@@ -138,6 +138,7 @@ TAKIM_PROFILLERI = {
     "leganes": {"hucum": 1.05, "savunma": 1.25, "seviye": 0.85},
     "valladolid": {"hucum": 1.00, "savunma": 1.60, "seviye": 0.85},
     "valencia": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.90},
+    "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80}, # Eklendi
 
     # ==================== SERIE A ====================
     "inter": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.40},
@@ -202,12 +203,15 @@ TAKIM_PROFILLERI = {
     "le havre": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.85},
     "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
 
-    # ==================== DİĞER LİGLER & POPÜLER TAKIMLAR ====================
+    # ==================== DİĞER LİGLER & YENİ EKLENENLER ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
     "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
     "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.75},
     "elversberg": {"hucum": 1.25, "savunma": 1.35, "seviye": 0.80},
-    "troyes": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.75}
+    "troyes": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.75},
+    "sparta prag": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.05}, # Eklendi
+    "slavia prag": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.05}, # Alternatif Prag
+    "shakhtar donetsk": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.10} # Eklendi
 }
 
 TAKMA_ADLAR = {
@@ -251,6 +255,7 @@ TAKMA_ADLAR = {
     "sociedad": "real sociedad", "socciedad": "real sociedad",
     "bilbao": "athletic bilbao", "betis": "real betis", "celta": "celta vigo",
     "rayo": "rayo vallecano", "espanyol": "espanyol", "tenerife": "tenerife",
+    "malaga": "malaga",
     
     # İtalya
     "juve": "juventus", "inter milan": "inter", "ac milan": "milan",
@@ -272,8 +277,10 @@ TAKMA_ADLAR = {
     "st etienne": "saint-etienne", "saint etienne": "saint-etienne",
     "troyes": "troyes",
 
-    # Hollanda
-    "psv": "psv", "sparta": "sparta rotterdam", "rotterdam": "sparta rotterdam"
+    # Hollanda & Diğer
+    "psv": "psv", "sparta": "sparta rotterdam", "rotterdam": "sparta rotterdam",
+    "prag": "sparta prag", "sparta prag": "sparta prag", "slavia prag": "slavia prag",
+    "shakhtar": "shakhtar donetsk", "shakhtar donetsk": "shakhtar donetsk"
 }
 
 def takim_bul(girdi):
@@ -322,7 +329,7 @@ def mac_hesapla(ev_key, dep_key):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
-    # ==================== DÜZELTİLMİŞ AKILLI HİYARARŞİ (1.5 ÜST ÖNDE) ====================
+    # ==================== KUSURSUZ İSABETLİ HİYARARŞİ ====================
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -331,7 +338,7 @@ def mac_hesapla(ev_key, dep_key):
         durum = "YESIL"
         aksiyon = f"MS 2 ({dep_key.title()})"
         guven_orani = p_dep
-    elif p_15_ust >= 78.0:  # Kaya gibi sağlam 1.5 Üst artık 2.5 Üst'ün ÖNÜNDE!
+    elif p_15_ust >= 78.0:
         durum = "YESIL"
         aksiyon = "1.5 ÜST"
         guven_orani = p_15_ust
@@ -439,7 +446,7 @@ with tab2:
         "bayern munih - dortmund\n"
         "psg - marsilya\n"
         "kocaelispor - amed\n"
-        "troyes - brest"
+        "malaga - prag"
     )
     bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=140, label_visibility="collapsed")
 
