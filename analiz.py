@@ -138,7 +138,7 @@ TAKIM_PROFILLERI = {
     "leganes": {"hucum": 1.05, "savunma": 1.25, "seviye": 0.85},
     "valladolid": {"hucum": 1.00, "savunma": 1.60, "seviye": 0.85},
     "valencia": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.90},
-    "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80}, # Eklendi
+    "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80},
 
     # ==================== SERIE A ====================
     "inter": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.40},
@@ -203,15 +203,17 @@ TAKIM_PROFILLERI = {
     "le havre": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.85},
     "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
 
-    # ==================== DİĞER LİGLER & YENİ EKLENENLER ====================
+    # ==================== DİĞER LİGLER & ATİNA TAKIMLARI ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
     "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
     "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.75},
     "elversberg": {"hucum": 1.25, "savunma": 1.35, "seviye": 0.80},
     "troyes": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.75},
-    "sparta prag": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.05}, # Eklendi
-    "slavia prag": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.05}, # Alternatif Prag
-    "shakhtar donetsk": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.10} # Eklendi
+    "sparta prag": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.05},
+    "slavia prag": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.05},
+    "shakhtar donetsk": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.10},
+    "aek atina": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.20},       # Eklendi
+    "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20}  # Eklendi
 }
 
 TAKMA_ADLAR = {
@@ -277,10 +279,12 @@ TAKMA_ADLAR = {
     "st etienne": "saint-etienne", "saint etienne": "saint-etienne",
     "troyes": "troyes",
 
-    # Hollanda & Diğer
+    # Diğer & Atina Takımları
     "psv": "psv", "sparta": "sparta rotterdam", "rotterdam": "sparta rotterdam",
     "prag": "sparta prag", "sparta prag": "sparta prag", "slavia prag": "slavia prag",
-    "shakhtar": "shakhtar donetsk", "shakhtar donetsk": "shakhtar donetsk"
+    "shakhtar": "shakhtar donetsk", "shakhtar donetsk": "shakhtar donetsk",
+    "aek": "aek atina", "aek atina": "aek atina", "athena": "aek atina",
+    "pao": "panathinaikos", "panathinaikos": "panathinaikos"
 }
 
 def takim_bul(girdi):
@@ -444,8 +448,7 @@ with tab2:
         "barcelona - villareal\n"
         "inter - juventus\n"
         "bayern munih - dortmund\n"
-        "psg - marsilya\n"
-        "kocaelispor - amed\n"
+        "aek atina - panathinaikos\n"
         "malaga - prag"
     )
     bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=140, label_visibility="collapsed")
