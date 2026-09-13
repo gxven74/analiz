@@ -142,7 +142,7 @@ TAKIM_PROFILLERI = {
     # ==================== SERIE A ====================
     "inter": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.40},
     "atalanta": {"hucum": 2.15, "savunma": 1.15, "seviye": 1.30},
-    "juventus": {"hucum": 1.70, "savunma": 0.85, "seviye": 1.30},
+    "juventus": {"hucum": 1.70, "savunma": 1.00, "seviye": 1.30},
     "napoli": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.30},
     "milan": {"hucum": 1.85, "savunma": 1.25, "seviye": 1.25},
     "lazio": {"hucum": 1.80, "savunma": 1.25, "seviye": 1.20},
@@ -205,7 +205,7 @@ TAKIM_PROFILLERI = {
     # ==================== DİĞER LİGLER & POPÜLER TAKIMLAR ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
     "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
-    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.65},
+    "tenerife": {"hucum": 1.00, "savunma": 1.30, "seviye": 0.75},
     "elversberg": {"hucum": 1.25, "savunma": 1.35, "seviye": 0.80},
     "troyes": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.75}
 }
