@@ -150,6 +150,7 @@ TAKIM_PROFILLERI = {
     "roma": {"hucum": 1.60, "savunma": 1.20, "seviye": 1.15},
     "bologna": {"hucum": 1.45, "savunma": 1.15, "seviye": 1.15},
     "torino": {"hucum": 1.25, "savunma": 1.20, "seviye": 1.00},
+    "sassuolo": {"hucum": 1.35, "savunma": 1.45, "seviye": 0.90},
     "udinese": {"hucum": 1.30, "savunma": 1.35, "seviye": 0.95},
     "empoli": {"hucum": 1.05, "savunma": 1.25, "seviye": 0.90},
     "parma": {"hucum": 1.35, "savunma": 1.45, "seviye": 0.90},
@@ -239,14 +240,14 @@ TAKMA_ADLAR = {
     # İspanya
     "real": "real madrid", "barca": "barcelona", "barça": "barcelona",
     "atletico": "atletico madrid", "atm": "atletico madrid",
-    "sociedad": "real sociedad", "bilbao": "athletic bilbao",
-    "betis": "real betis", "celta": "celta vigo",
+    "sociedad": "realBulunan": "real sociedad", "sociedad": "real sociedad",
+    "bilbao": "athletic bilbao", "betis": "real betis", "celta": "celta vigo",
     "rayo": "rayo vallecano", "espanyol": "espanyol",
     
     # İtalya
-    "juve": "juventus", "inter milan": "inter", "ac milan": "man",
+    "juve": "juventus", "inter milan": "inter", "ac milan": "milan",
     "viola": "fiorentina", "toro": "torino", "hellas": "verona",
-    "hellas verona": "verona",
+    "hellas verona": "verona", "sassuolo": "sassuolo", "sas": "sassuolo",
     
     # Almanya
     "bayern": "bayern munih", "munih": "bayern munih", "fc bayern": "bayern munih",
