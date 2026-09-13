@@ -201,6 +201,10 @@ TAKIM_PROFILLERI = {
     "saint-etienne": {"hucum": 1.15, "savunma": 1.65, "seviye": 0.85},
     "le havre": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.85},
     "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80}
+    # ==================== DIGER ====================
+    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.65},
+    "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
+    "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
 }
 
 TAKMA_ADLAR = {
