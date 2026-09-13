@@ -205,7 +205,7 @@ TAKIM_PROFILLERI = {
     # ==================== DİĞER LİGLER & POPÜLER TAKIMLAR ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
     "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
-    "tenerife": {"hucum": 1.00, "savunma": 1.30, "seviye": 0.75},
+    "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.65},
     "elversberg": {"hucum": 1.25, "savunma": 1.35, "seviye": 0.80},
     "troyes": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.75}
 }
@@ -322,6 +322,7 @@ def mac_hesapla(ev_key, dep_key):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
+    # ==================== YENİ HİYARARŞİ: GOL BAREMLERİ ÖNDE ====================
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -330,14 +331,6 @@ def mac_hesapla(ev_key, dep_key):
         durum = "YESIL"
         aksiyon = f"MS 2 ({dep_key.title()})"
         guven_orani = p_dep
-    elif p_x2 >= 75.0:
-        durum = "YESIL"
-        aksiyon = "X2 Çifte Şans"
-        guven_orani = p_x2
-    elif p_1x >= 75.0:
-        durum = "YESIL"
-        aksiyon = "1X Çifte Şans"
-        guven_orani = p_1x
     elif p_25_ust >= 58.0:
         durum = "YESIL"
         aksiyon = "2.5 ÜST"
@@ -346,6 +339,14 @@ def mac_hesapla(ev_key, dep_key):
         durum = "YESIL"
         aksiyon = "1.5 ÜST"
         guven_orani = p_15_ust
+    elif p_x2 >= 75.0:
+        durum = "YESIL"
+        aksiyon = "X2 Çifte Şans"
+        guven_orani = p_x2
+    elif p_1x >= 75.0:
+        durum = "YESIL"
+        aksiyon = "1X Çifte Şans"
+        guven_orani = p_1x
     elif p_kg_var >= 62.0:
         durum = "YESIL"
         aksiyon = "KG VAR"
