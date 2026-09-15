@@ -293,7 +293,7 @@ TAKMA_ADLAR = {
     "hearts": "hearts",
     "grasshoppers": "grasshoppers", "gc": "grasshoppers",
     "sion": "sion"
-}}
+}
 
 }
 
