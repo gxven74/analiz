@@ -649,38 +649,54 @@ with tab3:
     else:
         st.info("Henüz kasaya kaydedilmiş bir işlem yok.")
 
-# ================= TAB 4: İSTATİSTİKLER (MANUEL MAÇ/KUPON TAKİBİ) =================
+# ================= TAB 4: İSTATİSTİKLER (TAKIM & SEÇENEK SEÇMELİ) =================
 DOSYA_ISTATISTIK = "istatistik_defteri.csv"
 
 if os.path.exists(DOSYA_ISTATISTIK):
     istatistik_df = pd.read_csv(DOSYA_ISTATISTIK)
 else:
-    istatistik_df = pd.DataFrame(columns=["Tarih", "Tahmin / Maç Adı", "Sonuç"])
+    istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
 
 with tab4:
-    st.markdown("### 📊 Manuel Tahmin / Maç İstatistikleri Karnesi")
-    st.caption("Burada parayla işin yok; sadece tahmin ettiğin maçları veya kuponları elinle girerek başarı oranını (Win Rate) takip edebilirsin.")
+    st.markdown("### 📊 Model Başarı İstatistikleri Karnesi")
+    st.caption("Takımları ve tahmini listeden seçerek modelinin başarı oranını (Win Rate) net olarak takip et.")
+
+    takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
 
     with st.form("istatistik_form", clear_on_submit=True):
-        col_i1, col_i2, col_i3 = st.columns(3)
+        col_i1, col_i2 = st.columns(2)
         with col_i1:
             ist_tarih = st.date_input("📅 Tarih", key="ist_tarih")
         with col_i2:
-            ist_aciklama = st.text_input("⚽ Maç veya Kupon Adı", value="Galatasaray - Fenerbahçe MS 1")
+            tahmin_turu = st.selectbox("🎯 Tahmin / Bahis Türü", [
+                "MS 1", "MS 2", "Maç Sonu Beraberlik (0)", 
+                "1.5 ÜST", "1.5 ALT", 
+                "2.5 ÜST", "2.5 ALT", 
+                "KG VAR", "KG YOK", 
+                "1X Çifte Şans", "X2 Çifte Şans"
+            ])
+
+        col_i3, col_i4, col_i5 = st.columns(3)
         with col_i3:
+            ist_ev = st.selectbox("🏠 Ev Sahibi Takım", takim_listesi, index=0, key="ist_ev")
+        with col_i4:
+            ist_dep = st.selectbox("✈️ Deplasman Takım", takim_listesi, index=1 if len(takim_listesi) > 1 else 0, key="ist_dep")
+        with col_i5:
             ist_sonuc = st.selectbox("🎯 Sonuç", ["Kazandı ✅", "Kaybetti ❌"], key="ist_sonuc_secim")
 
-        ist_kaydet = st.form_submit_button("💾 Sonucu İstatistiklere Ekle", use_container_width=True)
+        ist_kaydet = st.form_submit_button("💾 Tahmini İstatistiklere Ekle", use_container_width=True)
 
         if ist_kaydet:
+            mac_adi = f"{ist_ev.title()} vs {ist_dep.title()}"
             yeni_ist = pd.DataFrame({
                 "Tarih": [str(ist_tarih)],
-                "Tahmin / Maç Adı": [ist_aciklama],
+                "Maç": [mac_adi],
+                "Tahmin": [tahmin_turu],
                 "Sonuç": [ist_sonuc]
             })
             istatistik_df = pd.concat([istatistik_df, yeni_ist], ignore_index=True)
             istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False)
-            st.success("Maç sonucu istatistiklere eklendi!")
+            st.success("Maç tahmini istatistiklere eklendi!")
             st.rerun()
 
     st.divider()
@@ -696,7 +712,7 @@ with tab4:
         win_rate = (toplam_kazanan_ist / toplam_tahmin * 100) if toplam_tahmin > 0 else 0.0
 
         i1, i2, i3, i4 = st.columns(4)
-        i1.metric("Toplam Girilen Maç", f"{toplam_tahmin}")
+        i1.metric("Toplam Girilen Tahmin", f"{toplam_tahmin}")
         i2.metric("Kazananlar 🟢", f"{toplam_kazanan_ist}")
         i3.metric("Kaybedenler 🔴", f"{toplam_kaybeden_ist}")
         i4.metric("Kazanma Oranı (Win Rate)", f"%{win_rate:.1f}")
@@ -705,21 +721,22 @@ with tab4:
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
         for idx, row in istatistik_df.iterrows():
-            col_is1, col_is2, col_is3, col_is4 = st.columns([1.5, 3.0, 1.5, 0.8])
+            col_is1, col_is2, col_is3, col_is4, col_is5 = st.columns([1.2, 2.5, 1.5, 1.2, 0.7])
             col_is1.write(f"📅 {row['Tarih']}")
-            col_is2.write(f"⚽ {row['Tahmin / Maç Adı']}")
-            col_is3.write(f"<b>{row['Sonuç']}</b>", unsafe_allow_html=True)
+            col_is2.write(f"⚽ {row['Maç']}")
+            col_is3.write(f"🎯 <b>{row['Tahmin']}</b>", unsafe_allow_html=True)
+            col_is4.write(f"<b>{row['Sonuç']}</b>", unsafe_allow_html=True)
             
-            if col_is4.button("🗑️ Sil", key=f"sil_ist_{idx}"):
+            if col_is5.button("🗑️ Sil", key=f"sil_ist_{idx}"):
                 istatistik_df = istatistik_df.drop(idx).reset_index(drop=True)
                 istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False)
                 st.rerun()
 
         st.divider()
         if st.button("🗑️ Tüm İstatistikleri Sıfırla", use_container_width=True):
-            istatistik_df = pd.DataFrame(columns=["Tarih", "Tahmin / Maç Adı", "Sonuç"])
+            istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
             if os.path.exists(DOSYA_ISTATISTIK):
                 os.remove(DOSYA_ISTATISTIK)
             st.rerun()
     else:
-        st.info("Henüz istatistik için eklenmiş bir maç yok. Yukarıdaki formdan ekleme yapabilirsin.")
+        st.info("Henüz istatistik için eklenmiş bir tahmin yok. Yukarıdaki formdan ekleme yapabilirsin.")
