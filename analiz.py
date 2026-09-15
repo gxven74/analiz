@@ -95,7 +95,7 @@ TAKIM_PROFILLERI = {
     "adanaspor": {"hucum": 1.00, "savunma": 1.45, "seviye": 0.65},
     "yeni malatyaspor": {"hucum": 0.70, "savunma": 1.90, "seviye": 0.50},
 
-    # ==================== PREMIER LEAGUE ====================
+    # ==================== PREMIER LEAGUE & İNGİLTERE ====================
     "man city": {"hucum": 2.25, "savunma": 0.95, "seviye": 1.45},
     "liverpool": {"hucum": 2.15, "savunma": 1.00, "seviye": 1.40},
     "arsenal": {"hucum": 2.05, "savunma": 0.90, "seviye": 1.40},
@@ -116,6 +116,9 @@ TAKIM_PROFILLERI = {
     "leicester": {"hucum": 1.25, "savunma": 1.55, "seviye": 0.90},
     "ipswich": {"hucum": 1.15, "savunma": 1.60, "seviye": 0.85},
     "southampton": {"hucum": 1.10, "savunma": 1.65, "seviye": 0.85},
+    "leeds": {"hucum": 1.55, "savunma": 1.35, "seviye": 1.05},
+    "middlesbrough": {"hucum": 1.55, "savunma": 1.25, "seviye": 1.05},
+    "millwall": {"hucum": 1.25, "savunma": 1.20, "seviye": 0.95},
 
     # ==================== LA LIGA & DİĞER İSPANYA ====================
     "real madrid": {"hucum": 2.35, "savunma": 1.00, "seviye": 1.45},
@@ -139,6 +142,7 @@ TAKIM_PROFILLERI = {
     "valladolid": {"hucum": 1.00, "savunma": 1.60, "seviye": 0.85},
     "valencia": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.90},
     "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80},
+    "elche": {"hucum": 1.10, "savunma": 1.30, "seviye": 0.85},
 
     # ==================== SERIE A ====================
     "inter": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.40},
@@ -162,6 +166,8 @@ TAKIM_PROFILLERI = {
     "lecce": {"hucum": 1.00, "savunma": 1.40, "seviye": 0.85},
     "monza": {"hucum": 1.05, "savunma": 1.35, "seviye": 0.85},
     "venezia": {"hucum": 1.05, "savunma": 1.55, "seviye": 0.80},
+    "sudtirol": {"hucum": 1.10, "savunma": 1.35, "seviye": 0.80},
+    "pisa": {"hucum": 1.25, "savunma": 1.30, "seviye": 0.85},
 
     # ==================== BUNDESLIGA ====================
     "bayern munih": {"hucum": 2.55, "savunma": 1.05, "seviye": 1.45},
@@ -224,17 +230,10 @@ TAKIM_PROFILLERI = {
     "philadelphia union": {"hucum": 1.60, "savunma": 1.25, "seviye": 1.10},
     "braga": {"hucum": 1.80, "savunma": 1.10, "seviye": 1.20},
     "estoril praia": {"hucum": 1.30, "savunma": 1.40, "seviye": 0.90},
-
-    # Yeni eklenen bülten takımları
-    "elche": {"hucum": 1.10, "savunma": 1.30, "seviye": 0.85},
     "falkrik": {"hucum": 1.35, "savunma": 1.25, "seviye": 0.85},
     "hearts": {"hucum": 1.50, "savunma": 1.20, "seviye": 1.05},
-    "sudtirol": {"hucum": 1.10, "savunma": 1.35, "seviye": 0.80},
     "grasshoppers": {"hucum": 1.30, "savunma": 1.40, "seviye": 0.95},
-    "sion": {"hucum": 1.35, "savunma": 1.35, "seviye": 0.95},
-    "middlesbrough": {"hucum": 1.55, "savunma": 1.25, "seviye": 1.05},
-    "millwall": {"hucum": 1.25, "savunma": 1.20, "seviye": 0.95},
-    "pisa": {"hucum": 1.25, "savunma": 1.30, "seviye": 0.85}
+    "sion": {"hucum": 1.35, "savunma": 1.35, "seviye": 0.95}
 }
 
 TAKMA_ADLAR = {
@@ -270,6 +269,7 @@ TAKMA_ADLAR = {
     "leicester city": "leicester",
     "middlesbrough": "middlesbrough", "boro": "middlesbrough",
     "millwall": "millwall",
+    "leeds": "leeds", "leeds united": "leeds",
     "real": "real madrid", "barca": "barcelona", "barça": "barcelona",
     "atletico": "atletico madrid", "atm": "atletico madrid",
     "sociedad": "real sociedad", "socciedad": "real sociedad",
