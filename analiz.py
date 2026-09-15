@@ -4,12 +4,12 @@ import pandas as pd
 from scipy.stats import poisson
 import difflib
 
-# Mobil öncelikli sayfa ayarı ve Yan Menü aktif
+# Mobil öncelikli sayfa ayarı ve Sol Menü Kapalı / Gizli
 st.set_page_config(
     page_title="Poisson Tahmin", 
     page_icon="⚽", 
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Mobil uyumlu CSS
@@ -50,13 +50,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
-# ==================== YAN MENÜ (SIDEBAR) ====================
-with st.sidebar:
-    st.markdown("### ⚙️ Kontrol Paneli")
-    st.info("Kâr/Zarar takibini sağdaki sekmeden yönetebilirsin!")
-    st.divider()
-    st.caption("🚀 Poisson Tahmin Motoru v2.1")
 
 TAKIM_PROFILLERI = {
     # ==================== TRENDYOL SÜPER LİG ====================
@@ -591,7 +584,7 @@ with tab3:
 
         col_f4, col_f5 = st.columns(2)
         with col_f4:
-            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
+            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=66.0, step=5.0)
         with col_f5:
             alinan = st.number_input("Alınan / Geri Gelen Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
 
@@ -619,7 +612,7 @@ with tab3:
         net_kar_zarar = toplam_alinan - toplam_yatirilan
 
         m1, m2, m3 = st.columns(3)
-        m1.metric("Toplam Yatırılan", f"{toplam_yatirilan:.2f} TL")
+        m1.metric("Toplam Yatırilan", f"{toplam_yatirilan:.2f} TL")
         m2.metric("Toplam Alınan", f"{toplam_alinan:.2f} TL")
         m3.metric("Net Kâr / Zarar", f"{net_kar_zarar:.2f} TL", delta=f"{net_kar_zarar:.2f} TL")
 
