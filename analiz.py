@@ -486,28 +486,7 @@ with tab1:
 with tab2:
     st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik kombine al:")
     ornek_bulten = (
-        "Gaziantep - Fenerbahce\n"
-        "Kayserispor - Istanbulspor\n"
-        "Torino - Roma\n"
-        "Inter - Udinesse\n"
-        "Como - Parma\n"
-        "Braga - Estoril Praia\n"
-        "Villarreal - Real Betis\n"
-        "Djurgardens - Gais\n"
-        "Leeds United - Newcastle United\n"
-        "Vancouver Whitecaps - Austin FC\n"
-        "Bodo - Sandefjord\n"
-        "San Diego FC - Philadelphia Union\n"
-        "alaves - valencia\n"
-        "elche - real madrid\n"
-        "ipswich - arsenal\n"
-        "liverpool - tottenham\n"
-        "falkrik - hearts\n"
-        "grasshoppers - sion\n"
-        "middlesbrough - millwall\n"
-        "vallecano - espanyol\n"
-        "fiorentina - pisa\n"
-        "betis - getafe"
+        ""
     )
     bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=220, label_visibility="collapsed")
 
@@ -608,7 +587,7 @@ with tab3:
 
         col_f4, col_f5 = st.columns(2)
         with col_f4:
-            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=66.0, step=5.0)
+            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
         with col_f5:
             alinan = st.number_input("Alınan / Geri Gelen Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
 
