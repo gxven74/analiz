@@ -591,7 +591,7 @@ with tab3:
 
         col_f4, col_f5 = st.columns(2)
         with col_f4:
-            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=66.0, step=5.0)
+            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
         with col_f5:
             alinan = st.number_input("Alınan / Geri Gelen Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
 
