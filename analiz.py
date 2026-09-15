@@ -565,12 +565,11 @@ with tab2:
                 df_sari = pd.DataFrame(sari_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
                 st.dataframe(df_sari, use_container_width=True, hide_index=True)
 
-# ================= TAB 3: KÂR / ZARAR TABLOSU (MANUEL ETİKETLİ) =================
-DOSYA_ADI = "kasa_defteri.csv"
+# ================= TAB 3: KÂR / ZARAR TABLOSU =================
+DOSYA_KASA = "kasa_defteri.csv"
 
-if os.path.exists(DOSYA_ADI):
-    kasa_df = pd.read_csv(DOSYA_ADI)
-    # Eski dosyalarda 'Durum' sütunu yoksa hata vermemesi için ekleyelim
+if os.path.exists(DOSYA_KASA):
+    kasa_df = pd.read_csv(DOSYA_KASA)
     if "Durum" not in kasa_df.columns:
         kasa_df["Durum"] = "Kazandı ✅"
 else:
@@ -578,16 +577,16 @@ else:
 
 with tab3:
     st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
-    st.caption("Maç sonucunu elle 'Kazandı' veya 'Kaybetti' olarak seçerek kaydedebilirsin.")
+    st.caption("Buradan finansal yatırımlarını ve kasa durumunu takip edebilirsin.")
 
     with st.form("kasa_form", clear_on_submit=True):
         col_f1, col_f2, col_f3 = st.columns(3)
         with col_f1:
             tarih_input = st.date_input("📅 Tarih")
         with col_f2:
-            aciklama_input = st.text_input("📝 Kupon / Maç Açıklaması", value="Günün Kombinesi")
+            aciklama_input = st.text_input("📝 İşlem Açıklaması", value="Günün Kombinesi")
         with col_f3:
-            secilen_durum = st.selectbox("🎯 Sonuç (Manuel Seçim)", ["Kazandı ✅", "Kaybetti ❌"])
+            durum_tipi = st.selectbox("Durum", ["Kazandı ✅", "Yattı ❌", "Nakit Yatırma/Çekme 💵"])
 
         col_f4, col_f5 = st.columns(2)
         with col_f4:
@@ -601,22 +600,21 @@ with tab3:
             net = alinan - yatirilan
             yeni_veri = pd.DataFrame({
                 "Tarih": [str(tarih_input)],
-                "Açıklama": [aciklama_input],
-                "Durum": [secilen_durum],
+                "Açıklama": [f"{aciklama_input} ({durum_tipi})"],
+                "Durum": [durum_tipi],
                 "Yatırılan (TL)": [yatirilan],
                 "Alınan (TL)": [alinan],
                 "Net Durum (TL)": [net]
             })
             
             kasa_df = pd.concat([kasa_df, yeni_veri], ignore_index=True)
-            kasa_df.to_csv(DOSYA_ADI, index=False)
+            kasa_df.to_csv(DOSYA_KASA, index=False)
             
             st.success("İşlem kasaya kalıcı olarak eklendi!")
             st.rerun()
 
     st.divider()
 
-    # Özet Metrikler
     if not kasa_df.empty:
         toplam_yatirilan = kasa_df["Yatırılan (TL)"].sum()
         toplam_alinan = kasa_df["Alınan (TL)"].sum()
@@ -628,63 +626,100 @@ with tab3:
         m3.metric("Net Kâr / Zarar", f"{net_kar_zarar:.2f} TL", delta=f"{net_kar_zarar:.2f} TL")
 
         st.subheader("📋 Kasa Geçmişi ve İşlem Silme")
-        st.caption("İstediğin satırı silebilirsin, değişiklikler anında kaydedilir.")
 
         for idx, row in kasa_df.iterrows():
-            col_s1, col_s2, col_s3, col_s4, col_s5, col_s6, col_s7 = st.columns([1.2, 2.0, 1.2, 0.9, 0.9, 0.9, 0.7])
+            col_s1, col_s2, col_s3, col_s4, col_s5, col_s6 = st.columns([1.5, 2.5, 1, 1, 1, 0.8])
             col_s1.write(f"📅 {row['Tarih']}")
             col_s2.write(f"📝 {row['Açıklama']}")
-            col_s3.write(f"<b>{row['Durum']}</b>", unsafe_allow_html=True)
-            col_s4.write(f"Yat: {row['Yatırılan (TL)']:.2f}")
-            col_s5.write(f"Al: {row['Alınan (TL)']:.2f}")
-            col_s6.write(f"Net: {row['Net Durum (TL)']:.2f}")
+            col_s3.write(f"Yat: {row['Yatırılan (TL)']:.2f}")
+            col_s4.write(f"Al: {row['Alınan (TL)']:.2f}")
+            col_s5.write(f"Net: {row['Net Durum (TL)']:.2f}")
             
-            if col_s7.button("🗑️ Sil", key=f"sil_{idx}"):
+            if col_s6.button("🗑️ Sil", key=f"sil_kasa_{idx}"):
                 kasa_df = kasa_df.drop(idx).reset_index(drop=True)
-                kasa_df.to_csv(DOSYA_ADI, index=False)
+                kasa_df.to_csv(DOSYA_KASA, index=False)
                 st.rerun()
 
         st.divider()
         if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
             kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
-            if os.path.exists(DOSYA_ADI):
-                os.remove(DOSYA_ADI)
+            if os.path.exists(DOSYA_KASA):
+                os.remove(DOSYA_KASA)
             st.rerun()
     else:
-        st.info("Henüz kasaya kaydedilmiş bir işlem yok. Yukarıdaki formdan ekleme yapabilirsin.")
+        st.info("Henüz kasaya kaydedilmiş bir işlem yok.")
 
-# ================= TAB 4: İSTATİSTİKLER (ANALYTICS) =================
+# ================= TAB 4: İSTATİSTİKLER (MANUEL MAÇ/KUPON TAKİBİ) =================
+DOSYA_ISTATISTIK = "istatistik_defteri.csv"
+
+if os.path.exists(DOSYA_ISTATISTIK):
+    istatistik_df = pd.read_csv(DOSYA_ISTATISTIK)
+else:
+    istatistik_df = pd.DataFrame(columns=["Tarih", "Tahmin / Maç Adı", "Sonuç"])
+
 with tab4:
-    st.markdown("### 📊 Model ve Kasa Performans Karnesi")
-    st.caption("Manuel olarak girdiğin kazanan ve kaybeden kuponlara göre başarı oranları:")
+    st.markdown("### 📊 Manuel Tahmin / Maç İstatistikleri Karnesi")
+    st.caption("Burada parayla işin yok; sadece tahmin ettiğin maçları veya kuponları elinle girerek başarı oranını (Win Rate) takip edebilirsin.")
 
-    if not kasa_df.empty:
-        toplam_islem = len(kasa_df)
+    with st.form("istatistik_form", clear_on_submit=True):
+        col_i1, col_i2, col_i3 = st.columns(3)
+        with col_i1:
+            ist_tarih = st.date_input("📅 Tarih", key="ist_tarih")
+        with col_i2:
+            ist_aciklama = st.text_input("⚽ Maç veya Kupon Adı", value="Galatasaray - Fenerbahçe MS 1")
+        with col_i3:
+            ist_sonuc = st.selectbox("🎯 Sonuç", ["Kazandı ✅", "Kaybetti ❌"], key="ist_sonuc_secim")
+
+        ist_kaydet = st.form_submit_button("💾 Sonucu İstatistiklere Ekle", use_container_width=True)
+
+        if ist_kaydet:
+            yeni_ist = pd.DataFrame({
+                "Tarih": [str(ist_tarih)],
+                "Tahmin / Maç Adı": [ist_aciklama],
+                "Sonuç": [ist_sonuc]
+            })
+            istatistik_df = pd.concat([istatistik_df, yeni_ist], ignore_index=True)
+            istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False)
+            st.success("Maç sonucu istatistiklere eklendi!")
+            st.rerun()
+
+    st.divider()
+
+    if not istatistik_df.empty:
+        toplam_tahmin = len(istatistik_df)
+        kazananlar_ist = istatistik_df[istatistik_df["Sonuç"] == "Kazandı ✅"]
+        kaybedenler_ist = istatistik_df[istatistik_df["Sonuç"] == "Kaybetti ❌"]
         
-        # Doğrudan elle seçilen 'Durum' sütununa göre filtreleme
-        kazananlar = kasa_df[kasa_df["Durum"] == "Kazandı ✅"]
-        kaybedenler = kasa_df[kasa_df["Durum"] == "Kaybetti ❌"]
+        toplam_kazanan_ist = len(kazananlar_ist)
+        toplam_kaybeden_ist = len(kaybedenler_ist)
         
-        toplam_kazanan = len(kazananlar)
-        toplam_kaybeden = len(kaybedenler)
-        
-        # Win Rate (Kazanma Oranı)
-        win_rate = (toplam_kazanan / toplam_islem * 100) if toplam_islem > 0 else 0.0
+        win_rate = (toplam_kazanan_ist / toplam_tahmin * 100) if toplam_tahmin > 0 else 0.0
 
         i1, i2, i3, i4 = st.columns(4)
-        i1.metric("Toplam Kupon", f"{toplam_islem}")
-        i2.metric("Kazanan Kuponlar 🟢", f"{toplam_kazanan}")
-        i3.metric("Kaybeden Kuponlar 🔴", f"{toplam_kaybeden}")
+        i1.metric("Toplam Girilen Maç", f"{toplam_tahmin}")
+        i2.metric("Kazananlar 🟢", f"{toplam_kazanan_ist}")
+        i3.metric("Kaybedenler 🔴", f"{toplam_kaybeden_ist}")
         i4.metric("Kazanma Oranı (Win Rate)", f"%{win_rate:.1f}")
 
         st.divider()
+        st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        # Kasa Büyüme Grafiği
-        st.subheader("📉 Kasa İvme / Büyüme Grafiği")
-        if toplam_islem > 0:
-            kasa_df["Kümülatif Net (TL)"] = kasa_df["Net Durum (TL)"].cumsum()
-            st.line_chart(kasa_df, x="Tarih", y="Kümülatif Net (TL)")
-        else:
-            st.info("Grafik için yeterli işlem verisi yok.")
+        for idx, row in istatistik_df.iterrows():
+            col_is1, col_is2, col_is3, col_is4 = st.columns([1.5, 3.0, 1.5, 0.8])
+            col_is1.write(f"📅 {row['Tarih']}")
+            col_is2.write(f"⚽ {row['Tahmin / Maç Adı']}")
+            col_is3.write(f"<b>{row['Sonuç']}</b>", unsafe_allow_html=True)
+            
+            if col_is4.button("🗑️ Sil", key=f"sil_ist_{idx}"):
+                istatistik_df = istatistik_df.drop(idx).reset_index(drop=True)
+                istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False)
+                st.rerun()
+
+        st.divider()
+        if st.button("🗑️ Tüm İstatistikleri Sıfırla", use_container_width=True):
+            istatistik_df = pd.DataFrame(columns=["Tarih", "Tahmin / Maç Adı", "Sonuç"])
+            if os.path.exists(DOSYA_ISTATISTIK):
+                os.remove(DOSYA_ISTATISTIK)
+            st.rerun()
     else:
-        st.info("İstatistikleri görebilmek için 'Kâr / Zarar Tablosu' sekmesinden birkaç işlem kaydetmelisin.")
+        st.info("Henüz istatistik için eklenmiş bir maç yok. Yukarıdaki formdan ekleme yapabilirsin.")
