@@ -654,12 +654,17 @@ DOSYA_ISTATISTIK = "istatistik_defteri.csv"
 
 if os.path.exists(DOSYA_ISTATISTIK):
     istatistik_df = pd.read_csv(DOSYA_ISTATISTIK)
+    # Eski CSV uyumluluğu için sütun denetimi
+    if "Maç" not in istatistik_df.columns and "Tahmin / Maç Adı" in istatistik_df.columns:
+        istatistik_df = istatistik_df.rename(columns={"Tahmin / Maç Adı": "Maç"})
+    if "Tahmin" not in istatistik_df.columns:
+        istatistik_df["Tahmin"] = "Genel"
 else:
     istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
 
 with tab4:
     st.markdown("### 📊 Model Başarı İstatistikleri Karnesi")
-    st.caption("Takımları ve tahmini listeden seçerek modelinin başarı oranını (Win Rate) net olarak takip et.")
+    st.caption("Ev sahibi, deplasman takımlarını ve tahmin türünü seçerek modelinin başarı oranını (Win Rate) net olarak takip et.")
 
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
 
