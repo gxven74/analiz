@@ -556,17 +556,17 @@ with tab2:
 
         st.divider()
 
-        if kombine_btn or (tara_btn and len(yesil_maclar) >= 2):
-            if len(yesil_maclar) >= 2:
+        if kombine_btn or (tara_btn and len(yesil_maclar) >= 3):
+            if len(yesil_maclar) >= 3:
                 sirali_yesiller = sorted(yesil_maclar, key=lambda x: x["guven_raw"], reverse=True)
-                secilenler = sirali_yesiller[:2]
+                secilenler = sirali_yesiller[:3]
                 toplam_guven = (secilenler[0]["guven_raw"] / 100) * (secilenler[1]["guven_raw"] / 100) * 100
 
-                st.markdown("### 🎫 GÜNÜN 2'Lİ BANKO KOMBİNESİ")
+                st.markdown("### 🎫 GÜNÜN 3'LÜ BANKO KOMBİNESİ")
                 st.markdown(f"""
                 <div class="kombine-box">
                     <h4 style="margin:0; color:#2ecc71;">⚡ Modelin Seçtiği İdeal Kupon</h4>
-                    <p style="font-size:0.9rem; opacity:0.85; margin-bottom:10px;">En yüksek olasılıklı ve riski en düşük 2 maç birleştirildi.</p>
+                    <p style="font-size:0.9rem; opacity:0.85; margin-bottom:10px;">En yüksek olasılıklı ve riski en düşük 3 maç birleştirildi.</p>
                     <hr style="border:0.5px solid rgba(255,255,255,0.2); margin:8px 0;">
                     <b>1. Maç:</b> {secilenler[0]['Maç']} ➔ <b>{secilenler[0]['aksiyon_raw']}</b> (%{secilenler[0]['guven_raw']:.1f})<br>
                     <b>2. Maç:</b> {secilenler[1]['Maç']} ➔ <b>{secilenler[1]['aksiyon_raw']}</b> (%{secilenler[1]['guven_raw']:.1f})
@@ -575,7 +575,7 @@ with tab2:
                 </div>
                 """, unsafe_allow_html=True)
             else:
-                st.warning("⚠️ Kombine için bültende en az 2 adet oynanabilir (yeşil) maç bulunmalıdır.")
+                st.warning("⚠️ Kombine için bültende en az 3 adet oynanabilir (yeşil) maç bulunmalıdır.")
 
         st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
