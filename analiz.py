@@ -52,7 +52,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 TAKIM_PROFILLERI = {
-    # ==================== TRENDYOL SÜPER LİG & DİĞERLERİ ====================
+    # ==================== TRENDYOL SÜPER LİG ====================
     "galatasaray": {"hucum": 2.25, "savunma": 1.00, "seviye": 1.40},
     "fenerbahce": {"hucum": 2.20, "savunma": 1.00, "seviye": 1.35},
     "besiktas": {"hucum": 1.75, "savunma": 1.15, "seviye": 1.20},
@@ -73,51 +73,137 @@ TAKIM_PROFILLERI = {
     "bodrum fk": {"hucum": 1.00, "savunma": 1.30, "seviye": 0.80},
     "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.80},
     "adana demirspor": {"hucum": 1.00, "savunma": 1.70, "seviye": 0.70},
-    "istanbulspor": {"hucum": 1.20, "savunma": 1.30, "seviye": 0.75},
 
-    # ==================== AVRUPA & DİĞER LİGLER (YENİ EKLENENLER DAHİL) ====================
+    # ==================== TÜRKİYE 1. LİG ====================
+    "kocaelispor": {"hucum": 1.25, "savunma": 1.20, "seviye": 0.80},
+    "fatih karagumruk": {"hucum": 1.30, "savunma": 1.25, "seviye": 0.80},
+    "ankaragucu": {"hucum": 1.30, "savunma": 1.25, "seviye": 0.80},
+    "istanbulspor": {"hucum": 1.20, "savunma": 1.30, "seviye": 0.75},
+    "pendikspor": {"hucum": 1.20, "savunma": 1.30, "seviye": 0.75},
+    "sakaryaspor": {"hucum": 1.15, "savunma": 1.25, "seviye": 0.75},
+    "bandirmaspor": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
+    "corum fk": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
+    "erzurumspor": {"hucum": 1.15, "savunma": 1.20, "seviye": 0.75},
+    "boluspor": {"hucum": 1.10, "savunma": 1.20, "seviye": 0.70},
+    "umraniyespor": {"hucum": 1.15, "savunma": 1.30, "seviye": 0.70},
+    "manisa fk": {"hucum": 1.15, "savunma": 1.30, "seviye": 0.70},
+    "genclerbirligi": {"hucum": 1.15, "savunma": 1.25, "seviye": 0.70},
+    "keciorengucu": {"hucum": 1.10, "savunma": 1.30, "seviye": 0.70},
+    "igdir fk": {"hucum": 1.15, "savunma": 1.25, "seviye": 0.70},
+    "esenler erokspor": {"hucum": 1.15, "savunma": 1.35, "seviye": 0.70},
+    "sanliurfaspor": {"hucum": 1.05, "savunma": 1.35, "seviye": 0.65},
+    "adanaspor": {"hucum": 1.00, "savunma": 1.45, "seviye": 0.65},
+    "yeni malatyaspor": {"hucum": 0.70, "savunma": 1.90, "seviye": 0.50},
+
+    # ==================== PREMIER LEAGUE ====================
     "man city": {"hucum": 2.25, "savunma": 0.95, "seviye": 1.45},
     "liverpool": {"hucum": 2.15, "savunma": 1.00, "seviye": 1.40},
     "arsenal": {"hucum": 2.05, "savunma": 0.90, "seviye": 1.40},
     "chelsea": {"hucum": 1.85, "savunma": 1.25, "seviye": 1.20},
+    "aston villa": {"hucum": 1.80, "savunma": 1.25, "seviye": 1.20},
+    "tottenham": {"hucum": 1.90, "savunma": 1.35, "seviye": 1.20},
+    "newcastle": {"hucum": 1.75, "savunma": 1.20, "seviye": 1.20},
     "man united": {"hucum": 1.65, "savunma": 1.30, "seviye": 1.15},
-    "newcastle united": {"hucum": 1.75, "savunma": 1.20, "seviye": 1.20},
-    "leeds united": {"hucum": 1.55, "savunma": 1.35, "seviye": 1.05},
-    
+    "brighton": {"hucum": 1.70, "savunma": 1.30, "seviye": 1.15},
+    "nottingham forest": {"hucum": 1.35, "savunma": 1.15, "seviye": 1.05},
+    "fulham": {"hucum": 1.35, "savunma": 1.25, "seviye": 1.05},
+    "brentford": {"hucum": 1.55, "savunma": 1.40, "seviye": 1.05},
+    "bournemouth": {"hucum": 1.45, "savunma": 1.35, "seviye": 1.05},
+    "west ham": {"hucum": 1.40, "savunma": 1.45, "seviye": 1.05},
+    "crystal palace": {"hucum": 1.30, "savunma": 1.25, "seviye": 1.00},
+    "everton": {"hucum": 1.20, "savunma": 1.25, "seviye": 1.00},
+    "wolves": {"hucum": 1.30, "savunma": 1.55, "seviye": 0.95},
+    "leicester": {"hucum": 1.25, "savunma": 1.55, "seviye": 0.90},
+    "ipswich": {"hucum": 1.15, "savunma": 1.60, "seviye": 0.85},
+    "southampton": {"hucum": 1.10, "savunma": 1.65, "seviye": 0.85},
+
+    # ==================== LA LIGA & DİĞER İSPANYA ====================
     "real madrid": {"hucum": 2.35, "savunma": 1.00, "seviye": 1.45},
     "barcelona": {"hucum": 2.45, "savunma": 1.10, "seviye": 1.45},
     "atletico madrid": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.35},
-    "villarreal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
+    "athletic bilbao": {"hucum": 1.65, "savunma": 1.05, "seviye": 1.20},
+    "real sociedad": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
+    "villareal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
     "real betis": {"hucum": 1.45, "savunma": 1.15, "seviye": 1.15},
+    "girona": {"hucum": 1.65, "savunma": 1.30, "seviye": 1.15},
+    "mallorca": {"hucum": 1.15, "savunma": 1.10, "seviye": 1.05},
+    "osasuna": {"hucum": 1.30, "savunma": 1.30, "seviye": 1.00},
+    "celta vigo": {"hucum": 1.50, "savunma": 1.45, "seviye": 1.00},
+    "sevilla": {"hucum": 1.35, "savunma": 1.30, "seviye": 1.00},
+    "rayo vallecano": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.95},
+    "alaves": {"hucum": 1.20, "savunma": 1.35, "seviye": 0.95},
+    "getafe": {"hucum": 0.95, "savunma": 1.10, "seviye": 0.95},
+    "espanyol": {"hucum": 1.15, "savunma": 1.40, "seviye": 0.90},
+    "las palmas": {"hucum": 1.20, "savunma": 1.45, "seviye": 0.90},
+    "leganes": {"hucum": 1.05, "savunma": 1.25, "seviye": 0.85},
+    "valladolid": {"hucum": 1.00, "savunma": 1.60, "seviye": 0.85},
+    "valencia": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.90},
+    "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80},
 
+    # ==================== SERIE A ====================
     "inter": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.40},
-    "roma": {"hucum": 1.60, "savunma": 1.20, "seviye": 1.15},
-    "torino": {"hucum": 1.25, "savunma": 1.20, "seviye": 1.00},
-    "udinese": {"hucum": 1.30, "savunma": 1.35, "seviye": 0.95},
-    "como": {"hucum": 1.25, "savunma": 1.40, "seviye": 0.90},
-    "parma": {"hucum": 1.35, "savunma": 1.45, "seviye": 0.90},
+    "atalanta": {"hucum": 2.15, "savunma": 1.15, "seviye": 1.30},
     "juventus": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
+    "napoli": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.30},
+    "milan": {"hucum": 1.85, "savunma": 1.25, "seviye": 1.25},
+    "lazio": {"hucum": 1.80, "savunma": 1.25, "seviye": 1.20},
+    "fiorentina": {"hucum": 1.75, "savunma": 1.20, "seviye": 1.20},
+    "roma": {"hucum": 1.60, "savunma": 1.20, "seviye": 1.15},
+    "bologna": {"hucum": 1.45, "savunma": 1.15, "seviye": 1.15},
+    "torino": {"hucum": 1.25, "savunma": 1.20, "seviye": 1.00},
     "sassuolo": {"hucum": 1.40, "savunma": 1.45, "seviye": 0.90},
+    "udinese": {"hucum": 1.30, "savunma": 1.35, "seviye": 0.95},
+    "empoli": {"hucum": 1.05, "savunma": 1.25, "seviye": 0.90},
+    "parma": {"hucum": 1.35, "savunma": 1.45, "seviye": 0.90},
+    "como": {"hucum": 1.25, "savunma": 1.40, "seviye": 0.90},
+    "verona": {"hucum": 1.25, "savunma": 1.55, "seviye": 0.90},
+    "cagliari": {"hucum": 1.20, "savunma": 1.45, "seviye": 0.90},
+    "genoa": {"hucum": 1.15, "savunma": 1.35, "seviye": 0.90},
+    "lecce": {"hucum": 1.00, "savunma": 1.40, "seviye": 0.85},
+    "monza": {"hucum": 1.05, "savunma": 1.35, "seviye": 0.85},
+    "venezia": {"hucum": 1.05, "savunma": 1.55, "seviye": 0.80},
 
+    # ==================== BUNDESLIGA ====================
     "bayern munih": {"hucum": 2.55, "savunma": 1.05, "seviye": 1.45},
+    "bayer leverkusen": {"hucum": 2.30, "savunma": 1.15, "seviye": 1.35},
     "dortmund": {"hucum": 2.15, "savunma": 1.25, "seviye": 1.30},
-    
-    "braga": {"hucum": 1.80, "savunma": 1.10, "seviye": 1.20},
-    "estoril praia": {"hucum": 1.30, "savunma": 1.40, "seviye": 0.90},
+    "leipzig": {"hucum": 1.95, "savunma": 1.10, "seviye": 1.30},
+    "eintracht frankfurt": {"hucum": 2.05, "savunma": 1.30, "seviye": 1.20},
+    "stuttgart": {"hucum": 1.90, "savunma": 1.30, "seviye": 1.20},
+    "freiburg": {"hucum": 1.55, "savunma": 1.25, "seviye": 1.10},
+    "union berlin": {"hucum": 1.25, "savunma": 1.15, "seviye": 1.05},
+    "werder bremen": {"hucum": 1.50, "savunma": 1.40, "seviye": 1.05},
+    "borussia monchengladbach": {"hucum": 1.55, "savunma": 1.40, "seviye": 1.05},
+    "augsburg": {"hucum": 1.40, "savunma": 1.45, "seviye": 1.00},
+    "wolfsburg": {"hucum": 1.50, "savunma": 1.45, "seviye": 1.00},
+    "mainz": {"hucum": 1.45, "savunma": 1.35, "seviye": 1.00},
+    "heidenheim": {"hucum": 1.35, "savunma": 1.40, "seviye": 0.95},
+    "hoffenheim": {"hucum": 1.55, "savunma": 1.60, "seviye": 0.95},
+    "st pauli": {"hucum": 1.05, "savunma": 1.30, "seviye": 0.85},
+    "holstein kiel": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
+    "bochum": {"hucum": 1.15, "savunma": 1.75, "seviye": 0.80},
 
-    "djurgardens": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.15},
-    "gais": {"hucum": 1.30, "savunma": 1.35, "seviye": 0.90},
+    # ==================== LIGUE 1 ====================
+    "psg": {"hucum": 2.10, "savunma": 1.15, "seviye": 1.30},
+    "monaco": {"hucum": 1.95, "savunma": 1.15, "seviye": 1.25},
+    "marsilya": {"hucum": 1.95, "savunma": 1.25, "seviye": 1.25},
+    "lille": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
+    "lyon": {"hucum": 1.75, "savunma": 1.30, "seviye": 1.15},
+    "lens": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
+    "nice": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.15},
+    "brest": {"hucum": 1.50, "savunma": 1.25, "seviye": 1.10},
+    "rennes": {"hucum": 1.45, "savunma": 1.30, "seviye": 1.05},
+    "strasbourg": {"hucum": 1.55, "savunma": 1.45, "seviye": 1.00},
+    "reims": {"hucum": 1.40, "savunma": 1.35, "seviye": 1.00},
+    "toulouse": {"hucum": 1.35, "savunma": 1.25, "seviye": 0.95},
+    "auxerre": {"hucum": 1.40, "savunma": 1.45, "seviye": 0.95},
+    "nantes": {"hucum": 1.25, "savunma": 1.35, "seviye": 0.90},
+    "angers": {"hucum": 1.20, "savunma": 1.40, "seviye": 0.85},
+    "saint-etienne": {"hucum": 1.15, "savunma": 1.65, "seviye": 0.85},
+    "le havre": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.85},
+    "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
 
-    "vancouver whitecaps": {"hucum": 1.70, "savunma": 1.20, "seviye": 1.10},
-    "austin fc": {"hucum": 1.35, "savunma": 1.35, "seviye": 0.95},
-
-    "bodo glimt": {"hucum": 2.10, "savunma": 1.00, "seviye": 1.30},
-    "sandefjord": {"hucum": 1.20, "savunma": 1.60, "seviye": 0.85},
-
-    "san diego fc": {"hucum": 1.50, "savunma": 1.30, "seviye": 1.00},
-    "philadelphia union": {"hucum": 1.60, "savunma": 1.25, "seviye": 1.10},
-
-    # Diğer eski eklenenler
+    # ==================== DİĞER LİGLER & ATİNA TAKIMLARI ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
     "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
     "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.75},
@@ -126,28 +212,79 @@ TAKIM_PROFILLERI = {
     "sparta prag": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.05},
     "slavia prag": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.05},
     "shakhtar donetsk": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.10},
-    "aek atina": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.20},
-    "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
-    "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80},
-    "psg": {"hucum": 2.10, "savunma": 1.15, "seviye": 1.30},
-    "lille": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20}
+    "aek atina": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.20},       # Eklendi
+    "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20}  # Eklendi
 }
 
 TAKMA_ADLAR = {
+    # Türkiye
     "fb": "fenerbahce", "fener": "fenerbahce",
     "gs": "galatasaray", "cimbom": "galatasaray",
     "bjk": "besiktas", "besik": "besiktas",
     "ts": "trabzonspor", "trabzon": "trabzonspor",
-    "gaziantep": "gaziantep", "kayseri": "kayserispor",
-    "istanbulspor": "istanbulspor", "torino": "torino",
-    "roma": "roma", "inter": "inter", "udinese": "udinese",
-    "como": "como", "parma": "parma", "braga": "braga",
-    "estoril": "estoril praia", "villarreal": "villarreal",
-    "betis": "real betis", "djurgardens": "djurgardens",
-    "gais": "gais", "leeds": "leeds united", "newcastle": "newcastle united",
-    "vancouver": "vancouver whitecaps", "austin": "austin fc",
-    "bodo": "bodo glimt", "sandefjord": "sandefjord",
-    "san diego": "san diego fc", "philadelphia": "philadelphia union"
+    "ibfk": "basaksehir", "basak": "basaksehir",
+    "amed": "amed", "amedspor": "amed",
+    "samsun": "samsunspor", "eyup": "eyupspor",
+    "gozgoz": "goztepe", "sivas": "sivasspor",
+    "antalya": "antalyaspor", "alanya": "alanyaspor",
+    "pasa": "kasimpasa", "rize": "rizespor",
+    "antep": "gaziantep", "gfk": "gaziantep",
+    "konya": "konyaspor", "kayseri": "kayserispor",
+    "bodrum": "bodrum fk", "hatay": "hatayspor",
+    "adana": "adana demirspor", "ads": "adana demirspor",
+    "kocaeli": "kocaelispor", "istanbul": "istanbulspor",
+    "karagumruk": "fatih karagumruk", "ankaragucu": "ankaragucu",
+    "sakarya": "sakaryaspor", "bandirma": "bandirmaspor",
+    "corum": "corum fk", "erzurum": "erzurumspor",
+    "bolu": "boluspor", "umraniye": "umraniyespor",
+    "manisa": "manisa fk", "gencler": "genclerbirligi",
+    "keciorengucu": "keciorengucu", "igdir": "igdir fk",
+    "erokspor": "esenler erokspor", "urfaspor": "sanliurfaspor",
+    "malatya": "yeni malatyaspor",
+    
+    # İngiltere
+    "city": "man city", "manc": "man city", "manchester city": "man city",
+    "united": "man united", "manu": "man united", "manchester united": "man united",
+    "pool": "liverpool", "villa": "aston villa", "palace": "crystal palace",
+    "spurs": "tottenham", "newcastle united": "newcastle",
+    "wolves": "wolves", "wolverhampton": "wolves",
+    "nottingham": "nottingham forest", "forest": "nottingham forest",
+    "leicester city": "leicester",
+    
+    # İspanya
+    "real": "real madrid", "barca": "barcelona", "barça": "barcelona",
+    "atletico": "atletico madrid", "atm": "atletico madrid",
+    "sociedad": "real sociedad", "socciedad": "real sociedad",
+    "bilbao": "athletic bilbao", "betis": "real betis", "celta": "celta vigo",
+    "rayo": "rayo vallecano", "espanyol": "espanyol", "tenerife": "tenerife",
+    "malaga": "malaga",
+    
+    # İtalya
+    "juve": "juventus", "inter milan": "inter", "ac milan": "milan",
+    "viola": "fiorentina", "toro": "torino", "hellas": "verona",
+    "hellas verona": "verona", "sassuolo": "sassuolo", "sas": "sassuolo",
+    
+    # Almanya
+    "bayern": "bayern munih", "munih": "bayern munih", "fc bayern": "bayern munih",
+    "leverkusen": "bayer leverkusen", "bayer": "bayer leverkusen",
+    "bvb": "dortmund", "borussia dortmund": "dortmund",
+    "rbl": "leipzig", "rb leipzig": "leipzig",
+    "frankfurt": "eintracht frankfurt", "bremen": "werder bremen",
+    "gladbach": "borussia monchengladbach", "monchengladbach": "borussia monchengladbach",
+    "elversberg": "elversberg", "elvers": "elversberg",
+    
+    # Fransa
+    "psg": "psg", "paris": "psg", "paris saint germain": "psg",
+    "om": "marsilya", "ol": "lyon", "asm": "monaco",
+    "st etienne": "saint-etienne", "saint etienne": "saint-etienne",
+    "troyes": "troyes",
+
+    # Diğer & Atina Takımları
+    "psv": "psv", "sparta": "sparta rotterdam", "rotterdam": "sparta rotterdam",
+    "prag": "sparta prag", "sparta prag": "sparta prag", "slavia prag": "slavia prag",
+    "shakhtar": "shakhtar donetsk", "shakhtar donetsk": "shakhtar donetsk",
+    "aek": "aek atina", "aek atina": "aek atina", "athena": "aek atina",
+    "pao": "panathinaikos", "panathinaikos": "panathinaikos"
 }
 
 def takim_bul(girdi):
@@ -196,6 +333,7 @@ def mac_hesapla(ev_key, dep_key):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
+    # ==================== KUSURSUZ İSABETLİ HİYARARŞİ ====================
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -246,8 +384,10 @@ def mac_hesapla(ev_key, dep_key):
 st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 tab1, tab2 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine"])
 
+# ================= TAB 1: TEKLİ DETAYLI ANALİZ =================
 with tab1:
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
+    
     c1, c2 = st.columns(2)
     with c1:
         ev = st.selectbox("🏠 Ev Sahibi", takim_listesi, index=takim_listesi.index("galatasaray") if "galatasaray" in takim_listesi else 0)
@@ -257,7 +397,9 @@ with tab1:
     if st.button("🚀 Analiz Et", use_container_width=True):
         res = mac_hesapla(ev, dep)
         matrix = res["matrix"]
+
         st.divider()
+        
         if res["durum"] == "YESIL":
             st.success(f"🎯 **EN OLASI SONUÇ / TAHMİN:** {res['aksiyon']} (%{res['guven_orani']:.1f})")
         else:
@@ -298,29 +440,24 @@ with tab1:
             )
             st.dataframe(df_matrix, use_container_width=True)
 
+# ================= TAB 2: TOPLU BÜLTEN & KOMBİNE MOTORU =================
 with tab2:
-    st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik 3'lü kombine al:")
+    st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik kombine al:")
     ornek_bulten = (
-        "Gaziantep - Fenerbahce\n"
-        "Kayserispor - Istanbulspor\n"
-        "Torino - Roma\n"
-        "Inter - Udinese\n"
-        "Como - Parma\n"
-        "Braga - Estoril Praia\n"
-        "Villarreal - Real Betis\n"
-        "Djurgardens - Gais\n"
-        "Leeds United - Newcastle United\n"
-        "Vancouver Whitecaps - Austin FC\n"
-        "Bodo Glimt - Sandefjord\n"
-        "San Diego FC - Philadelphia Union"
+        "arsenal - chelsea\n"
+        "barcelona - villareal\n"
+        "inter - juventus\n"
+        "bayern munih - dortmund\n"
+        "aek atina - panathinaikos\n"
+        "malaga - prag"
     )
-    bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=180, label_visibility="collapsed")
+    bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=140, label_visibility="collapsed")
 
     c_b1, c_b2 = st.columns(2)
     with c_b1:
         tara_btn = st.button("🔥 Bülteni Tara", use_container_width=True)
     with c_b2:
-        kombine_btn = st.button("🎯 Günün Banko 3'lü Kombinesi", use_container_width=True)
+        kombine_btn = st.button("🎯 Günün Banko Kombinesi", use_container_width=True)
 
     if tara_btn or kombine_btn:
         satirlar = bulten_metni.strip().split("\n")
@@ -355,29 +492,29 @@ with tab2:
 
         st.divider()
 
-        # Otomatik 3'lü Kombine Kartı (3'e güncellendi)
-        if kombine_btn or (tara_btn and len(yesil_maclar) >= 3):
-            if len(yesil_maclar) >= 3:
+        # Otomatik Kombine Kartı
+        if kombine_btn or (tara_btn and len(yesil_maclar) >= 2):
+            if len(yesil_maclar) >= 2:
                 sirali_yesiller = sorted(yesil_maclar, key=lambda x: x["guven_raw"], reverse=True)
-                secilenler = sirali_yesiller[:3]
-                toplam_guven = (secilenler[0]["guven_raw"] / 100) * (secilenler[1]["guven_raw"] / 100) * (secilenler[2]["guven_raw"] / 100) * 100
+                secilenler = sirali_yesiller[:2]
+                toplam_guven = (secilenler[0]["guven_raw"] / 100) * (secilenler[1]["guven_raw"] / 100) * 100
 
-                st.markdown("### 🎫 GÜNÜN 3'LÜ BANKO KOMBİNESİ")
+                st.markdown("### 🎫 GÜNÜN 2'Lİ BANKO KOMBİNESİ")
                 st.markdown(f"""
                 <div class="kombine-box">
-                    <h4 style="margin:0; color:#2ecc71;">⚡ Modelin Seçtiği İdeal 3'lü Kupon</h4>
-                    <p style="font-size:0.9rem; opacity:0.85; margin-bottom:10px;">En yüksek olasılıklı ve riski en düşük 3 maç birleştirildi.</p>
+                    <h4 style="margin:0; color:#2ecc71;">⚡ Modelin Seçtiği İdeal Kupon</h4>
+                    <p style="font-size:0.9rem; opacity:0.85; margin-bottom:10px;">En yüksek olasılıklı ve riski en düşük 2 maç birleştirildi.</p>
                     <hr style="border:0.5px solid rgba(255,255,255,0.2); margin:8px 0;">
                     <b>1. Maç:</b> {secilenler[0]['Maç']} ➔ <b>{secilenler[0]['aksiyon_raw']}</b> (%{secilenler[0]['guven_raw']:.1f})<br>
-                    <b>2. Maç:</b> {secilenler[1]['Maç']} ➔ <b>{secilenler[1]['aksiyon_raw']}</b> (%{secilenler[1]['guven_raw']:.1f})<br>
-                    <b>3. Maç:</b> {secilenler[2]['Maç']} ➔ <b>{secilenler[2]['aksiyon_raw']}</b> (%{secilenler[2]['guven_raw']:.1f})
+                    <b>2. Maç:</b> {secilenler[1]['Maç']} ➔ <b>{secilenler[1]['aksiyon_raw']}</b> (%{secilenler[1]['guven_raw']:.1f})
                     <hr style="border:0.5px solid rgba(255,255,255,0.2); margin:8px 0;">
                     <b>Ortak Olasılık Başarısı:</b> %{toplam_guven:.1f}
                 </div>
                 """, unsafe_allow_html=True)
             else:
-                st.warning("⚠️ 3'lü kombine için bültende en az 3 adet oynanabilir (yeşil) maç bulunmalıdır.")
+                st.warning("⚠️ Kombine için bültende en az 2 adet oynanabilir (yeşil) maç bulunmalıdır.")
 
+        # Tablo Çıktıları
         st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
             df_gosterim = pd.DataFrame(yesil_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
