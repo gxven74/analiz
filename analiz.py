@@ -54,7 +54,7 @@ st.markdown("""
 # ==================== YAN MENÜ (SIDEBAR) ====================
 with st.sidebar:
     st.markdown("### ⚙️ Kontrol Paneli")
-    st.info("Sistem aktif ve çalışıyor. İleride buraya Kasa / Kar-Zarar modülünü ekleyeceğiz.")
+    st.info("Kâr/Zarar takibini artık sağdaki sekmeden yönetebilirsin!")
     st.divider()
     st.caption("🚀 Poisson Tahmin Motoru v2.1")
 
@@ -412,7 +412,9 @@ def mac_hesapla(ev_key, dep_key):
     }
 
 st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
-tab1, tab2 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine"])
+
+# ================= SEKMELER (TABS) =================
+tab1, tab2, tab3 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar Tablosu"])
 
 with tab1:
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
@@ -568,3 +570,63 @@ with tab2:
             if sari_maclar:
                 df_sari = pd.DataFrame(sari_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
                 st.dataframe(df_sari, use_container_width=True, hide_index=True)
+
+# ================= TAB 3: KÂR / ZARAR TABLOSU =================
+with tab3:
+    st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
+    st.caption("Buradan günlük kupon yatırımlarını ve aldığın tutarları girerek kasanın durumunu takip edebilirsin.")
+
+    # Oturumta (Session State) veri tutma altyapısı
+    if "kasa_gecmisi" not in st.session_state:
+        st.session_state.kasa_gecmisi = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+
+    with st.form("kasa_form"):
+        col_f1, col_f2, col_f3 = st.columns(3)
+        with col_f1:
+            tarih_input = st.date_input("📅 Tarih")
+        with col_f2:
+            aciklama_input = st.text_input("📝 Kupon / İşlem Açıklaması", value="Günün Kombinesi")
+        with col_f3:
+            durum_tipi = st.selectbox("Durum", ["Kazandı ✅", "Yattı ❌", "Nakit Yatırma/Çekme 💵"])
+
+        col_f4, col_f5 = st.columns(2)
+        with col_f4:
+            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=66.0, step=5.0)
+        with col_f5:
+            alinan = st.number_input("Alınan / Geri Gelen Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
+
+        kaydet_btn = st.form_submit_button("💾 İşlemi Kasaya Ekle", use_container_width=True)
+
+        if kaydet_btn:
+            net = alinan - yatirilan
+            yeni_veri = pd.DataFrame({
+                "Tarih": [str(tarih_input)],
+                "Açıklama": [f"{aciklama_input} ({durum_tipi})"],
+                "Yatırılan (TL)": [yatirilan],
+                "Alınan (TL)": [alinan],
+                "Net Durum (TL)": [net]
+            })
+            st.session_state.kasa_gecmisi = pd.concat([st.session_state.kasa_gecmisi, yeni_veri], ignore_index=True)
+            st.success("İşlem kasaya başarıyla eklendi!")
+
+    st.divider()
+
+    # Özet Metrikler
+    if not st.session_state.kasa_gecmisi.empty:
+        toplam_yatirilan = st.session_state.kasa_gecmisi["Yatırılan (TL)"].sum()
+        toplam_alinan = st.session_state.kasa_gecmisi["Alınan (TL)"].sum()
+        net_kar_zarar = toplam_alinan - toplam_yatirilan
+
+        m1, m2, m3 = st.columns(3)
+        m1.metric("Toplam Yatırılan", f"{toplam_yatirilan:.2f} TL")
+        m2.metric("Toplam Alınan", f"{toplam_alinan:.2f} TL")
+        m3.metric("Net Kâr / Zarar", f"{net_kar_zarar:.2f} TL", delta=f"{net_kar_zarar:.2f} TL")
+
+        st.subheader("📋 Kasa Geçmişi Defteri")
+        st.dataframe(st.session_state.kasa_gecmisi, use_container_width=True, hide_index=True)
+
+        if st.button("🗑️ Kasayı Sıfırla / Temizle", use_container_width=True):
+            st.session_state.kasa_gecmisi = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+            st.rerun()
+    else:
+        st.info("Henüz kasaya kaydedilmiş bir işlem yok. Yukarıdaki formdan ekleme yapabilirsin.")
