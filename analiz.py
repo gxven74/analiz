@@ -228,7 +228,6 @@ TAKIM_PROFILLERI = {
 }
 
 TAKMA_ADLAR = {
-    # Türkiye
     "fb": "fenerbahce", "fener": "fenerbahce",
     "gs": "galatasaray", "cimbom": "galatasaray",
     "bjk": "besiktas", "besik": "besiktas",
@@ -252,8 +251,6 @@ TAKMA_ADLAR = {
     "keciorengucu": "keciorengucu", "igdir": "igdir fk",
     "erokspor": "esenler erokspor", "urfaspor": "sanliurfaspor",
     "malatya": "yeni malatyaspor",
-    
-    # İngiltere
     "city": "man city", "manc": "man city", "manchester city": "man city",
     "united": "man united", "manu": "man united", "manchester united": "man united",
     "pool": "liverpool", "villa": "aston villa", "palace": "crystal palace",
@@ -263,8 +260,6 @@ TAKMA_ADLAR = {
     "leicester city": "leicester",
     "middlesbrough": "middlesbrough", "boro": "middlesbrough",
     "millwall": "millwall",
-    
-    # İspanya
     "real": "real madrid", "barca": "barcelona", "barça": "barcelona",
     "atletico": "atletico madrid", "atm": "atletico madrid",
     "sociedad": "real sociedad", "socciedad": "real sociedad",
@@ -273,15 +268,11 @@ TAKMA_ADLAR = {
     "malaga": "malaga",
     "elche": "elche",
     "alaves": "alaves",
-    
-    # İtalya
     "juve": "juventus", "inter milan": "inter", "ac milan": "milan",
     "viola": "fiorentina", "toro": "torino", "hellas": "verona",
     "hellas verona": "verona", "sassuolo": "sassuolo", "sas": "sassuolo",
     "pisa": "pisa",
     "sudtirol": "sudtirol", "sudtriol": "sudtirol",
-    
-    # Almanya
     "bayern": "bayern munih", "munih": "bayern munih", "fc bayern": "bayern munih",
     "leverkusen": "bayer leverkusen", "bayer": "bayer leverkusen",
     "bvb": "dortmund", "borussia dortmund": "dortmund",
@@ -289,14 +280,10 @@ TAKMA_ADLAR = {
     "frankfurt": "eintracht frankfurt", "bremen": "werder bremen",
     "gladbach": "borussia monchengladbach", "monchengladbach": "borussia monchengladbach",
     "elversberg": "elversberg", "elvers": "elversberg",
-    
-    # Fransa
     "psg": "psg", "paris": "psg", "paris saint germain": "psg",
     "om": "marsilya", "ol": "lyon", "asm": "monaco",
     "st etienne": "saint-etienne", "saint etienne": "saint-etienne",
     "troyes": "troyes",
-
-    # Diğer, İskoçya, İsviçre & Atina Takımları
     "psv": "psv", "sparta": "sparta rotterdam", "rotterdam": "sparta rotterdam",
     "prag": "sparta prag", "sparta prag": "sparta prag", "slavia prag": "slavia prag",
     "shakhtar": "shakhtar donetsk", "shakhtar donetsk": "shakhtar donetsk",
@@ -306,7 +293,7 @@ TAKMA_ADLAR = {
     "hearts": "hearts",
     "grasshoppers": "grasshoppers", "gc": "grasshoppers",
     "sion": "sion"
-}
+}}
 
 }
 
