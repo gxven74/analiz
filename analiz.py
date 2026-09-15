@@ -584,7 +584,7 @@ with tab3:
 
         col_f4, col_f5 = st.columns(2)
         with col_f4:
-            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
+            yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=66.0, step=5.0)
         with col_f5:
             alinan = st.number_input("Alınan / Geri Gelen Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
 
@@ -612,21 +612,21 @@ with tab3:
         net_kar_zarar = toplam_alinan - toplam_yatirilan
 
         m1, m2, m3 = st.columns(3)
-        m1.metric("Toplam Yatırilan", f"{toplam_yatirilan:.2f} TL")
+        m1.metric("Toplam Yatırılan", f"{toplam_yatirilan:.2f} TL")
         m2.metric("Toplam Alınan", f"{toplam_alinan:.2f} TL")
         m3.metric("Net Kâr / Zarar", f"{net_kar_zarar:.2f} TL", delta=f"{net_kar_zarar:.2f} TL")
 
         st.subheader("📋 Kasa Geçmişi ve İşlem Silme")
         st.caption("İstediğin satırı sırasına göre seçip silebilirsin.")
 
-        # Satır satır silme arayüzü
+        # Satır satır silme arayüzü (Ondalık küsurat sabitlendi)
         for idx, row in st.session_state.kasa_gecmisi.iterrows():
             col_s1, col_s2, col_s3, col_s4, col_s5, col_s6 = st.columns([1.5, 2.5, 1, 1, 1, 0.8])
             col_s1.write(f"📅 {row['Tarih']}")
             col_s2.write(f"📝 {row['Açıklama']}")
-            col_s3.write(f"Yatırılan: {row['Yatırılan (TL)']} TL")
-            col_s4.write(f"Alınan: {row['Alınan (TL)']} TL")
-            col_s5.write(f"Net: {row['Net Durum (TL)']} TL")
+            col_s3.write(f"Yatırılan: {row['Yatırılan (TL)']:.2f} TL")
+            col_s4.write(f"Alınan: {row['Alınan (TL)']:.2f} TL")
+            col_s5.write(f"Net: {row['Net Durum (TL)']:.2f} TL")
             
             # Her satıra özel çöp kutusu butonu
             if col_s6.button("🗑️ Sil", key=f"sil_{idx}"):
