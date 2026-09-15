@@ -565,26 +565,29 @@ with tab2:
                 df_sari = pd.DataFrame(sari_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
                 st.dataframe(df_sari, use_container_width=True, hide_index=True)
 
-# ================= TAB 3: KÂR / ZARAR TABLOSU (KALICI HAFIZA) =================
+# ================= TAB 3: KÂR / ZARAR TABLOSU (MANUEL ETİKETLİ) =================
 DOSYA_ADI = "kasa_defteri.csv"
 
 if os.path.exists(DOSYA_ADI):
     kasa_df = pd.read_csv(DOSYA_ADI)
+    # Eski dosyalarda 'Durum' sütunu yoksa hata vermemesi için ekleyelim
+    if "Durum" not in kasa_df.columns:
+        kasa_df["Durum"] = "Kazandı ✅"
 else:
-    kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+    kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
 
 with tab3:
     st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
-    st.caption("Veriler doğrudan yerel dosyaya kaydedilir; f5 atsan veya sayfayı yenilesen bile silinmez.")
+    st.caption("Maç sonucunu elle 'Kazandı' veya 'Kaybetti' olarak seçerek kaydedebilirsin.")
 
     with st.form("kasa_form", clear_on_submit=True):
         col_f1, col_f2, col_f3 = st.columns(3)
         with col_f1:
             tarih_input = st.date_input("📅 Tarih")
         with col_f2:
-            aciklama_input = st.text_input("📝 Kupon / İşlem Açıklaması", value="Günün Kombinesi")
+            aciklama_input = st.text_input("📝 Kupon / Maç Açıklaması", value="Günün Kombinesi")
         with col_f3:
-            durum_tipi = st.selectbox("Durum", ["Kazandı ✅", "Yattı ❌", "Nakit Yatırma/Çekme 💵"])
+            secilen_durum = st.selectbox("🎯 Sonuç (Manuel Seçim)", ["Kazandı ✅", "Kaybetti ❌"])
 
         col_f4, col_f5 = st.columns(2)
         with col_f4:
@@ -598,7 +601,8 @@ with tab3:
             net = alinan - yatirilan
             yeni_veri = pd.DataFrame({
                 "Tarih": [str(tarih_input)],
-                "Açıklama": [f"{aciklama_input} ({durum_tipi})"],
+                "Açıklama": [aciklama_input],
+                "Durum": [secilen_durum],
                 "Yatırılan (TL)": [yatirilan],
                 "Alınan (TL)": [alinan],
                 "Net Durum (TL)": [net]
@@ -627,21 +631,22 @@ with tab3:
         st.caption("İstediğin satırı silebilirsin, değişiklikler anında kaydedilir.")
 
         for idx, row in kasa_df.iterrows():
-            col_s1, col_s2, col_s3, col_s4, col_s5, col_s6 = st.columns([1.5, 2.5, 1, 1, 1, 0.8])
+            col_s1, col_s2, col_s3, col_s4, col_s5, col_s6, col_s7 = st.columns([1.2, 2.0, 1.2, 0.9, 0.9, 0.9, 0.7])
             col_s1.write(f"📅 {row['Tarih']}")
             col_s2.write(f"📝 {row['Açıklama']}")
-            col_s3.write(f"Yatırılan: {row['Yatırılan (TL)']:.2f} TL")
-            col_s4.write(f"Alınan: {row['Alınan (TL)']:.2f} TL")
-            col_s5.write(f"Net: {row['Net Durum (TL)']:.2f} TL")
+            col_s3.write(f"<b>{row['Durum']}</b>", unsafe_allow_html=True)
+            col_s4.write(f"Yat: {row['Yatırılan (TL)']:.2f}")
+            col_s5.write(f"Al: {row['Alınan (TL)']:.2f}")
+            col_s6.write(f"Net: {row['Net Durum (TL)']:.2f}")
             
-            if col_s6.button("🗑️ Sil", key=f"sil_{idx}"):
+            if col_s7.button("🗑️ Sil", key=f"sil_{idx}"):
                 kasa_df = kasa_df.drop(idx).reset_index(drop=True)
                 kasa_df.to_csv(DOSYA_ADI, index=False)
                 st.rerun()
 
         st.divider()
         if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
-            kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+            kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
             if os.path.exists(DOSYA_ADI):
                 os.remove(DOSYA_ADI)
             st.rerun()
@@ -650,38 +655,34 @@ with tab3:
 
 # ================= TAB 4: İSTATİSTİKLER (ANALYTICS) =================
 with tab4:
-    st.markdown("### 📈 Model ve Kasa Performans İstatistikleri")
-    st.caption("Geçmiş işlem geçmişine dayanarak genel karne durumu:")
+    st.markdown("### 📊 Model ve Kasa Performans Karnesi")
+    st.caption("Manuel olarak girdiğin kazanan ve kaybeden kuponlara göre başarı oranları:")
 
     if not kasa_df.empty:
         toplam_islem = len(kasa_df)
         
-        # Açıklama içerisindeki durum metinlerine göre kazanan/yatan tespiti
-        kazananlar = kasa_df[kasa_df["Açıklama"].str.contains("Kazandı", na=False)]
-        yatanlar = kasa_df[kasa_df["Açıklama"].str.contains("Yattı", na=False)]
+        # Doğrudan elle seçilen 'Durum' sütununa göre filtreleme
+        kazananlar = kasa_df[kasa_df["Durum"] == "Kazandı ✅"]
+        kaybedenler = kasa_df[kasa_df["Durum"] == "Kaybetti ❌"]
         
         toplam_kazanan = len(kazananlar)
-        toplam_yatan = len(yatanlar)
+        toplam_kaybeden = len(kaybedenler)
         
-        # Win Rate (Kazanma Oranı) hesaplama
-        toplam_oynanan_kupon = toplam_kazanan + toplam_yatan
-        win_rate = (toplam_kazanan / toplam_oynanan_kupon * 100) if toplam_oynanan_kupon > 0 else 0.0
+        # Win Rate (Kazanma Oranı)
+        win_rate = (toplam_kazanan / toplam_islem * 100) if toplam_islem > 0 else 0.0
 
         i1, i2, i3, i4 = st.columns(4)
-        i1.metric("Toplam İşlem", f"{toplam_islem}")
-        i2.metric("Tutan Kupon", f"{toplam_kazanan}")
-        i3.metric("Yatan Kupon", f"{toplam_yatan}")
-        i4.metric("Başarı Oranı (Win Rate)", f"%{win_rate:.1f}")
+        i1.metric("Toplam Kupon", f"{toplam_islem}")
+        i2.metric("Kazanan Kuponlar 🟢", f"{toplam_kazanan}")
+        i3.metric("Kaybeden Kuponlar 🔴", f"{toplam_kaybeden}")
+        i4.metric("Kazanma Oranı (Win Rate)", f"%{win_rate:.1f}")
 
         st.divider()
 
         # Kasa Büyüme Grafiği
         st.subheader("📉 Kasa İvme / Büyüme Grafiği")
         if toplam_islem > 0:
-            # Kümülatif (biriken) net kar hesabı
             kasa_df["Kümülatif Net (TL)"] = kasa_df["Net Durum (TL)"].cumsum()
-            
-            # Streamlit çizgi grafiği
             st.line_chart(kasa_df, x="Tarih", y="Kümülatif Net (TL)")
         else:
             st.info("Grafik için yeterli işlem verisi yok.")
