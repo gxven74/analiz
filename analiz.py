@@ -570,6 +570,7 @@ with tab2:
                     <hr style="border:0.5px solid rgba(255,255,255,0.2); margin:8px 0;">
                     <b>1. Maç:</b> {secilenler[0]['Maç']} ➔ <b>{secilenler[0]['aksiyon_raw']}</b> (%{secilenler[0]['guven_raw']:.1f})<br>
                     <b>2. Maç:</b> {secilenler[1]['Maç']} ➔ <b>{secilenler[1]['aksiyon_raw']}</b> (%{secilenler[1]['guven_raw']:.1f})
+                    <b>3. Maç:</b> {secilenler[2]['Maç']} ➔ <b>{secilenler[2]['aksiyon_raw']}</b> (%{secilenler[2]['guven_raw']:.1f})
                     <hr style="border:0.5px solid rgba(255,255,255,0.2); margin:8px 0;">
                     <b>Ortak Olasılık Başarısı:</b> %{toplam_guven:.1f}
                 </div>
