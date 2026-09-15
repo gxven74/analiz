@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Mobil uyumlu ve Sekmeleri Uçtan Uca Eşit Yayan CSS
+# Mobil uyumlu ve Sekmeleri Uçtan Uca Eşit Yayan (Genişletilmiş) CSS
 st.markdown("""
 <style>
     .block-container {
@@ -22,23 +22,25 @@ st.markdown("""
         padding-left: 1.2rem !important;
         padding-right: 1.2rem !important;
     }
-    /* 4 Sekmeyi Yatayda Eşit Şekilde Uçtan Uca Yayma */
+    /* 4 Sekmeyi Yatayda Tam Genişliğe Eşit Yayma ve Boşluklandırma */
     div[data-baseweb="tab-list"] {
         display: flex !important;
         width: 100% !important;
-        justify-content: space-between !important;
-        gap: 12px;
+        justify-content: space-around !important;
         background-color: rgba(128, 128, 128, 0.05);
-        padding: 8px;
+        padding: 8px 10px;
         border-radius: 12px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
     }
     div[data-baseweb="tab"] {
         flex: 1 !important;
         text-align: center !important;
         justify-content: center !important;
         font-weight: 600;
-        padding: 10px 5px;
+        padding: 12px 10px;
+        margin: 0 5px;
+        background-color: rgba(255, 255, 255, 0.03);
+        border-radius: 8px;
     }
     div[data-testid="stMetric"] {
         background-color: rgba(128, 128, 128, 0.08);
@@ -92,6 +94,13 @@ TAKIM_PROFILLERI = {
     "bodrum fk": {"hucum": 1.00, "savunma": 1.30, "seviye": 0.80},
     "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.80},
     "adana demirspor": {"hucum": 1.00, "savunma": 1.70, "seviye": 0.70},
+
+    # ==================== YENİ EKLENEN TAKIMLAR (Benfica, Levante, Sturm Graz, Santander, Celje) ====================
+    "benfica": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.35},
+    "levante": {"hucum": 1.30, "savunma": 1.25, "seviye": 0.90},
+    "sturm graz": {"hucum": 1.65, "savunma": 1.15, "seviye": 1.05},
+    "santander": {"hucum": 1.35, "savunma": 1.20, "seviye": 0.90},
+    "celje": {"hucum": 1.40, "savunma": 1.25, "seviye": 0.85},
 
     # ==================== TÜRKİYE 1. LİG ====================
     "kocaelispor": {"hucum": 1.25, "savunma": 1.20, "seviye": 0.80},
@@ -327,7 +336,11 @@ TAKMA_ADLAR = {
     "vancouver": "vancouver whitecaps", "austin": "austin fc",
     "bodo": "bodo glimt", "sandefjord": "sandefjord",
     "san diego": "san diego fc", "philadelphia": "philadelphia union",
-    "braga": "braga", "estoril": "estoril praia"
+    "braga": "braga", "estoril": "estoril praia",
+    "benfica": "benfica", "levante": "levante",
+    "sturm": "sturm graz", "sturm graz": "sturm graz",
+    "santander": "santander", "racing santander": "santander",
+    "celje": "celje"
 }
 
 def takim_bul(girdi):
