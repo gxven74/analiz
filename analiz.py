@@ -214,6 +214,17 @@ TAKIM_PROFILLERI = {
     "shakhtar donetsk": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.10},
     "aek atina": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.20},       # Eklendi
     "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20}  # Eklendi
+
+    #Yeni eklenen takımlar
+    "elche": {"hucum": 1.10, "savunma": 1.30, "seviye": 0.85},
+    "falkrik": {"hucum": 1.35, "savunma": 1.25, "seviye": 0.85},
+    "hearts": {"hucum": 1.50, "savunma": 1.20, "seviye": 1.05},
+    "sudtirol": {"hucum": 1.10, "savunma": 1.35, "seviye": 0.80},
+    "grasshoppers": {"hucum": 1.30, "savunma": 1.40, "seviye": 0.95},
+    "sion": {"hucum": 1.35, "savunma": 1.35, "seviye": 0.95},
+    "middlesbrough": {"hucum": 1.55, "savunma": 1.25, "seviye": 1.05},
+    "millwall": {"hucum": 1.25, "savunma": 1.20, "seviye": 0.95},
+    "pisa": {"hucum": 1.25, "savunma": 1.30, "seviye": 0.85}
 }
 
 TAKMA_ADLAR = {
@@ -285,6 +296,18 @@ TAKMA_ADLAR = {
     "shakhtar": "shakhtar donetsk", "shakhtar donetsk": "shakhtar donetsk",
     "aek": "aek atina", "aek atina": "aek atina", "athena": "aek atina",
     "pao": "panathinaikos", "panathinaikos": "panathinaikos"
+
+    #Yeni eklenen takımlar
+    "elche": "elche",
+    "falkrik": "falkrik",
+    "hearts": "hearts",
+    "sudtirol": "sudtriol",
+    "grasshoppers": "grasshoppers",
+    "sion": "sion",
+    "middlesbrough": "middlesbrough",
+    "millwall": "millwall",
+    "pisa": "pisa"
+
 }
 
 def takim_bul(girdi):
