@@ -203,7 +203,7 @@ TAKIM_PROFILLERI = {
     "le havre": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.85},
     "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
 
-    # ==================== DİĞER LİGLER & ATİNA TAKIMLARI ====================
+    # ==================== DİĞER LİGLER & DİĞERLERİ ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
     "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
     "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.75},
@@ -214,8 +214,18 @@ TAKIM_PROFILLERI = {
     "shakhtar donetsk": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.10},
     "aek atina": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.20},
     "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
+    "djurgardens": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.15},
+    "gais": {"hucum": 1.30, "savunma": 1.35, "seviye": 0.90},
+    "vancouver whitecaps": {"hucum": 1.70, "savunma": 1.20, "seviye": 1.10},
+    "austin fc": {"hucum": 1.35, "savunma": 1.35, "seviye": 0.95},
+    "bodo glimt": {"hucum": 2.10, "savunma": 1.00, "seviye": 1.30},
+    "sandefjord": {"hucum": 1.20, "savunma": 1.60, "seviye": 0.85},
+    "san diego fc": {"hucum": 1.50, "savunma": 1.30, "seviye": 1.00},
+    "philadelphia union": {"hucum": 1.60, "savunma": 1.25, "seviye": 1.10},
+    "braga": {"hucum": 1.80, "savunma": 1.10, "seviye": 1.20},
+    "estoril praia": {"hucum": 1.30, "savunma": 1.40, "seviye": 0.90},
 
-    # Yeni eklenen takımlar
+    # Yeni eklenen bülten takımları
     "elche": {"hucum": 1.10, "savunma": 1.30, "seviye": 0.85},
     "falkrik": {"hucum": 1.35, "savunma": 1.25, "seviye": 0.85},
     "hearts": {"hucum": 1.50, "savunma": 1.20, "seviye": 1.05},
@@ -273,6 +283,7 @@ TAKMA_ADLAR = {
     "hellas verona": "verona", "sassuolo": "sassuolo", "sas": "sassuolo",
     "pisa": "pisa",
     "sudtirol": "sudtirol", "sudtriol": "sudtirol",
+    "udinesse": "udinese", "udinese": "udinese",
     "bayern": "bayern munih", "munih": "bayern munih", "fc bayern": "bayern munih",
     "leverkusen": "bayer leverkusen", "bayer": "bayer leverkusen",
     "bvb": "dortmund", "borussia dortmund": "dortmund",
@@ -292,7 +303,12 @@ TAKMA_ADLAR = {
     "falkirk": "falkrik", "falkrik": "falkrik",
     "hearts": "hearts",
     "grasshoppers": "grasshoppers", "gc": "grasshoppers",
-    "sion": "sion"
+    "sion": "sion",
+    "djurgardens": "djurgardens", "gais": "gais",
+    "vancouver": "vancouver whitecaps", "austin": "austin fc",
+    "bodo": "bodo glimt", "sandefjord": "sandefjord",
+    "san diego": "san diego fc", "philadelphia": "philadelphia union",
+    "braga": "braga", "estoril": "estoril praia"
 }
 
 def takim_bul(girdi):
@@ -449,14 +465,30 @@ with tab1:
 with tab2:
     st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik kombine al:")
     ornek_bulten = (
+        "Gaziantep - Fenerbahce\n"
+        "Kayserispor - Istanbulspor\n"
+        "Torino - Roma\n"
+        "Inter - Udinesse\n"
+        "Como - Parma\n"
+        "Braga - Estoril Praia\n"
+        "Villarreal - Real Betis\n"
+        "Djurgardens - Gais\n"
+        "Leeds United - Newcastle United\n"
+        "Vancouver Whitecaps - Austin FC\n"
+        "Bodo - Sandefjord\n"
+        "San Diego FC - Philadelphia Union\n"
         "alaves - valencia\n"
         "elche - real madrid\n"
         "ipswich - arsenal\n"
         "liverpool - tottenham\n"
         "falkrik - hearts\n"
-        "genoa - sudtirol"
+        "grasshoppers - sion\n"
+        "middlesbrough - millwall\n"
+        "vallecano - espanyol\n"
+        "fiorentina - pisa\n"
+        "betis - getafe"
     )
-    bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=140, label_visibility="collapsed")
+    bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=220, label_visibility="collapsed")
 
     c_b1, c_b2 = st.columns(2)
     with c_b1:
