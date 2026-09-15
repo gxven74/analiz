@@ -95,7 +95,16 @@ TAKIM_PROFILLERI = {
     "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.80},
     "adana demirspor": {"hucum": 1.00, "savunma": 1.70, "seviye": 0.70},
 
-    # ==================== YENİ EKLENEN TAKIMLAR (Benfica, Levante, Sturm Graz, Santander, Celje) ====================
+    # ==================== YENİ EKLENENLER (Sunderland, Olympiacos, Jagiellonia, AZ Alkmaar, Anderlecht, Çorum) ====================
+    "sunderland": {"hucum": 1.55, "savunma": 1.15, "seviye": 1.05},
+    "olympiacos": {"hucum": 2.05, "savunma": 1.00, "seviye": 1.25},
+    "jagiellonia": {"hucum": 1.45, "savunma": 1.25, "seviye": 0.90},
+    "az alkmaar": {"hucum": 1.95, "savunma": 1.10, "seviye": 1.20},
+    "anderlecht": {"hucum": 1.85, "savunma": 1.15, "seviye": 1.20},
+    "corum fk": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
+    "corum": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
+
+    # ==================== ÖNCEKİ EKLEMELER (Benfica, Levante, Sturm Graz, Santander, Celje) ====================
     "benfica": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.35},
     "levante": {"hucum": 1.30, "savunma": 1.25, "seviye": 0.90},
     "sturm graz": {"hucum": 1.65, "savunma": 1.15, "seviye": 1.05},
@@ -110,7 +119,6 @@ TAKIM_PROFILLERI = {
     "pendikspor": {"hucum": 1.20, "savunma": 1.30, "seviye": 0.75},
     "sakaryaspor": {"hucum": 1.15, "savunma": 1.25, "seviye": 0.75},
     "bandirmaspor": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
-    "corum fk": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
     "erzurumspor": {"hucum": 1.15, "savunma": 1.20, "seviye": 0.75},
     "boluspor": {"hucum": 1.10, "savunma": 1.20, "seviye": 0.70},
     "umraniyespor": {"hucum": 1.15, "savunma": 1.30, "seviye": 0.70},
@@ -340,7 +348,13 @@ TAKMA_ADLAR = {
     "benfica": "benfica", "levante": "levante",
     "sturm": "sturm graz", "sturm graz": "sturm graz",
     "santander": "santander", "racing santander": "santander",
-    "celje": "celje"
+    "celje": "celje",
+    "sunderland": "sunderland",
+    "olympiacos": "olympiacos", "Olympiakos": "olympiacos",
+    "jagiellonia": "jagiellonia",
+    "az alkmaar": "az alkmaar", "alkmaar": "az alkmaar",
+    "anderlecht": "anderlecht",
+    "corum": "corum fk", "corum fk": "corum fk"
 }
 
 def takim_bul(girdi):
