@@ -299,14 +299,15 @@ TAKMA_ADLAR = {
 
     #Yeni eklenen takımlar
     "elche": "elche",
-    "falkrik": "falkrik",
+    "falkirk": "falkrik", "falkrik": "falkrik",  # Yazım varyasyonuna karşı
     "hearts": "hearts",
-    "sudtirol": "sudtriol",
-    "grasshoppers": "grasshoppers",
+    "sudtirol": "sudtirol", "sudtriol": "sudtirol",  # Typo koruması
+    "grasshoppers": "grasshoppers", "gc": "grasshoppers",
     "sion": "sion",
-    "middlesbrough": "middlesbrough",
+    "middlesbrough": "middlesbrough", "boro": "middlesbrough",
     "millwall": "millwall",
-    "pisa": "pisa"
+    "pisa": "pisa",
+    "alaves": "alaves"
 
 }
 
