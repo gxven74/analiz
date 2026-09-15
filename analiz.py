@@ -593,7 +593,7 @@ with tab3:
         with col_f4:
             yatirilan = st.number_input("Yatırılan Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
         with col_f5:
-            alinan = st.number_input("Alınan / Geri Gelen Tutar (TL)", min_value=0.0, value="0.0", step=5.0)
+            alinan = st.number_input("Alınan / Geri Gelen Tutar (TL)", min_value=0.0, value=0.0, step=5.0)
 
         kaydet_btn = st.form_submit_button("💾 İşlemi Kasaya Ekle", use_container_width=True)
 
