@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import poisson
 import difflib
+import os
 
 # Mobil öncelikli sayfa ayarı ve Sol Menü Kapalı / Gizli
 st.set_page_config(
@@ -564,14 +565,19 @@ with tab2:
                 df_sari = pd.DataFrame(sari_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
                 st.dataframe(df_sari, use_container_width=True, hide_index=True)
 
-# ================= TAB 3: KÂR / ZARAR TABLOSU =================
+# ================= TAB 3: KÂR / ZARAR TABLOSU (KALICI HAFIZA) =================
 with tab3:
     st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
-    st.caption("Buradan günlük kupon yatırımlarını ve aldığın tutarları girerek kasanın durumunu takip edebilirsin.")
+    st.caption("Veriler doğrudan yerel dosyaya kaydedilir; f5 atsan veya sayfayı yenilesen bile silinmez.")
 
-    # Oturumda (Session State) veri tutma altyapısı
-    if "kasa_gecmisi" not in st.session_state:
-        st.session_state.kasa_gecmisi = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+    DOSYA_ADI = "kasa_defteri.csv"
+
+    # Dosya varsa oku, yoksa boş DataFrame oluştur
+    if os.path.exists(DOSYA_ADI):
+        st.session_state.kasa_gecmisi = pd.read_csv(DOSYA_ADI)
+    else:
+        if "kasa_gecmisi" not in st.session_state:
+            st.session_state.kasa_gecmisi = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
 
     with st.form("kasa_form", clear_on_submit=True):
         col_f1, col_f2, col_f3 = st.columns(3)
@@ -599,8 +605,12 @@ with tab3:
                 "Alınan (TL)": [alinan],
                 "Net Durum (TL)": [net]
             })
+            
+            # DataFrame'e ekle ve CSV'ye kaydet
             st.session_state.kasa_gecmisi = pd.concat([st.session_state.kasa_gecmisi, yeni_veri], ignore_index=True)
-            st.success("İşlem kasaya başarıyla eklendi!")
+            st.session_state.kasa_gecmisi.to_csv(DOSYA_ADI, index=False)
+            
+            st.success("İşlem kasaya kalıcı olarak eklendi!")
             st.rerun()
 
     st.divider()
@@ -617,9 +627,9 @@ with tab3:
         m3.metric("Net Kâr / Zarar", f"{net_kar_zarar:.2f} TL", delta=f"{net_kar_zarar:.2f} TL")
 
         st.subheader("📋 Kasa Geçmişi ve İşlem Silme")
-        st.caption("İstediğin satırı sırasına göre seçip silebilirsin.")
+        st.caption("İstediğin satırı silebilirsin, değişiklikler anında kaydedilir.")
 
-        # Satır satır silme arayüzü (Ondalık küsurat sabitlendi)
+        # Satır satır silme arayüzü
         for idx, row in st.session_state.kasa_gecmisi.iterrows():
             col_s1, col_s2, col_s3, col_s4, col_s5, col_s6 = st.columns([1.5, 2.5, 1, 1, 1, 0.8])
             col_s1.write(f"📅 {row['Tarih']}")
@@ -631,11 +641,14 @@ with tab3:
             # Her satıra özel çöp kutusu butonu
             if col_s6.button("🗑️ Sil", key=f"sil_{idx}"):
                 st.session_state.kasa_gecmisi = st.session_state.kasa_gecmisi.drop(idx).reset_index(drop=True)
+                st.session_state.kasa_gecmisi.to_csv(DOSYA_ADI, index=False)
                 st.rerun()
 
         st.divider()
         if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
             st.session_state.kasa_gecmisi = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+            if os.path.exists(DOSYA_ADI):
+                os.remove(DOSYA_ADI)
             st.rerun()
     else:
         st.info("Henüz kasaya kaydedilmiş bir işlem yok. Yukarıdaki formdan ekleme yapabilirsin.")
