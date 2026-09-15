@@ -261,6 +261,8 @@ TAKMA_ADLAR = {
     "wolves": "wolves", "wolverhampton": "wolves",
     "nottingham": "nottingham forest", "forest": "nottingham forest",
     "leicester city": "leicester",
+    "middlesbrough": "middlesbrough", "boro": "middlesbrough",
+    "millwall": "millwall",
     
     # İspanya
     "real": "real madrid", "barca": "barcelona", "barça": "barcelona",
@@ -269,11 +271,15 @@ TAKMA_ADLAR = {
     "bilbao": "athletic bilbao", "betis": "real betis", "celta": "celta vigo",
     "rayo": "rayo vallecano", "espanyol": "espanyol", "tenerife": "tenerife",
     "malaga": "malaga",
+    "elche": "elche",
+    "alaves": "alaves",
     
     # İtalya
     "juve": "juventus", "inter milan": "inter", "ac milan": "milan",
     "viola": "fiorentina", "toro": "torino", "hellas": "verona",
     "hellas verona": "verona", "sassuolo": "sassuolo", "sas": "sassuolo",
+    "pisa": "pisa",
+    "sudtirol": "sudtirol", "sudtriol": "sudtirol",
     
     # Almanya
     "bayern": "bayern munih", "munih": "bayern munih", "fc bayern": "bayern munih",
@@ -290,24 +296,17 @@ TAKMA_ADLAR = {
     "st etienne": "saint-etienne", "saint etienne": "saint-etienne",
     "troyes": "troyes",
 
-    # Diğer & Atina Takımları
+    # Diğer, İskoçya, İsviçre & Atina Takımları
     "psv": "psv", "sparta": "sparta rotterdam", "rotterdam": "sparta rotterdam",
     "prag": "sparta prag", "sparta prag": "sparta prag", "slavia prag": "slavia prag",
     "shakhtar": "shakhtar donetsk", "shakhtar donetsk": "shakhtar donetsk",
     "aek": "aek atina", "aek atina": "aek atina", "athena": "aek atina",
-    "pao": "panathinaikos", "panathinaikos": "panathinaikos"
-
-    #Yeni eklenen takımlar
-    "elche": "elche",
-    "falkirk": "falkrik", "falkrik": "falkrik",  # Yazım varyasyonuna karşı
+    "pao": "panathinaikos", "panathinaikos": "panathinaikos",
+    "falkirk": "falkrik", "falkrik": "falkrik",
     "hearts": "hearts",
-    "sudtirol": "sudtirol", "sudtriol": "sudtirol",  # Typo koruması
     "grasshoppers": "grasshoppers", "gc": "grasshoppers",
-    "sion": "sion",
-    "middlesbrough": "middlesbrough", "boro": "middlesbrough",
-    "millwall": "millwall",
-    "pisa": "pisa",
-    "alaves": "alaves"
+    "sion": "sion"
+}
 
 }
 
