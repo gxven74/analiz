@@ -13,30 +13,33 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Mobil uyumlu ve Görsel Düzenlemeli CSS (Başlık aşağı kaydırma ve Sekmeleri yayma/ortalama)
+# Mobil uyumlu ve Sekmeleri Tam Ortalayan CSS
 st.markdown("""
 <style>
     .block-container {
-        padding-top: 2.5rem !important; /* Üst kısımdaki kesilmeyi önlemek için boşluk artırıldı */
+        padding-top: 2.5rem !important;
         padding-bottom: 2rem !important;
         padding-left: 1.2rem !important;
         padding-right: 1.2rem !important;
     }
-    /* Sekmelerin (Tabs) yatayda genişlemesi ve orantılı durması için */
+    /* 4 Sekmeyi Yatayda Ortalama ve Şık Boyutlandırma */
     div[data-baseweb="tab-list"] {
         display: flex;
-        justify-content: space-between;
-        gap: 10px;
+        justify-content: center !important;
+        gap: 15px;
         background-color: rgba(128, 128, 128, 0.05);
-        padding: 6px;
-        border-radius: 10px;
+        padding: 8px;
+        border-radius: 12px;
+        max-width: 800px;
+        margin: 0 auto 15px auto;
     }
     div[data-baseweb="tab"] {
         flex-grow: 1;
+        max-width: 180px;
         justify-content: center;
         text-align: center;
         font-weight: 600;
-        padding: 10px 15px;
+        padding: 10px 10px;
     }
     div[data-testid="stMetric"] {
         background-color: rgba(128, 128, 128, 0.08);
