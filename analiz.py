@@ -4,12 +4,12 @@ import pandas as pd
 from scipy.stats import poisson
 import difflib
 
-# Mobil öncelikli sayfa ayarı
+# Mobil öncelikli sayfa ayarı ve Yan Menü aktif
 st.set_page_config(
     page_title="Poisson Tahmin", 
     page_icon="⚽", 
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # Mobil uyumlu CSS
@@ -50,6 +50,13 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+# ==================== YAN MENÜ (SIDEBAR) ====================
+with st.sidebar:
+    st.markdown("### ⚙️ Kontrol Paneli")
+    st.info("Sistem aktif ve çalışıyor. İleride buraya Kasa / Kar-Zarar modülünü ekleyeceğiz.")
+    st.divider()
+    st.caption("🚀 Poisson Tahmin Motoru v2.1")
 
 TAKIM_PROFILLERI = {
     # ==================== TRENDYOL SÜPER LİG ====================
