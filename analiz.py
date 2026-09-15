@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Mobil uyumlu ve Sekmeleri Tam Ortalayan CSS
+# Mobil uyumlu ve Sekmeleri Uçtan Uca Eşit Yayan CSS
 st.markdown("""
 <style>
     .block-container {
@@ -22,24 +22,23 @@ st.markdown("""
         padding-left: 1.2rem !important;
         padding-right: 1.2rem !important;
     }
-    /* 4 Sekmeyi Yatayda Ortalama ve Şık Boyutlandırma */
+    /* 4 Sekmeyi Yatayda Eşit Şekilde Uçtan Uca Yayma */
     div[data-baseweb="tab-list"] {
-        display: flex;
-        justify-content: center !important;
-        gap: 15px;
+        display: flex !important;
+        width: 100% !important;
+        justify-content: space-between !important;
+        gap: 12px;
         background-color: rgba(128, 128, 128, 0.05);
         padding: 8px;
         border-radius: 12px;
-        max-width: 800px;
-        margin: 0 auto 15px auto;
+        margin-bottom: 15px;
     }
     div[data-baseweb="tab"] {
-        flex-grow: 1;
-        max-width: 180px;
-        justify-content: center;
-        text-align: center;
+        flex: 1 !important;
+        text-align: center !important;
+        justify-content: center !important;
         font-weight: 600;
-        padding: 10px 10px;
+        padding: 10px 5px;
     }
     div[data-testid="stMetric"] {
         background-color: rgba(128, 128, 128, 0.08);
