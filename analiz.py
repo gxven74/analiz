@@ -13,14 +13,30 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Mobil uyumlu CSS
+# Mobil uyumlu ve Görsel Düzenlemeli CSS (Başlık aşağı kaydırma ve Sekmeleri yayma/ortalama)
 st.markdown("""
 <style>
     .block-container {
-        padding-top: 1rem !important;
+        padding-top: 2.5rem !important; /* Üst kısımdaki kesilmeyi önlemek için boşluk artırıldı */
         padding-bottom: 2rem !important;
-        padding-left: 0.8rem !important;
-        padding-right: 0.8rem !important;
+        padding-left: 1.2rem !important;
+        padding-right: 1.2rem !important;
+    }
+    /* Sekmelerin (Tabs) yatayda genişlemesi ve orantılı durması için */
+    div[data-baseweb="tab-list"] {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        background-color: rgba(128, 128, 128, 0.05);
+        padding: 6px;
+        border-radius: 10px;
+    }
+    div[data-baseweb="tab"] {
+        flex-grow: 1;
+        justify-content: center;
+        text-align: center;
+        font-weight: 600;
+        padding: 10px 15px;
     }
     div[data-testid="stMetric"] {
         background-color: rgba(128, 128, 128, 0.08);
@@ -654,7 +670,6 @@ DOSYA_ISTATISTIK = "istatistik_defteri.csv"
 
 if os.path.exists(DOSYA_ISTATISTIK):
     istatistik_df = pd.read_csv(DOSYA_ISTATISTIK)
-    # Eski CSV uyumluluğu için sütun denetimi
     if "Maç" not in istatistik_df.columns and "Tahmin / Maç Adı" in istatistik_df.columns:
         istatistik_df = istatistik_df.rename(columns={"Tahmin / Maç Adı": "Maç"})
     if "Tahmin" not in istatistik_df.columns:
