@@ -408,7 +408,7 @@ def mac_hesapla(ev_key, dep_key):
 st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 
 # ================= SEKMELER (TABS) =================
-tab1, tab2, tab3 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar Tablosu"])
+tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar Tablosu", "📊 İstatistikler"])
 
 with tab1:
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
@@ -566,18 +566,16 @@ with tab2:
                 st.dataframe(df_sari, use_container_width=True, hide_index=True)
 
 # ================= TAB 3: KÂR / ZARAR TABLOSU (KALICI HAFIZA) =================
+DOSYA_ADI = "kasa_defteri.csv"
+
+if os.path.exists(DOSYA_ADI):
+    kasa_df = pd.read_csv(DOSYA_ADI)
+else:
+    kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+
 with tab3:
     st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
     st.caption("Veriler doğrudan yerel dosyaya kaydedilir; f5 atsan veya sayfayı yenilesen bile silinmez.")
-
-    DOSYA_ADI = "kasa_defteri.csv"
-
-    # Dosya varsa oku, yoksa boş DataFrame oluştur
-    if os.path.exists(DOSYA_ADI):
-        st.session_state.kasa_gecmisi = pd.read_csv(DOSYA_ADI)
-    else:
-        if "kasa_gecmisi" not in st.session_state:
-            st.session_state.kasa_gecmisi = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
 
     with st.form("kasa_form", clear_on_submit=True):
         col_f1, col_f2, col_f3 = st.columns(3)
@@ -606,9 +604,8 @@ with tab3:
                 "Net Durum (TL)": [net]
             })
             
-            # DataFrame'e ekle ve CSV'ye kaydet
-            st.session_state.kasa_gecmisi = pd.concat([st.session_state.kasa_gecmisi, yeni_veri], ignore_index=True)
-            st.session_state.kasa_gecmisi.to_csv(DOSYA_ADI, index=False)
+            kasa_df = pd.concat([kasa_df, yeni_veri], ignore_index=True)
+            kasa_df.to_csv(DOSYA_ADI, index=False)
             
             st.success("İşlem kasaya kalıcı olarak eklendi!")
             st.rerun()
@@ -616,9 +613,9 @@ with tab3:
     st.divider()
 
     # Özet Metrikler
-    if not st.session_state.kasa_gecmisi.empty:
-        toplam_yatirilan = st.session_state.kasa_gecmisi["Yatırılan (TL)"].sum()
-        toplam_alinan = st.session_state.kasa_gecmisi["Alınan (TL)"].sum()
+    if not kasa_df.empty:
+        toplam_yatirilan = kasa_df["Yatırılan (TL)"].sum()
+        toplam_alinan = kasa_df["Alınan (TL)"].sum()
         net_kar_zarar = toplam_alinan - toplam_yatirilan
 
         m1, m2, m3 = st.columns(3)
@@ -629,8 +626,7 @@ with tab3:
         st.subheader("📋 Kasa Geçmişi ve İşlem Silme")
         st.caption("İstediğin satırı silebilirsin, değişiklikler anında kaydedilir.")
 
-        # Satır satır silme arayüzü
-        for idx, row in st.session_state.kasa_gecmisi.iterrows():
+        for idx, row in kasa_df.iterrows():
             col_s1, col_s2, col_s3, col_s4, col_s5, col_s6 = st.columns([1.5, 2.5, 1, 1, 1, 0.8])
             col_s1.write(f"📅 {row['Tarih']}")
             col_s2.write(f"📝 {row['Açıklama']}")
@@ -638,17 +634,56 @@ with tab3:
             col_s4.write(f"Alınan: {row['Alınan (TL)']:.2f} TL")
             col_s5.write(f"Net: {row['Net Durum (TL)']:.2f} TL")
             
-            # Her satıra özel çöp kutusu butonu
             if col_s6.button("🗑️ Sil", key=f"sil_{idx}"):
-                st.session_state.kasa_gecmisi = st.session_state.kasa_gecmisi.drop(idx).reset_index(drop=True)
-                st.session_state.kasa_gecmisi.to_csv(DOSYA_ADI, index=False)
+                kasa_df = kasa_df.drop(idx).reset_index(drop=True)
+                kasa_df.to_csv(DOSYA_ADI, index=False)
                 st.rerun()
 
         st.divider()
         if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
-            st.session_state.kasa_gecmisi = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+            kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
             if os.path.exists(DOSYA_ADI):
                 os.remove(DOSYA_ADI)
             st.rerun()
     else:
         st.info("Henüz kasaya kaydedilmiş bir işlem yok. Yukarıdaki formdan ekleme yapabilirsin.")
+
+# ================= TAB 4: İSTATİSTİKLER (ANALYTICS) =================
+with tab4:
+    st.markdown("### 📈 Model ve Kasa Performans İstatistikleri")
+    st.caption("Geçmiş işlem geçmişine dayanarak genel karne durumu:")
+
+    if not kasa_df.empty:
+        toplam_islem = len(kasa_df)
+        
+        # Açıklama içerisindeki durum metinlerine göre kazanan/yatan tespiti
+        kazananlar = kasa_df[kasa_df["Açıklama"].str.contains("Kazandı", na=False)]
+        yatanlar = kasa_df[kasa_df["Açıklama"].str.contains("Yattı", na=False)]
+        
+        toplam_kazanan = len(kazananlar)
+        toplam_yatan = len(yatanlar)
+        
+        # Win Rate (Kazanma Oranı) hesaplama
+        toplam_oynanan_kupon = toplam_kazanan + toplam_yatan
+        win_rate = (toplam_kazanan / toplam_oynanan_kupon * 100) if toplam_oynanan_kupon > 0 else 0.0
+
+        i1, i2, i3, i4 = st.columns(4)
+        i1.metric("Toplam İşlem", f"{toplam_islem}")
+        i2.metric("Tutan Kupon", f"{toplam_kazanan}")
+        i3.metric("Yatan Kupon", f"{toplam_yatan}")
+        i4.metric("Başarı Oranı (Win Rate)", f"%{win_rate:.1f}")
+
+        st.divider()
+
+        # Kasa Büyüme Grafiği
+        st.subheader("📉 Kasa İvme / Büyüme Grafiği")
+        if toplam_islem > 0:
+            # Kümülatif (biriken) net kar hesabı
+            kasa_df["Kümülatif Net (TL)"] = kasa_df["Net Durum (TL)"].cumsum()
+            
+            # Streamlit çizgi grafiği
+            st.line_chart(kasa_df, x="Tarih", y="Kümülatif Net (TL)")
+        else:
+            st.info("Grafik için yeterli işlem verisi yok.")
+    else:
+        st.info("İstatistikleri görebilmek için 'Kâr / Zarar Tablosu' sekmesinden birkaç işlem kaydetmelisin.")
