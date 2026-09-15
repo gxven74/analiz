@@ -212,10 +212,10 @@ TAKIM_PROFILLERI = {
     "sparta prag": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.05},
     "slavia prag": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.05},
     "shakhtar donetsk": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.10},
-    "aek atina": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.20},       # Eklendi
-    "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},  # Eklendi
+    "aek atina": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.20},
+    "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
 
-    #Yeni eklenen takımlar
+    # Yeni eklenen takımlar
     "elche": {"hucum": 1.10, "savunma": 1.30, "seviye": 0.85},
     "falkrik": {"hucum": 1.35, "savunma": 1.25, "seviye": 0.85},
     "hearts": {"hucum": 1.50, "savunma": 1.20, "seviye": 1.05},
@@ -295,8 +295,6 @@ TAKMA_ADLAR = {
     "sion": "sion"
 }
 
-}
-
 def takim_bul(girdi):
     g = girdi.strip().lower().replace("ı", "i").replace("ğ", "g").replace("ü", "u").replace("ş", "s").replace("ö", "o").replace("ç", "c")
     if g in TAKIM_PROFILLERI: return g
@@ -343,7 +341,6 @@ def mac_hesapla(ev_key, dep_key):
     aksiyon = "PAS GEÇ / RİSKLİ"
     guven_orani = 0.0
 
-    # ==================== KUSURSUZ İSABETLİ HİYARARŞİ ====================
     if p_ev >= 65.0:
         durum = "YESIL"
         aksiyon = f"MS 1 ({ev_key.title()})"
@@ -394,7 +391,6 @@ def mac_hesapla(ev_key, dep_key):
 st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 tab1, tab2 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine"])
 
-# ================= TAB 1: TEKLİ DETAYLI ANALİZ =================
 with tab1:
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
     
@@ -450,16 +446,15 @@ with tab1:
             )
             st.dataframe(df_matrix, use_container_width=True)
 
-# ================= TAB 2: TOPLU BÜLTEN & KOMBİNE MOTORU =================
 with tab2:
     st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik kombine al:")
     ornek_bulten = (
-        "arsenal - chelsea\n"
-        "barcelona - villareal\n"
-        "inter - juventus\n"
-        "bayern munih - dortmund\n"
-        "aek atina - panathinaikos\n"
-        "malaga - prag"
+        "alaves - valencia\n"
+        "elche - real madrid\n"
+        "ipswich - arsenal\n"
+        "liverpool - tottenham\n"
+        "falkrik - hearts\n"
+        "genoa - sudtirol"
     )
     bulten_metni = st.text_area("Maçlar", value=ornek_bulten, height=140, label_visibility="collapsed")
 
@@ -502,7 +497,6 @@ with tab2:
 
         st.divider()
 
-        # Otomatik Kombine Kartı
         if kombine_btn or (tara_btn and len(yesil_maclar) >= 2):
             if len(yesil_maclar) >= 2:
                 sirali_yesiller = sorted(yesil_maclar, key=lambda x: x["guven_raw"], reverse=True)
@@ -524,7 +518,6 @@ with tab2:
             else:
                 st.warning("⚠️ Kombine için bültende en az 2 adet oynanabilir (yeşil) maç bulunmalıdır.")
 
-        # Tablo Çıktıları
         st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
             df_gosterim = pd.DataFrame(yesil_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
