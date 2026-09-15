@@ -213,7 +213,7 @@ TAKIM_PROFILLERI = {
     "slavia prag": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.05},
     "shakhtar donetsk": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.10},
     "aek atina": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.20},       # Eklendi
-    "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20}  # Eklendi
+    "panathinaikos": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},  # Eklendi
 
     #Yeni eklenen takımlar
     "elche": {"hucum": 1.10, "savunma": 1.30, "seviye": 0.85},
