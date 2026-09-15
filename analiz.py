@@ -95,7 +95,7 @@ TAKIM_PROFILLERI = {
     "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.80},
     "adana demirspor": {"hucum": 1.00, "savunma": 1.70, "seviye": 0.70},
 
-    # ==================== YENİ EKLENENLER (Sunderland, Olympiacos, Jagiellonia, AZ Alkmaar, Anderlecht, Çorum) ====================
+    # ==================== YENİ EKLENENLER ====================
     "sunderland": {"hucum": 1.55, "savunma": 1.15, "seviye": 1.05},
     "olympiacos": {"hucum": 2.05, "savunma": 1.00, "seviye": 1.25},
     "jagiellonia": {"hucum": 1.45, "savunma": 1.25, "seviye": 0.90},
@@ -103,8 +103,6 @@ TAKIM_PROFILLERI = {
     "anderlecht": {"hucum": 1.85, "savunma": 1.15, "seviye": 1.20},
     "corum fk": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
     "corum": {"hucum": 1.20, "savunma": 1.25, "seviye": 0.75},
-
-    # ==================== ÖNCEKİ EKLEMELER (Benfica, Levante, Sturm Graz, Santander, Celje) ====================
     "benfica": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.35},
     "levante": {"hucum": 1.30, "savunma": 1.25, "seviye": 0.90},
     "sturm graz": {"hucum": 1.65, "savunma": 1.15, "seviye": 1.05},
@@ -511,7 +509,7 @@ with tab1:
             st.dataframe(df_matrix, use_container_width=True)
 
 with tab2:
-    st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik kombine al:")
+    st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik 3'lü kombine al:")
     ornek_bulten = (
         ""
     )
@@ -521,7 +519,7 @@ with tab2:
     with c_b1:
         tara_btn = st.button("🔥 Bülteni Tara", use_container_width=True)
     with c_b2:
-        kombine_btn = st.button("🎯 Günün Banko Kombinesi", use_container_width=True)
+        kombine_btn = st.button("🎯 Günün 3'lü Banko Kombinesi", use_container_width=True)
 
     if tara_btn or kombine_btn:
         satirlar = bulten_metni.strip().split("\n")
@@ -556,27 +554,28 @@ with tab2:
 
         st.divider()
 
+        # 3 MAÇLIK KOMBİNE MANTIĞI
         if kombine_btn or (tara_btn and len(yesil_maclar) >= 3):
             if len(yesil_maclar) >= 3:
                 sirali_yesiller = sorted(yesil_maclar, key=lambda x: x["guven_raw"], reverse=True)
                 secilenler = sirali_yesiller[:3]
-                toplam_guven = (secilenler[0]["guven_raw"] / 100) * (secilenler[1]["guven_raw"] / 100) * 100
+                toplam_guven = (secilenler[0]["guven_raw"] / 100) * (secilenler[1]["guven_raw"] / 100) * (secilenler[2]["guven_raw"] / 100) * 100
 
                 st.markdown("### 🎫 GÜNÜN 3'LÜ BANKO KOMBİNESİ")
                 st.markdown(f"""
                 <div class="kombine-box">
-                    <h4 style="margin:0; color:#2ecc71;">⚡ Modelin Seçtiği İdeal Kupon</h4>
+                    <h4 style="margin:0; color:#2ecc71;">⚡ Modelin Seçtiği 3'lü İdeal Kupon</h4>
                     <p style="font-size:0.9rem; opacity:0.85; margin-bottom:10px;">En yüksek olasılıklı ve riski en düşük 3 maç birleştirildi.</p>
                     <hr style="border:0.5px solid rgba(255,255,255,0.2); margin:8px 0;">
                     <b>1. Maç:</b> {secilenler[0]['Maç']} ➔ <b>{secilenler[0]['aksiyon_raw']}</b> (%{secilenler[0]['guven_raw']:.1f})<br>
-                    <b>2. Maç:</b> {secilenler[1]['Maç']} ➔ <b>{secilenler[1]['aksiyon_raw']}</b> (%{secilenler[1]['guven_raw']:.1f})
+                    <b>2. Maç:</b> {secilenler[1]['Maç']} ➔ <b>{secilenler[1]['aksiyon_raw']}</b> (%{secilenler[1]['guven_raw']:.1f})<br>
                     <b>3. Maç:</b> {secilenler[2]['Maç']} ➔ <b>{secilenler[2]['aksiyon_raw']}</b> (%{secilenler[2]['guven_raw']:.1f})
                     <hr style="border:0.5px solid rgba(255,255,255,0.2); margin:8px 0;">
                     <b>Ortak Olasılık Başarısı:</b> %{toplam_guven:.1f}
                 </div>
                 """, unsafe_allow_html=True)
             else:
-                st.warning("⚠️ Kombine için bültende en az 3 adet oynanabilir (yeşil) maç bulunmalıdır.")
+                st.warning("⚠️ 3'lü kombine için bültende en az 3 adet oynanabilir (yeşil) maç bulunmalıdır.")
 
         st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
