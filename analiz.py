@@ -18,7 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Uyumlu Tema, Tablo ve Saf Simge Buton CSS Ayarları
+# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -140,24 +140,25 @@ else:
     </style>
     """
 
-# Sağ Üst Tema Butonunu Arkası Beyaz ve Kompakt Yapan Özel CSS
-tema_buton_css = """
+# Sadece Sağ Üst Tema Butonunu Hedefleyen Güvenli CSS
+tema_ozel_css = """
 <style>
-    div[data-testid="column"]:nth-of-type(2) div.stButton > button {
-        background-color: #FFFFFF !important;
-        color: #000000 !important;
-        border: 1px solid #CCCCCC !important;
+    /* Diğer Hiçbir Butona Dokunmadan Sadece Tema Butonunu Şekillendirme */
+    div.tema-ozel-kapsayici button {
+        background-color: #1F242D !important;
+        color: #FAFAFA !important;
+        border: 1px solid #30333D !important;
         border-radius: 8px !important;
-        width: 44px !important;
+        width: 50px !important;
         height: 38px !important;
         padding: 0px !important;
         margin-left: auto !important;
         display: block !important;
     }
-    div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {
-        background-color: #F0F2F6 !important;
-        border-color: #999999 !important;
-        color: #000000 !important;
+    div.tema-ozel-kapsayici button:hover {
+        background-color: #1b4d3e !important;
+        border-color: #2ecc71 !important;
+        color: #2ecc71 !important;
     }
 </style>
 """
@@ -165,7 +166,7 @@ tema_buton_css = """
 # Genel Mobil ve Arayüz Uyumlu CSS
 st.markdown(f"""
 {tema_css}
-{tema_buton_css}
+{tema_ozel_css}
 <style>
     .block-container {{
         padding-top: 2.0rem !important;
@@ -198,6 +199,11 @@ st.markdown(f"""
     }}
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
+    }}
+    div.stButton > button {{
+        height: 3em;
+        font-size: 1rem;
+        font-weight: bold;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -578,17 +584,17 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Gerçek Streamlit Butonu (Mevcut Sekmede Anında Tema Değişimi, Arka Planı Beyaz Simge)
+# Üst Başlık ve Sağ Üst Gerçek Streamlit Butonu (Arka Planı Beyaz, Kompakt, Mevcut Sekmede Çalışır)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        if st.button("☀️", key="tema_degis_buton", use_container_width=True):
+        if st.button("☀️", key="tema_degis_buton", use_container_width=False):
             st.session_state.tema = "Beyaz"
             st.rerun()
     else:
-        if st.button("🌙", key="tema_degis_buton", use_container_width=True):
+        if st.button("🌙", key="tema_degis_buton", use_container_width=False):
             st.session_state.tema = "Siyah"
             st.rerun()
 
@@ -744,7 +750,7 @@ else:
     kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
 
 with tab3:
-    st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
+    st.markdown("### 📊 Günlük Kasa ve Kâr/Zarار Takibi")
     st.caption("Buradan finansal yatırımlarını ve kasa durumunu takip edebilirsin.")
 
     # Otomatik bugünün tarihi (GG/AA/YYYY formatında)
