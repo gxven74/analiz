@@ -18,7 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Üst Header ve Tüm Alanları Siyah Yapan Gelişmiş Tema CSS Ayarları
+# Kusursuz Uyumlu Tema, Tablo ve Kompakt Tema Butonu CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -38,6 +38,21 @@ if st.session_state.tema == "Beyaz":
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
         }
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFFFFF;
+            color: #212529;
+            font-size: 0.9rem;
+        }
+        .custom-table th, .custom-table td {
+            border: 1px solid #CED4DA;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        .custom-table th {
+            background-color: #E9ECEF;
+        }
     </style>
     """
 else:
@@ -47,7 +62,6 @@ else:
             background-color: #0E1117 !important;
             color: #FAFAFA !important;
         }
-        /* Streamlit'in en üstteki o beyaz header şeridini tamamen siyah yapma */
         header[data-testid="stHeader"] {
             background-color: #0E1117 !important;
         }
@@ -119,7 +133,23 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
-        /* Tüm Butonlar Koyu Temada Şık Antrasit */
+        /* Sağ Üst Tema Butonu (Antrasit Uyumlu, Dikey Uzun & Enine Kısa) */
+        div[data-testid="column"]:nth-of-type(2) div.stButton > button {
+            background-color: #1F242D !important;
+            color: #FAFAFA !important;
+            border: 1px solid #30333D !important;
+            width: 55px !important;
+            height: 48px !important;
+            border-radius: 10px !important;
+            margin-left: auto !important;
+            display: block !important;
+        }
+        div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {
+            background-color: #1b4d3e !important;
+            border-color: #2ecc71 !important;
+            color: #2ecc71 !important;
+        }
+        /* Diğer Butonlar */
         div.stButton > button {
             background-color: #1F242D !important;
             color: #FAFAFA !important;
@@ -183,11 +213,6 @@ st.markdown(f"""
     }}
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
-    }}
-    div.stButton > button {{
-        height: 2.5em;
-        font-size: 1rem;
-        font-weight: bold;
     }}
 </style>
 """, unsafe_allow_html=True)
