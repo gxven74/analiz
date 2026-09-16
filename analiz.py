@@ -17,7 +17,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Buton, Tarih ve Tema Uyumlu CSS Ayarları
+# Kusursuz Buton ve Tema Uyumlu CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -51,7 +51,7 @@ else:
             border: 1px solid #30333D !important;
             color: #FAFAFA !important;
         }
-        /* Selectbox, DateInput, Input Alanları ve Takvim Kutusunun Kendisi */
+        /* Selectbox ve Tüm Input Alanları Tamamen Antrasit */
         div[data-baseweb="select"] > div {
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
@@ -61,10 +61,6 @@ else:
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
             border-color: #30333D !important;
-        }
-        div[data-baseweb="calendar"] {
-            background-color: #1A1C23 !important;
-            color: #FAFAFA !important;
         }
         input {
             background-color: #1A1C23 !important;
@@ -697,7 +693,7 @@ with tab3:
     with st.form("kasa_form", clear_on_submit=True):
         col_f1, col_f2, col_f3 = st.columns(3)
         with col_f1:
-            tarih_input = st.date_input("📅 Tarih")
+            tarih_input = st.text_input("📅 Tarih (Örn: 2026-09-16)", value="2026-09-16")
         with col_f2:
             aciklama_input = st.text_input("📝 İşlem Açıklaması", value="Günün Kombinesi")
         with col_f3:
@@ -790,7 +786,7 @@ with tab4:
     with st.form("istatistik_form", clear_on_submit=True):
         col_i1, col_i2 = st.columns(2)
         with col_i1:
-            ist_tarih = st.date_input("📅 Tarih", key="ist_tarih")
+            ist_tarih = st.text_input("📅 Tarih (Örn: 2026-09-16)", value="2026-09-16", key="ist_tarih_input")
         with col_i2:
             tahmin_turu = st.selectbox("🎯 Tahmin / Bahis Türü", [
                 "MS 1", "MS 2", "Maç Sonu Beraberlik (0)", 
