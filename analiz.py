@@ -25,7 +25,7 @@ if "tema_degis" in query_params:
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
+# Kusursuz Uyumlu Tema, Tablo ve Antrasit Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -44,21 +44,6 @@ if st.session_state.tema == "Beyaz":
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
-        }
-        .custom-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #FFFFFF;
-            color: #212529;
-            font-size: 0.9rem;
-        }
-        .custom-table th, .custom-table td {
-            border: 1px solid #CED4DA;
-            padding: 8px 12px;
-            text-align: center;
-        }
-        .custom-table th {
-            background-color: #E9ECEF;
         }
     </style>
     """
@@ -117,28 +102,16 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* Özel HTML Tabloları */
-        .custom-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #161922;
-            color: #FAFAFA;
-            font-size: 0.9rem;
-            border-radius: 8px;
-            overflow: hidden;
+        /* 🎯 st.dataframe (Tabloları) Koyu Antrasit Yapan Kusursuz CSS */
+        [data-testid="stDataFrame"] {
+            background-color: #161922 !important;
         }
-        .custom-table th, .custom-table td {
-            border: 1px solid #30333D;
-            padding: 10px 12px;
-            text-align: center;
+        [data-testid="stDataFrame"] div, [data-testid="stDataFrame"] span, [data-testid="stDataFrame"] td, [data-testid="stDataFrame"] th {
+            background-color: #161922 !important;
+            color: #FAFAFA !important;
         }
-        .custom-table th {
-            background-color: #1F242D;
-            color: #2ecc71;
-            font-weight: bold;
-        }
-        .custom-table tr:nth-child(even) {
-            background-color: #1A1C23;
+        [data-testid="stDataFrame"] [data-testid="baseToolbar"] {
+            background-color: #1A1C23 !important;
         }
         /* Diğer Normal Butonlar */
         div.stButton > button {
@@ -245,6 +218,7 @@ TAKIM_PROFILLERI = {
     "union st.g": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.15},
     "torreense": {"hucum": 1.15, "savunma": 1.35, "seviye": 0.80},
     "norwich": {"hucum": 1.35, "savunma": 1.45, "seviye": 0.90},
+    "manchester city": {"hucum": 2.25, "savunma": 0.95, "seviye": 1.45},
 
     # ==================== DİĞER TAKIMLAR ====================
     "sunderland": {"hucum": 1.55, "savunma": 1.15, "seviye": 1.05},
@@ -438,6 +412,7 @@ TAKMA_ADLAR = {
     "keciorengucu": "keciorengucu", "igdir": "igdir fk",
     "erokspor": "esenler erokspor", "urfaspor": "sanliurfaspor",
     "malatya": "yeni malatyaspor",
+    "city": "manchester city", "manc": "manchester city", "manchester city": "manchester city", "mancity": "manchester city",
     "united": "manchester united", "manu": "manchester united", "manchester united": "manchester united", "man u": "manchester united",
     "pool": "liverpool", "villa": "aston villa", "palace": "crystal palace",
     "spurs": "tottenham", "newcastle united": "newcastle",
@@ -918,7 +893,7 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Açıklama / Tarih)", value="", key="ist_arama_input")
+        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
             filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
