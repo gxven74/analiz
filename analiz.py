@@ -18,7 +18,14 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Uyumlu Tema, Tablo ve Kompakt Simge Butonu CSS Ayarları
+# URL parametresi veya tıklama ile tema değişimi için kontrol
+query_params = st.query_params
+if "tema_degis" in query_params:
+    yeni_t = query_params["tema_degis"]
+    if yeni_t in ["Siyah", "Beyaz"]:
+        st.session_state.tema = yeni_t
+
+# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -132,22 +139,6 @@ else:
         }
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
-        }
-        /* Sağ Üst Tema Butonu (İnce, Uzun, Üzerine Gelince Bloklaşma Yok) */
-        div[data-testid="column"]:nth-of-type(2) div.stButton > button {
-            background-color: #1F242D !important;
-            color: #FAFAFA !important;
-            border: 1px solid #30333D !important;
-            width: 38px !important;
-            height: 44px !important;
-            border-radius: 8px !important;
-            margin-left: auto !important;
-            display: block !important;
-        }
-        div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {
-            background-color: #1F242D !important;
-            border-color: #2ecc71 !important;
-            color: #2ecc71 !important;
         }
         /* Diğer Butonlar */
         div.stButton > button {
@@ -593,17 +584,17 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Sadece Simge (🌙 / ☀️) Tema Butonu
+# Üst Başlık ve Sağ Üst Kompakt HTML Simge Butonu (Bloklaşma Yok)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        if st.button("☀️", use_container_width=True, help="Beyaz Temaya Geç"):
+        if st.button("☀️", use_container_width=False, help="Beyaz Temaya Geç"):
             st.session_state.tema = "Beyaz"
             st.rerun()
     else:
-        if st.button("🌙", use_container_width=True, help="Siyah Temaya Geç"):
+        if st.button("🌙", use_container_width=False, help="Siyah Temaya Geç"):
             st.session_state.tema = "Siyah"
             st.rerun()
 
