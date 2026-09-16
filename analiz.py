@@ -13,17 +13,55 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Mobil uyumlu ve Sekmeleri Uçtan Uca Eşit Yayan (Genişletilmiş) CSS
-st.markdown("""
+# Tema Durumunu Session State'te Tutma
+if "tema" not in st.session_state:
+    st.session_state.tema = "Siyah"
+
+# Dinamik Tema CSS Ayarları
+if st.session_state.tema == "Beyaz":
+    tema_css = """
+    <style>
+        .stApp {
+            background-color: #F8F9FA !important;
+            color: #212529 !important;
+        }
+        div[data-testid="stMetric"] {
+            background-color: #FFFFFF !important;
+            border: 1px solid #CED4DA !important;
+            color: #212529 !important;
+        }
+        .kombine-box {
+            background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
+            color: white !important;
+        }
+    </style>
+    """
+else:
+    tema_css = """
+    <style>
+        div[data-testid="stMetric"] {
+            background-color: rgba(128, 128, 128, 0.08);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+        }
+        .kombine-box {
+            background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%);
+            color: white;
+        }
+    </style>
+    """
+
+# Genel Mobil ve Arayüz Uyumlu CSS
+st.markdown(f"""
+{tema_css}
 <style>
-    .block-container {
-        padding-top: 2.5rem !important;
+    .block-container {{
+        padding-top: 2.0rem !important;
         padding-bottom: 2rem !important;
         padding-left: 1.2rem !important;
         padding-right: 1.2rem !important;
-    }
+    }}
     /* 4 Sekmeyi Yatayda Tam Genişliğe Eşit Yayma ve Boşluklandırma */
-    div[data-baseweb="tab-list"] {
+    div[data-baseweb="tab-list"] {{
         display: flex !important;
         width: 100% !important;
         justify-content: space-around !important;
@@ -31,44 +69,28 @@ st.markdown("""
         padding: 8px 10px;
         border-radius: 12px;
         margin-bottom: 20px;
-    }
-    div[data-baseweb="tab"] {
+    }}
+    div[data-baseweb="tab"] {{
         flex: 1 !important;
         text-align: center !important;
         justify-content: center !important;
         font-weight: 600;
         padding: 12px 10px;
         margin: 0 5px;
-        background-color: rgba(255, 255, 255, 0.03);
         border-radius: 8px;
-    }
-    div[data-testid="stMetric"] {
-        background-color: rgba(128, 128, 128, 0.08);
-        border: 1px solid rgba(128, 128, 128, 0.2);
-        padding: 8px 12px;
-        border-radius: 8px;
-        margin-bottom: 6px;
-    }
-    div[data-testid="stMetricLabel"] p {
+    }}
+    div[data-testid="stMetricLabel"] p {{
         font-size: 0.85rem !important;
         font-weight: 600;
-    }
-    div[data-testid="stMetricValue"] div {
+    }}
+    div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
-    }
-    div.stButton > button {
+    }}
+    div.stButton > button {{
         height: 3em;
         font-size: 1rem;
         font-weight: bold;
-    }
-    .kombine-box {
-        background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%);
-        border: 1px solid #2ecc71;
-        border-radius: 12px;
-        padding: 14px;
-        margin-bottom: 15px;
-        color: white;
-    }
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -448,7 +470,19 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
+# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu
+col_baslik, col_tema = st.columns([4, 1])
+with col_baslik:
+    st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
+with col_tema:
+    if st.session_state.tema == "Siyah":
+        if st.button("☀️ Beyaz Tema", use_container_width=True):
+            st.session_state.tema = "Beyaz"
+            st.rerun()
+    else:
+        if st.button("🌙 Siyah Tema", use_container_width=True):
+            st.session_state.tema = "Siyah"
+            st.rerun()
 
 # ================= SEKMELER (TABS) =================
 tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar", "📊 İstatistikler"])
@@ -650,7 +684,6 @@ with tab3:
 
         st.subheader("📋 Kasa Geçmişi ve İşlem Silme")
 
-        # Kasa Arama Çubuğu
         kasa_arama = st.text_input("🔍 Kasa Geçmişinde Ara (Açıklama / Tarih)", value="", key="kasa_arama_input")
         filtrelenmis_kasa = kasa_df
         if kasa_arama.strip():
@@ -753,7 +786,6 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        # İstatistik Arama Çubuğu
         ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
