@@ -18,14 +18,14 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# URL parametresi veya tıklama ile tema değişimi için kontrol
+# URL parametresi ile tema değişimi kontrolü
 query_params = st.query_params
 if "tema_degis" in query_params:
     yeni_t = query_params["tema_degis"]
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
+# Kusursuz Uyumlu Tema, Tablo ve Saf HTML/CSS Tema Simgesi Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -204,6 +204,29 @@ st.markdown(f"""
     }}
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
+    }}
+    /* Sağ Üst Saf HTML Tema Değiştirme Simgesi Tasarımı */
+    .tema-simge-container {{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+        padding-top: 5px;
+    }}
+    .tema-btn {{
+        background-color: #1F242D;
+        border: 1px solid #30333D;
+        color: #FAFAFA;
+        font-size: 1.2rem;
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.2s;
+    }}
+    .tema-btn:hover {{
+        border-color: #2ecc71;
+        background-color: #1b4d3e;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -584,19 +607,23 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Kompakt HTML Simge Butonu (Bloklaşma Yok)
+# Üst Başlık ve Sağ Üst Saf HTML Simgesi (Beyaz Arka Plan Yok, Sıfır Blok)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        if st.button("☀️", use_container_width=False, help="Beyaz Temaya Geç"):
-            st.session_state.tema = "Beyaz"
-            st.rerun()
+        yeni_tema_hedef = "Beyaz"
+        ikon = "☀️"
     else:
-        if st.button("🌙", use_container_width=False, help="Siyah Temaya Geç"):
-            st.session_state.tema = "Siyah"
-            st.rerun()
+        yeni_tema_hedef = "Siyah"
+        ikon = "🌙"
+    
+    st.markdown(f"""
+    <div class="tema-simge-container">
+        <a href="?tema_degis={yeni_tema_hedef}" class="tema-btn">{ikon}</a>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ================= SEKMELER (TABS) =================
 tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar", "📊 İstatistikler"])
