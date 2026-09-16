@@ -17,7 +17,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Buton ve Tema Uyumlu CSS Ayarları
+# Kusursuz Buton, Tarih ve Tema Uyumlu CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -51,8 +51,13 @@ else:
             border: 1px solid #30333D !important;
             color: #FAFAFA !important;
         }
-        /* Selectbox ve Input Alanları */
+        /* Selectbox, DateInput ve Input Alanları */
         div[data-baseweb="select"] > div {
+            background-color: #1A1C23 !important;
+            color: #FAFAFA !important;
+            border-color: #30333D !important;
+        }
+        div[data-baseweb="input"] > div {
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
             border-color: #30333D !important;
