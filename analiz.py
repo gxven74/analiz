@@ -51,7 +51,7 @@ else:
             border: 1px solid #30333D !important;
             color: #FAFAFA !important;
         }
-        /* Selectbox, DateInput ve Input Alanları */
+        /* Selectbox, DateInput, Input Alanları ve Takvim Kutusunun Kendisi */
         div[data-baseweb="select"] > div {
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
@@ -61,6 +61,10 @@ else:
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
             border-color: #30333D !important;
+        }
+        div[data-baseweb="calendar"] {
+            background-color: #1A1C23 !important;
+            color: #FAFAFA !important;
         }
         input {
             background-color: #1A1C23 !important;
