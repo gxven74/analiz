@@ -169,7 +169,7 @@ else:
     </style>
     """
 
-# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Tema Butonu Mini & Kompakt)
+# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Tema Butonunun Uzun Kutulaşması Düzeltildi)
 st.markdown(f"""
 {tema_css}
 <style>
@@ -210,19 +210,16 @@ st.markdown(f"""
         font-size: 1rem;
         font-weight: bold;
     }}
-    /* Sağ Üst Tema Butonunu İyice Küçültme ve Sağa Yaslama */
+    /* Sağ Üst Tema Butonunun Genişleme Hatasının Kesin Çözümü */
     div[data-testid="column"]:nth-of-type(2) {{
         display: flex !important;
         justify-content: flex-end !important;
         align-items: center !important;
     }}
     div[data-testid="column"]:nth-of-type(2) div.stButton > button {{
-        width: 42px !important;
-        min-width: 42px !important;
-        height: 38px !important;
-        padding: 0px !important;
-        margin: 0 !important;
-        font-size: 1.2rem !important;
+        width: auto !important;
+        min-width: unset !important;
+        flex-grow: 0 !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -615,17 +612,17 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu
+# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu (Genişleme Hatasız Saf Simge)
 col_baslik, col_tema = st.columns([4, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        if st.button("☀️ Beyaz Tema", use_container_width=True):
+        if st.button("☀️", key="tema_degis_buton_ A", use_container_width=False):
             st.session_state.tema = "Beyaz"
             st.rerun()
     else:
-        if st.button("🌙 Siyah Tema", use_container_width=True):
+        if st.button("🌙", key="tema_degis_buton_B", use_container_width=False):
             st.session_state.tema = "Siyah"
             st.rerun()
 
@@ -938,7 +935,7 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
+        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Açıklama / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
             filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
