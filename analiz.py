@@ -18,7 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Buton, Tablo ve Tema Uyumlu CSS Ayarları
+# Kusursuz Tablo, Hücre Yazıları ve Tema Uyumlu CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -71,13 +71,17 @@ else:
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
         }
-        /* st.dataframe ve Tabloların Koyu Temaya Uyarlanması */
+        /* st.dataframe ve Tabloların Koyu Temaya Kusursuz Uyarlanması */
         [data-testid="stDataFrame"] {
             background-color: #161922 !important;
         }
-        [data-testid="stDataFrame"] div {
+        [data-testid="stDataFrame"] div, [data-testid="stDataFrame"] span, [data-testid="stDataFrame"] td, [data-testid="stDataFrame"] th {
             background-color: #161922 !important;
             color: #FAFAFA !important;
+        }
+        /* Tablo Üst Araç Çubuğu (Toolbar) */
+        [data-testid="stDataFrame"] [data-testid="baseToolbar"] {
+            background-color: #1A1C23 !important;
         }
         /* Tüm Butonlar Koyu Temada Şık Antrasit */
         div.stButton > button {
