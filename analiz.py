@@ -4,6 +4,7 @@ import pandas as pd
 from scipy.stats import poisson
 import difflib
 import os
+from datetime import datetime
 
 # Mobil öncelikli sayfa ayarı ve Sol Menü Kapalı / Gizli
 st.set_page_config(
@@ -17,7 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Buton ve Tema Uyumlu CSS Ayarları
+# Kusursuz Buton, Tablo ve Tema Uyumlu CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -51,7 +52,7 @@ else:
             border: 1px solid #30333D !important;
             color: #FAFAFA !important;
         }
-        /* Selectbox ve Tüm Input Alanları Tamamen Antrasit */
+        /* Selectbox, Input Alanları */
         div[data-baseweb="select"] > div {
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
@@ -68,6 +69,14 @@ else:
         }
         textarea {
             background-color: #1A1C23 !important;
+            color: #FAFAFA !important;
+        }
+        /* st.dataframe ve Tabloların Koyu Temaya Uyarlanması */
+        [data-testid="stDataFrame"] {
+            background-color: #161922 !important;
+        }
+        [data-testid="stDataFrame"] div {
+            background-color: #161922 !important;
             color: #FAFAFA !important;
         }
         /* Tüm Butonlar Koyu Temada Şık Antrasit */
@@ -424,7 +433,7 @@ TAKMA_ADLAR = {
     "santander": "santander", "racing santander": "santander",
     "celje": "celje",
     "sunderland": "sunderland",
-    "olympiacos": "olympiacos", "Olympiakos": "olympiacos",
+    "olympiacos": "olympiacos", "Olympiacos": "olympiacos",
     "jagiellonia": "jagiellonia",
     "az alkmaar": "az alkmaar", "alkmaar": "az alkmaar",
     "anderlecht": "anderlecht",
@@ -690,10 +699,13 @@ with tab3:
     st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
     st.caption("Buradan finansal yatırımlarını ve kasa durumunu takip edebilirsin.")
 
+    # Otomatik bugünün tarihi (GG/AA/YYYY formatında)
+    bugun_tarih = datetime.now().strftime("%d/%m/%Y")
+
     with st.form("kasa_form", clear_on_submit=True):
         col_f1, col_f2, col_f3 = st.columns(3)
         with col_f1:
-            tarih_input = st.text_input("📅 Tarih", value="16/09/2026")
+            tarih_input = st.text_input("📅 Tarih", value=bugun_tarih)
         with col_f2:
             aciklama_input = st.text_input("📝 İşlem Açıklaması", value="Günün Kombinesi")
         with col_f3:
@@ -786,7 +798,7 @@ with tab4:
     with st.form("istatistik_form", clear_on_submit=True):
         col_i1, col_i2 = st.columns(2)
         with col_i1:
-            ist_tarih = st.text_input("📅 Tarih", value="16/09/2026", key="ist_tarih_input")
+            ist_tarih = st.text_input("📅 Tarih", value=bugun_tarih, key="ist_tarih_input")
         with col_i2:
             tahmin_turu = st.selectbox("🎯 Tahmin / Bahis Türü", [
                 "MS 1", "MS 2", "Maç Sonu Beraberlik (0)", 
