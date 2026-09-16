@@ -25,7 +25,7 @@ if "tema_degis" in query_params:
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema, Tablo ve Antrasit Tablo CSS Ayarları
+# Kusursuz Uyumlu Tema, Tablo ve Görünür Yazı CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -102,14 +102,18 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* 🎯 st.dataframe (Tabloları) Koyu Antrasit Yapan Kusursuz CSS */
+        /* 🎯 st.dataframe Tablolarını ve İçindeki Yazıları Kesin Görünür Yapan CSS */
         [data-testid="stDataFrame"] {
             background-color: #161922 !important;
         }
-        [data-testid="stDataFrame"] div, [data-testid="stDataFrame"] span, [data-testid="stDataFrame"] td, [data-testid="stDataFrame"] th {
+        [data-testid="stDataFrame"] div, [data-testid="stDataFrame"] span, [data-testid="stDataFrame"] td, [data-testid="stDataFrame"] th, [data-testid="stDataFrame"] p {
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
+        /* Tablo Hücreleri İçindeki Grid Metinleri */
+        [data-testid="stDataFrame"] [data-cell-type] {{
+            color: #FAFAFA !important;
+        }}
         [data-testid="stDataFrame"] [data-testid="baseToolbar"] {
             background-color: #1A1C23 !important;
         }
@@ -412,7 +416,7 @@ TAKMA_ADLAR = {
     "keciorengucu": "keciorengucu", "igdir": "igdir fk",
     "erokspor": "esenler erokspor", "urfaspor": "sanliurfaspor",
     "malatya": "yeni malatyaspor",
-    "city": "manchester city", "manc": "manchester city", "manchester city": "manchester city", "mancity": "manchester city",
+    "city": "manchester city", "manc": "manchester city", "mancity": "manchester city", "man city": "manchester city",
     "united": "manchester united", "manu": "manchester united", "manchester united": "manchester united", "man u": "manchester united",
     "pool": "liverpool", "villa": "aston villa", "palace": "crystal palace",
     "spurs": "tottenham", "newcastle united": "newcastle",
