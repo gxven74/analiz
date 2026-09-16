@@ -25,7 +25,7 @@ if "tema_degis" in query_params:
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
+# Kusursuz Uyumlu Tema ve Garantili HTML Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -117,16 +117,28 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* 🎯 st.dataframe Tablolarını Antrasit Yapan Kusursuz CSS */
-        [data-testid="stDataFrame"] {
-            background-color: #161922 !important;
+        /* Garantili Özel HTML Tabloları (Yazılar Asla Kaybolmaz, Antrasit) */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #161922;
+            color: #FAFAFA;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            overflow: hidden;
         }
-        [data-testid="stDataFrame"] div, [data-testid="stDataFrame"] span, [data-testid="stDataFrame"] td, [data-testid="stDataFrame"] th {
-            background-color: #161922 !important;
-            color: #FAFAFA !important;
+        .custom-table th, .custom-table td {
+            border: 1px solid #30333D;
+            padding: 10px 12px;
+            text-align: center;
         }
-        [data-testid="stDataFrame"] [data-testid="baseToolbar"] {
-            background-color: #1A1C23 !important;
+        .custom-table th {
+            background-color: #1F242D;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .custom-table tr:nth-child(even) {
+            background-color: #1A1C23;
         }
         /* Diğer Normal Butonlar */
         div.stButton > button {
