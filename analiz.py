@@ -18,13 +18,6 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# URL parametresi ile tema değişimi kontrolü (Mevcut sekmede anında yenileme)
-query_params = st.query_params
-if "tema_degis" in query_params:
-    yeni_t = query_params["tema_degis"]
-    if yeni_t in ["Siyah", "Beyaz"]:
-        st.session_state.tema = yeni_t
-
 # Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
@@ -519,6 +512,8 @@ def takim_bul(girdi):
     return None
 
 def mac_hesapla(ev_key, dep_key):
+    if ev_key not in TAKIM_PROFILLERI or dep_key not in TAKIM_PROFILLERI:
+        return None
     ep = TAKIM_PROFILLERI[ev_key]
     dp = TAKIM_PROFILLERI[dep_key]
 
@@ -628,49 +623,50 @@ with tab1:
 
     if st.button("🚀 Analiz Et", use_container_width=True):
         res = mac_hesapla(ev, dep)
-        matrix = res["matrix"]
+        if res:
+            matrix = res["matrix"]
 
-        st.divider()
-        
-        if res["durum"] == "YESIL":
-            st.success(f"🎯 **EN OLASI SONUÇ / TAHMİN:** {res['aksiyon']} (%{res['guven_orani']:.1f})")
-        else:
-            st.warning("⚠️ **EN OLASI SONUÇ / TAHMİN:** PAS GEÇ / BELİRSİZ MAÇ")
+            st.divider()
+            
+            if res["durum"] == "YESIL":
+                st.success(f"🎯 **EN OLASI SONUÇ / TAHMİN:** {res['aksiyon']} (%{res['guven_orani']:.1f})")
+            else:
+                st.warning("⚠️ **EN OLASI SONUÇ / TAHMİN:** PAS GEÇ / BELİRSİZ MAÇ")
 
-        skorlar = {f"{h}-{a}": matrix[h, a] for h in range(6) for a in range(6)}
-        sirali = sorted(skorlar.items(), key=lambda x: x[1], reverse=True)[:3]
+            skorlar = {f"{h}-{a}": matrix[h, a] for h in range(6) for a in range(6)}
+            sirali = sorted(skorlar.items(), key=lambda x: x[1], reverse=True)[:3]
 
-        st.caption("🎯 En Olası Skorlar")
-        s1, s2, s3 = st.columns(3)
-        s1.metric("1. Skor", sirali[0][0], f"%{sirali[0][1]:.1f}")
-        s2.metric("2. Skor", sirali[1][0], f"%{sirali[1][1]:.1f}")
-        s3.metric("3. Skor", sirali[2][0], f"%{sirali[2][1]:.1f}")
+            st.caption("🎯 En Olası Skorlar")
+            s1, s2, s3 = st.columns(3)
+            s1.metric("1. Skor", sirali[0][0], f"%{sirali[0][1]:.1f}")
+            s2.metric("2. Skor", sirali[1][0], f"%{sirali[1][1]:.1f}")
+            s3.metric("3. Skor", sirali[2][0], f"%{sirali[2][1]:.1f}")
 
-        st.caption("🏆 Maç Sonu & Çifte Şans")
-        t1, t2 = st.columns(2)
-        t1.metric(f"MS 1 ({ev[:7].title()}..)", f"%{res['p_ev']:.1f}")
-        t2.metric(f"MS 2 ({dep[:7].title()}..)", f"%{res['p_dep']:.1f}")
-        
-        t3, t4 = st.columns(2)
-        t3.metric("1X Çifte Şans", f"%{res['p_1x']:.1f}")
-        t4.metric("X2 Çifte Şans", f"%{res['p_x2']:.1f}")
+            st.caption("🏆 Maç Sonu & Çifte Şans")
+            t1, t2 = st.columns(2)
+            t1.metric(f"MS 1 ({ev[:7].title()}..)", f"%{res['p_ev']:.1f}")
+            t2.metric(f"MS 2 ({dep[:7].title()}..)", f"%{res['p_dep']:.1f}")
+            
+            t3, t4 = st.columns(2)
+            t3.metric("1X Çifte Şans", f"%{res['p_1x']:.1f}")
+            t4.metric("X2 Çifte Şans", f"%{res['p_x2']:.1f}")
 
-        st.caption("⚽ Gol ve KG Baremleri")
-        g1, g2 = st.columns(2)
-        g1.metric("1.5 ÜST", f"%{res['p_15_ust']:.1f}")
-        g2.metric("2.5 ÜST", f"%{res['p_25_ust']:.1f}")
+            st.caption("⚽ Gol ve KG Baremleri")
+            g1, g2 = st.columns(2)
+            g1.metric("1.5 ÜST", f"%{res['p_15_ust']:.1f}")
+            g2.metric("2.5 ÜST", f"%{res['p_25_ust']:.1f}")
 
-        k1, k2 = st.columns(2)
-        k1.metric("KG VAR", f"%{res['p_kg_var']:.1f}")
-        k2.metric("KG YOK", f"%{res['p_kg_yok']:.1f}")
+            k1, k2 = st.columns(2)
+            k1.metric("KG VAR", f"%{res['p_kg_var']:.1f}")
+            k2.metric("KG YOK", f"%{res['p_kg_yok']:.1f}")
 
-        with st.expander("📊 Skor Olasılık Matrisini Gör"):
-            df_matrix = pd.DataFrame(
-                np.round(matrix, 1),
-                index=[f"{ev[:4]}. {i}" for i in range(6)],
-                columns=[f"{dep[:4]}. {j}" for j in range(6)]
-            )
-            st.dataframe(df_matrix, use_container_width=True)
+            with st.expander("📊 Skor Olasılık Matrisini Gör"):
+                df_matrix = pd.DataFrame(
+                    np.round(matrix, 1),
+                    index=[f"{ev[:4]}. {i}" for i in range(6)],
+                    columns=[f"{dep[:4]}. {j}" for j in range(6)]
+                )
+                st.dataframe(df_matrix, use_container_width=True)
 
 with tab2:
     st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik 3'lü kombine al:")
@@ -701,6 +697,7 @@ with tab2:
             if not ev_k or not dep_k: continue
 
             sonuc = mac_hesapla(ev_k, dep_k)
+            if not sonuc: continue
             bilgi = {
                 "Maç": f"{ev_k.title()} vs {dep_k.title()}",
                 "Öneri": f"{sonuc['aksiyon']} (%{sonuc['guven_orani']:.0f})" if sonuc["durum"] == "YESIL" else "PAS",
@@ -919,7 +916,7 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
+        ist_arama = st.text_input("🔍 Kasa Geçmişinde Ara (Açıklama / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
             filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
