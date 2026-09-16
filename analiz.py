@@ -18,7 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Expander, Tablo, Buton ve Tema Uyumlu CSS Ayarları
+# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -34,6 +34,21 @@ if st.session_state.tema == "Beyaz":
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
+        }
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFFFFF;
+            color: #212529;
+            font-size: 0.9rem;
+        }
+        .custom-table th, .custom-table td {
+            border: 1px solid #CED4DA;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        .custom-table th {
+            background-color: #E9ECEF;
         }
     </style>
     """
@@ -52,7 +67,7 @@ else:
             border: 1px solid #30333D !important;
             color: #FAFAFA !important;
         }
-        /* Selectbox, Input Alanları */
+        /* Selectbox ve Input Alanları */
         div[data-baseweb="select"] > div {
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
@@ -71,18 +86,7 @@ else:
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
         }
-        /* st.dataframe ve Tabloların Koyu Temaya Kusursuz Uyarlanması */
-        [data-testid="stDataFrame"] {
-            background-color: #161922 !important;
-        }
-        [data-testid="stDataFrame"] div, [data-testid="stDataFrame"] span, [data-testid="stDataFrame"] td, [data-testid="stDataFrame"] th {
-            background-color: #161922 !important;
-            color: #FAFAFA !important;
-        }
-        [data-testid="stDataFrame"] [data-testid="baseToolbar"] {
-            background-color: #1A1C23 !important;
-        }
-        /* Expander (Açılır Kapanır Kısımlar) Kesin Çözüm */
+        /* Expander (Açılır Kapanır Kısımlar) */
         div[data-testid="stExpander"] {
             background-color: #161922 !important;
             border: 1px solid #30333D !important;
@@ -99,6 +103,29 @@ else:
         div[data-testid="stExpander"] div[role="group"] {
             background-color: #161922 !important;
             color: #FAFAFA !important;
+        }
+        /* Özel HTML Tabloları (Yazıları Görünür Kılan Kusursuz Tasarım) */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #161922;
+            color: #FAFAFA;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .custom-table th, .custom-table td {
+            border: 1px solid #30333D;
+            padding: 10px 12px;
+            text-align: center;
+        }
+        .custom-table th {
+            background-color: #1F242D;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .custom-table tr:nth-child(even) {
+            background-color: #1A1C23;
         }
         /* Tüm Butonlar Koyu Temada Şık Antrasit */
         div.stButton > button {
@@ -619,7 +646,9 @@ with tab1:
                 index=[f"{ev[:4]}. {i}" for i in range(6)],
                 columns=[f"{dep[:4]}. {j}" for j in range(6)]
             )
-            st.dataframe(df_matrix, use_container_width=True)
+            # DataFrame yerine garantili özel HTML Tablosu basıyoruz (Yazılar asla kaybolmaz)
+            html_tablo = df_matrix.to_html(classes='custom-table', escape=False)
+            st.markdown(html_tablo, unsafe_allow_html=True)
 
 with tab2:
     st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik 3'lü kombine al:")
@@ -692,14 +721,16 @@ with tab2:
         st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
             df_gosterim = pd.DataFrame(yesil_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
-            st.dataframe(df_gosterim, use_container_width=True, hide_index=True)
+            html_gosterim = df_gosterim.to_html(classes='custom-table', index=False, escape=False)
+            st.markdown(html_gosterim, unsafe_allow_html=True)
         else:
             st.info("Bültende doğrudan eşiği aşan yeşil maç bulunamadı.")
 
         with st.expander(f"🟡 Pas Geçilen / Sarı Maçlar ({len(sari_maclar)})"):
             if sari_maclar:
                 df_sari = pd.DataFrame(sari_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
-                st.dataframe(df_sari, use_container_width=True, hide_index=True)
+                html_sari = df_sari.to_html(classes='custom-table', index=False, escape=False)
+                st.markdown(html_sari, unsafe_allow_html=True)
 
 # ================= TAB 3: KÂR / ZARAR TABLOSU =================
 DOSYA_KASA = "kasa_defteri.csv"
