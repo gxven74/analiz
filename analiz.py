@@ -25,7 +25,7 @@ if "tema_degis" in query_params:
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema, Tablo ve Saf Antrasit Simge CSS Ayarları
+# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -151,7 +151,7 @@ else:
             border-color: #2ecc71 !important;
             color: #2ecc71 !important;
         }
-        /* Form Gönder Butonları (Beyazlık Yok) */
+        /* Form Gönder Butonları */
         div.stFormSubmitButton > button {
             background-color: #1F242D !important;
             color: #FAFAFA !important;
@@ -205,28 +205,26 @@ st.markdown(f"""
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
     }}
-    /* Sağ Üst Saf HTML/CSS Kompakt Tema Simgesi Tasarımı (Sıfır Beyaz Blok) */
-    .tema-simge-kapsayici {{
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        height: 100%;
-        padding-top: 5px;
+    /* Sağ Üst Simgeyi Tam Sağa Yaslayan ve Beyaz Kutuyu Yok Eden Flex Ayarı */
+    div[data-testid="column"]:nth-of-type(2) {{
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
     }}
-    .tema-ikon-btn {{
-        background-color: #1F242D;
-        border: 1px solid #30333D;
-        color: #FAFAFA;
-        font-size: 1.1rem;
-        padding: 6px 12px;
-        border-radius: 8px;
-        text-decoration: none;
-        display: inline-block;
-        transition: 0.2s;
+    div[data-testid="column"]:nth-of-type(2) div.stButton > button {{
+        background-color: #1F242D !important;
+        color: #FAFAFA !important;
+        border: 1px solid #30333D !important;
+        border-radius: 8px !important;
+        width: 45px !important;
+        height: 38px !important;
+        padding: 0px !important;
+        margin: 0 !important;
     }}
-    .tema-ikon-btn:hover {{
-        border-color: #2ecc71;
-        background-color: #1b4d3e;
+    div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {{
+        background-color: #1b4d3e !important;
+        border-color: #2ecc71 !important;
+        color: #2ecc71 !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -612,7 +610,6 @@ col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
-    st.markdown('<div class="tema-simge-kapsayici">', unsafe_allow_html=True)
     if st.session_state.tema == "Siyah":
         if st.button("☀️", key="tema_degis_buton", use_container_width=False):
             st.session_state.tema = "Beyaz"
@@ -621,7 +618,6 @@ with col_tema:
         if st.button("🌙", key="tema_degis_buton", use_container_width=False):
             st.session_state.tema = "Siyah"
             st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # ================= SEKMELER (TABS) =================
 tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar", "📊 İstatistikler"])
