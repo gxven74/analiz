@@ -140,28 +140,6 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
-        /* Diğer Normal Butonlar */
-        div.stButton > button {
-            background-color: #1F242D !important;
-            color: #FAFAFA !important;
-            border: 1px solid #30333D !important;
-        }
-        div.stButton > button:hover {
-            background-color: #1b4d3e !important;
-            border-color: #2ecc71 !important;
-            color: #2ecc71 !important;
-        }
-        /* Form Gönder Butonları */
-        div.stFormSubmitButton > button {
-            background-color: #1F242D !important;
-            color: #FAFAFA !important;
-            border: 1px solid #30333D !important;
-        }
-        div.stFormSubmitButton > button:hover {
-            background-color: #1b4d3e !important;
-            border-color: #2ecc71 !important;
-            color: #2ecc71 !important;
-        }
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
@@ -169,7 +147,7 @@ else:
     </style>
     """
 
-# Genel Mobil ve Arayüz Uyumlu CSS
+# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Buton Tam Sağa Yaslı)
 st.markdown(f"""
 {tema_css}
 <style>
@@ -205,7 +183,7 @@ st.markdown(f"""
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
     }}
-    /* Sağ Üst Simgeyi Tam Sağa Yaslayan ve Beyaz Kutuyu Yok Eden Flex Ayarı */
+    /* Sağ Üst Sütunu ve Butonu Tam Sağa Yaslama */
     div[data-testid="column"]:nth-of-type(2) {{
         display: flex !important;
         justify-content: flex-end !important;
@@ -252,6 +230,29 @@ TAKIM_PROFILLERI = {
     "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.80},
     "adana demirspor": {"hucum": 1.00, "savunma": 1.70, "seviye": 0.70},
 
+    # ==================== YENİ EKLENEN MAÇ TAKIMLARI ====================
+    "juventus": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
+    "nijmegen": {"hucum": 1.25, "savunma": 1.30, "seviye": 0.90},
+    "levski sofya": {"hucum": 1.35, "savunma": 1.20, "seviye": 0.85},
+    "salzburg": {"hucum": 1.90, "savunma": 1.15, "seviye": 1.25},
+    "ofi": {"hucum": 1.20, "savunma": 1.35, "seviye": 0.85},
+    "hoffenheim": {"hucum": 1.55, "savunma": 1.60, "seviye": 0.95},
+    "marsilya": {"hucum": 1.95, "savunma": 1.25, "seviye": 1.25},
+    "celtic": {"hucum": 1.85, "savunma": 1.10, "seviye": 1.20},
+    "ferencvaros": {"hucum": 1.55, "savunma": 1.20, "seviye": 1.00},
+    "crystal palace": {"hucum": 1.30, "savunma": 1.25, "seviye": 1.00},
+    "lech poznan": {"hucum": 1.40, "savunma": 1.20, "seviye": 0.95},
+    "viktoria plzen": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.10},
+    "union st.g": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.15},
+    "lillestrom": {"hucum": 1.25, "savunma": 1.40, "seviye": 0.85},
+    "torreense": {"hucum": 1.15, "savunma": 1.35, "seviye": 0.80},
+    "real sociedad": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
+    "bournemouth": {"hucum": 1.45, "savunma": 1.35, "seviye": 1.05},
+    "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80},
+    "villarreal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
+    "manchester city": {"hucum": 2.25, "savunma": 0.95, "seviye": 1.45},
+    "norwich": {"hucum": 1.35, "savunma": 1.45, "seviye": 0.90},
+
     # ==================== DİĞER TAKIMLAR ====================
     "sunderland": {"hucum": 1.55, "savunma": 1.15, "seviye": 1.05},
     "olympiacos": {"hucum": 2.05, "savunma": 1.00, "seviye": 1.25},
@@ -286,7 +287,7 @@ TAKIM_PROFILLERI = {
     "adanaspor": {"hucum": 1.00, "savunma": 1.45, "seviye": 0.65},
     "yeni malatyaspor": {"hucum": 0.70, "savunma": 1.90, "seviye": 0.50},
 
-    # ==================== PREMIER LEAGUE & İNGİLTERE ====================
+    # ==================== PREMIER LEAGUE & DİĞERLERİ ====================
     "man city": {"hucum": 2.25, "savunma": 0.95, "seviye": 1.45},
     "liverpool": {"hucum": 2.15, "savunma": 1.00, "seviye": 1.40},
     "arsenal": {"hucum": 2.05, "savunma": 0.90, "seviye": 1.40},
@@ -301,7 +302,6 @@ TAKIM_PROFILLERI = {
     "brentford": {"hucum": 1.55, "savunma": 1.40, "seviye": 1.05},
     "bournemouth": {"hucum": 1.45, "savunma": 1.35, "seviye": 1.05},
     "west ham": {"hucum": 1.40, "savunma": 1.45, "seviye": 1.05},
-    "crystal palace": {"hucum": 1.30, "savunma": 1.25, "seviye": 1.00},
     "everton": {"hucum": 1.20, "savunma": 1.25, "seviye": 1.00},
     "wolves": {"hucum": 1.30, "savunma": 1.55, "seviye": 0.95},
     "leicester": {"hucum": 1.25, "savunma": 1.55, "seviye": 0.90},
@@ -310,13 +310,10 @@ TAKIM_PROFILLERI = {
     "leeds": {"hucum": 1.55, "savunma": 1.35, "seviye": 1.05},
     "middlesbrough": {"hucum": 1.55, "savunma": 1.25, "seviye": 1.05},
     "millwall": {"hucum": 1.25, "savunma": 1.20, "seviye": 0.95},
-
-    # ==================== LA LIGA & DİĞER İSPANYA ====================
     "real madrid": {"hucum": 2.35, "savunma": 1.00, "seviye": 1.45},
     "barcelona": {"hucum": 2.45, "savunma": 1.10, "seviye": 1.45},
     "atletico madrid": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.35},
     "athletic bilbao": {"hucum": 1.65, "savunma": 1.05, "seviye": 1.20},
-    "real sociedad": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
     "villareal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
     "real betis": {"hucum": 1.45, "savunma": 1.15, "seviye": 1.15},
     "girona": {"hucum": 1.65, "savunma": 1.30, "seviye": 1.15},
@@ -332,13 +329,9 @@ TAKIM_PROFILLERI = {
     "leganes": {"hucum": 1.05, "savunma": 1.25, "seviye": 0.85},
     "valladolid": {"hucum": 1.00, "savunma": 1.60, "seviye": 0.85},
     "valencia": {"hucum": 1.10, "savunma": 1.45, "seviye": 0.90},
-    "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80},
     "elche": {"hucum": 1.10, "savunma": 1.30, "seviye": 0.85},
-
-    # ==================== SERIE A ====================
     "inter": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.40},
     "atalanta": {"hucum": 2.15, "savunma": 1.15, "seviye": 1.30},
-    "juventus": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
     "napoli": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.30},
     "milan": {"hucum": 1.85, "savunma": 1.25, "seviye": 1.25},
     "lazio": {"hucum": 1.80, "savunma": 1.25, "seviye": 1.20},
@@ -359,8 +352,6 @@ TAKIM_PROFILLERI = {
     "venezia": {"hucum": 1.05, "savunma": 1.55, "seviye": 0.80},
     "sudtirol": {"hucum": 1.10, "savunma": 1.35, "seviye": 0.80},
     "pisa": {"hucum": 1.25, "savunma": 1.30, "seviye": 0.85},
-
-    # ==================== BUNDESLIGA ====================
     "bayern munih": {"hucum": 2.55, "savunma": 1.05, "seviye": 1.45},
     "bayer leverkusen": {"hucum": 2.30, "savunma": 1.15, "seviye": 1.35},
     "dortmund": {"hucum": 2.15, "savunma": 1.25, "seviye": 1.30},
@@ -379,11 +370,8 @@ TAKIM_PROFILLERI = {
     "st pauli": {"hucum": 1.05, "savunma": 1.30, "seviye": 0.85},
     "holstein kiel": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
     "bochum": {"hucum": 1.15, "savunma": 1.75, "seviye": 0.80},
-
-    # ==================== LIGUE 1 ====================
     "psg": {"hucum": 2.10, "savunma": 1.15, "seviye": 1.30},
     "monaco": {"hucum": 1.95, "savunma": 1.15, "seviye": 1.25},
-    "marsilya": {"hucum": 1.95, "savunma": 1.25, "seviye": 1.25},
     "lille": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
     "lyon": {"hucum": 1.75, "savunma": 1.30, "seviye": 1.15},
     "lens": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
@@ -399,8 +387,6 @@ TAKIM_PROFILLERI = {
     "saint-etienne": {"hucum": 1.15, "savunma": 1.65, "seviye": 0.85},
     "le havre": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.85},
     "montpellier": {"hucum": 1.25, "savunma": 1.75, "seviye": 0.80},
-
-    # ==================== DİĞER LİGLER & DİĞERLERİ ====================
     "psv": {"hucum": 2.50, "savunma": 1.15, "seviye": 1.35},
     "sparta rotterdam": {"hucum": 1.15, "savunma": 1.55, "seviye": 0.85},
     "tenerife": {"hucum": 0.85, "savunma": 1.45, "seviye": 0.75},
@@ -509,7 +495,15 @@ TAKMA_ADLAR = {
     "jagiellonia": "jagiellonia",
     "az alkmaar": "az alkmaar", "alkmaar": "az alkmaar",
     "anderlecht": "anderlecht",
-    "corum": "corum fk", "corum fk": "corum fk"
+    "corum": "corum fk", "corum fk": "corum fk",
+    "nijmegen": "nijmegen", "nec": "nijmegen",
+    "levski": "levski sofya", "levski sofya": "levski sofya",
+    "ofi": "ofi",
+    "ferencvaros": "ferencvaros",
+    "lech poznan": "lech poznan",
+    "union st.g": "union st.g", "union saint-gilloise": "union st.g",
+    "torreense": "torreense",
+    "norwich": "norwich", "norwich city": "norwich"
 }
 
 def takim_bul(girdi):
@@ -927,7 +921,7 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
+        ist_arama = st.text_input("🔍 Kasa Geçmişinde Ara (Açıklama / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
             filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
