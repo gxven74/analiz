@@ -17,7 +17,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Uyumlu Dinamik Tema CSS Ayarları
+# Kusursuz Buton ve Tema Uyumlu CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -64,6 +64,28 @@ else:
         textarea {
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
+        }
+        /* Tüm Butonlar Koyu Temada Şık Antrasit */
+        div.stButton > button {
+            background-color: #1F242D !important;
+            color: #FAFAFA !important;
+            border: 1px solid #30333D !important;
+        }
+        div.stButton > button:hover {
+            background-color: #1b4d3e !important;
+            border-color: #2ecc71 !important;
+            color: #2ecc71 !important;
+        }
+        /* Form Gönder Butonları */
+        div.stFormSubmitButton > button {
+            background-color: #1F242D !important;
+            color: #FAFAFA !important;
+            border: 1px solid #30333D !important;
+        }
+        div.stFormSubmitButton > button:hover {
+            background-color: #1b4d3e !important;
+            border-color: #2ecc71 !important;
+            color: #2ecc71 !important;
         }
         /* Expander ve Kutular */
         div[data-testid="stExpander"] {
