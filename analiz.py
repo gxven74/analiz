@@ -18,13 +18,16 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
+# Üst Header ve Tüm Alanları Siyah Yapan Gelişmiş Tema CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
         .stApp {
             background-color: #F8F9FA !important;
             color: #212529 !important;
+        }
+        header[data-testid="stHeader"] {
+            background-color: #F8F9FA !important;
         }
         div[data-testid="stMetric"] {
             background-color: #FFFFFF !important;
@@ -35,21 +38,6 @@ if st.session_state.tema == "Beyaz":
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
         }
-        .custom-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #FFFFFF;
-            color: #212529;
-            font-size: 0.9rem;
-        }
-        .custom-table th, .custom-table td {
-            border: 1px solid #CED4DA;
-            padding: 8px 12px;
-            text-align: center;
-        }
-        .custom-table th {
-            background-color: #E9ECEF;
-        }
     </style>
     """
 else:
@@ -58,6 +46,10 @@ else:
         .stApp {
             background-color: #0E1117 !important;
             color: #FAFAFA !important;
+        }
+        /* Streamlit'in en üstteki o beyaz header şeridini tamamen siyah yapma */
+        header[data-testid="stHeader"] {
+            background-color: #0E1117 !important;
         }
         h1, h2, h3, h4, h5, h6, p, label, span, .stMarkdown {
             color: #FAFAFA !important;
@@ -104,7 +96,7 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* Özel HTML Tabloları (Yazıları Görünür Kılan Kusursuz Tasarım) */
+        /* Özel HTML Tabloları */
         .custom-table {
             width: 100%;
             border-collapse: collapse;
@@ -193,7 +185,7 @@ st.markdown(f"""
         font-size: 1.25rem !important;
     }}
     div.stButton > button {{
-        height: 3em;
+        height: 2.5em;
         font-size: 1rem;
         font-weight: bold;
     }}
@@ -576,17 +568,17 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu
-col_baslik, col_tema = st.columns([4, 1])
+# Üst Başlık ve Sağ Üst Sadece Simge (🌙 / ☀️) Tema Butonu
+col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        if st.button("☀️ Beyaz Tema", use_container_width=True):
+        if st.button("☀️", use_container_width=True, help="Beyaz Temaya Geç"):
             st.session_state.tema = "Beyaz"
             st.rerun()
     else:
-        if st.button("🌙 Siyah Tema", use_container_width=True):
+        if st.button("🌙", use_container_width=True, help="Siyah Temaya Geç"):
             st.session_state.tema = "Siyah"
             st.rerun()
 
@@ -646,7 +638,6 @@ with tab1:
                 index=[f"{ev[:4]}. {i}" for i in range(6)],
                 columns=[f"{dep[:4]}. {j}" for j in range(6)]
             )
-            # DataFrame yerine garantili özel HTML Tablosu basıyoruz (Yazılar asla kaybolmaz)
             html_tablo = df_matrix.to_html(classes='custom-table', escape=False)
             st.markdown(html_tablo, unsafe_allow_html=True)
 
