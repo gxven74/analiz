@@ -18,7 +18,14 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Uyumlu Tema, Tablo ve Saf Simge Buton CSS Ayarları
+# URL parametresi ile tema değişimi kontrolü
+query_params = st.query_params
+if "tema_degis" in query_params:
+    yeni_t = query_params["tema_degis"]
+    if yeni_t in ["Siyah", "Beyaz"]:
+        st.session_state.tema = yeni_t
+
+# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -133,26 +140,6 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
-        /* Sağ Üst Tema Simgesi Butonunu Saf Şeffaf Yapma (Beyaz kutu ve mavi çizgiler yok) */
-        div[data-testid="column"]:nth-of-type(2) div.stButton > button {
-            background: transparent !important;
-            background-color: transparent !important;
-            color: #FAFAFA !important;
-            border: none !important;
-            box-shadow: none !important;
-            font-size: 1.4rem !important;
-            width: auto !important;
-            height: auto !important;
-            padding: 0px !important;
-            margin-left: auto !important;
-            display: block !important;
-        }
-        div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {
-            background: transparent !important;
-            background-color: transparent !important;
-            border: none !important;
-            transform: scale(1.1);
-        }
         /* Diğer Butonlar */
         div.stButton > button {
             background-color: #1F242D !important;
@@ -182,7 +169,7 @@ else:
     </style>
     """
 
-# Genel Mobil dan Arayüz Uyumlu CSS
+# Genel Mobil ve Arayüz Uyumlu CSS
 st.markdown(f"""
 {tema_css}
 <style>
@@ -708,9 +695,9 @@ with tab2:
                 "Öneri": f"{sonuc['aksiyon']} (%{sonuc['guven_orani']:.0f})" if sonuc["durum"] == "YESIL" else "PAS",
                 "MS 1": f"%{sonuc['p_ev']:.0f}",
                 "MS 2": f"%{sonuc['p_dep']:.0f}",
-                "1.5Ü": f"%{sonuc['p_15_ust']:.0f}",
-                "2.5Ü": f"%{sonuc['p_25_ust']:.0f}",
-                "KG Var": f"%{sonuc['p_kg_var']:.0f}",
+                "1.5Ü": f"%{sonuc['p_15_ust']:.1f}",
+                "2.5Ü": f"%{sonuc['p_25_ust']:.1f}",
+                "KG Var": f"%{sonuc['p_kg_var']:.1f}",
                 "guven_raw": sonuc["guven_orani"],
                 "aksiyon_raw": sonuc["aksiyon"]
             }
@@ -840,7 +827,7 @@ with tab3:
                 st.rerun()
 
         st.divider()
-        if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
+        if st.button("🗑️ Tüm Kasayı Sıfırla", key="tum_kasayi_sifirla_btn", use_container_width=True):
             kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
             if os.path.exists(DOSYA_KASA):
                 os.remove(DOSYA_KASA)
@@ -941,7 +928,7 @@ with tab4:
                 st.rerun()
 
         st.divider()
-        if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
+        if st.button("🗑️ Tüm İstatistikleri Sıfırla", key="tum_istatistikleri_sifirla_btn", use_container_width=True):
             istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
             if os.path.exists(DOSYA_ISTATISTIK):
                 os.remove(DOSYA_ISTATISTIK)
