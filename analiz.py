@@ -25,7 +25,7 @@ if "tema_degis" in query_params:
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema ve Garantili Antrasit HTML Tablo CSS Ayarları
+# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -117,30 +117,28 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* 🎯 Garantili Antrasit ve Beyaz Yazılı HTML Tabloları */
+        /* Özel HTML Tabloları */
         .custom-table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #161922 !important;
-            color: #FAFAFA !important;
+            background-color: #161922;
+            color: #FAFAFA;
             font-size: 0.9rem;
             border-radius: 8px;
             overflow: hidden;
         }
         .custom-table th, .custom-table td {
-            border: 1px solid #30333D !important;
+            border: 1px solid #30333D;
             padding: 10px 12px;
             text-align: center;
-            background-color: #161922 !important;
-            color: #FAFAFA !important;
         }
         .custom-table th {
-            background-color: #1F242D !important;
-            color: #2ecc71 !important;
+            background-color: #1F242D;
+            color: #2ecc71;
             font-weight: bold;
         }
-        .custom-table tr:nth-child(even) td {
-            background-color: #1A1C23 !important;
+        .custom-table tr:nth-child(even) {
+            background-color: #1A1C23;
         }
         /* Diğer Normal Butonlar */
         div.stButton > button {
@@ -171,7 +169,7 @@ else:
     </style>
     """
 
-# Genel Mobil ve Arayüz Uyumlu CSS
+# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Tema Butonu Mini & Kompakt)
 st.markdown(f"""
 {tema_css}
 <style>
@@ -211,6 +209,20 @@ st.markdown(f"""
         height: 3em;
         font-size: 1rem;
         font-weight: bold;
+    }}
+    /* Sağ Üst Tema Butonunu İyice Küçültme ve Sağa Yaslama */
+    div[data-testid="column"]:nth-of-type(2) {{
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+    }}
+    div[data-testid="column"]:nth-of-type(2) div.stButton > button {{
+        width: 42px !important;
+        min-width: 42px !important;
+        height: 38px !important;
+        padding: 0px !important;
+        margin: 0 !important;
+        font-size: 1.2rem !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -609,11 +621,11 @@ with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        if st.button("☀️", use_container_width=True):
+        if st.button("☀️ Beyaz Tema", use_container_width=True):
             st.session_state.tema = "Beyaz"
             st.rerun()
     else:
-        if st.button("🌙", use_container_width=True):
+        if st.button("🌙 Siyah Tema", use_container_width=True):
             st.session_state.tema = "Siyah"
             st.rerun()
 
@@ -673,7 +685,7 @@ with tab1:
                 index=[f"{ev[:4]}. {i}" for i in range(6)],
                 columns=[f"{dep[:4]}. {j}" for j in range(6)]
             )
-            # Garantili Antrasit HTML Tablosu (Asla Beyazlamaz, Yazılar Görünür)
+            # Garantili Antrasit HTML Tablosu (Yazılar Asla Kaybolmaz)
             html_tablo = df_matrix.to_html(classes='custom-table', escape=False)
             st.markdown(html_tablo, unsafe_allow_html=True)
 
@@ -926,7 +938,7 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Açıklama / Tarih)", value="", key="ist_arama_input")
+        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
             filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
