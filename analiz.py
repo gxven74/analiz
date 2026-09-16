@@ -609,11 +609,11 @@ with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        if st.button("☀️ Beyaz Tema", use_container_width=True):
+        if st.button("☀️", use_container_width=True):
             st.session_state.tema = "Beyaz"
             st.rerun()
     else:
-        if st.button("🌙 Siyah Tema", use_container_width=True):
+        if st.button("🌙", use_container_width=True):
             st.session_state.tema = "Siyah"
             st.rerun()
 
