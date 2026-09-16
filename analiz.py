@@ -22,7 +22,7 @@ st.markdown("""
         padding-left: 1.2rem !important;
         padding-right: 1.2rem !important;
     }
-    /* 4 Sekmeyi Yatayda Tam Genişliğe Eşit Yayma ve Boşluklandırma */
+    /* Sekmeleri Yatayda Tam Genişliğe Eşit Yayma ve Boşluklandırma */
     div[data-baseweb="tab-list"] {
         display: flex !important;
         width: 100% !important;
@@ -37,10 +37,11 @@ st.markdown("""
         text-align: center !important;
         justify-content: center !important;
         font-weight: 600;
-        padding: 12px 10px;
-        margin: 0 5px;
+        padding: 12px 6px;
+        margin: 0 3px;
         background-color: rgba(255, 255, 255, 0.03);
         border-radius: 8px;
+        font-size: 0.9rem;
     }
     div[data-testid="stMetric"] {
         background-color: rgba(128, 128, 128, 0.08);
@@ -69,6 +70,24 @@ st.markdown("""
         margin-bottom: 15px;
         color: white;
     }
+    .value-box-true {
+        background: linear-gradient(135deg, #194d33 0%, #0a2416 100%);
+        border: 2px solid #2ecc71;
+        border-radius: 12px;
+        padding: 16px;
+        color: white;
+        text-align: center;
+        margin-top: 15px;
+    }
+    .value-box-false {
+        background: linear-gradient(135deg, #4d1919 0%, #240a0a 100%);
+        border: 2px solid #e74c3c;
+        border-radius: 12px;
+        padding: 16px;
+        color: white;
+        text-align: center;
+        margin-top: 15px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -95,7 +114,7 @@ TAKIM_PROFILLERI = {
     "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.80},
     "adana demirspor": {"hucum": 1.00, "savunma": 1.70, "seviye": 0.70},
 
-    # ==================== YENİ EKLENENLER ====================
+    # ==================== DİĞER TAKIMLAR ====================
     "sunderland": {"hucum": 1.55, "savunma": 1.15, "seviye": 1.05},
     "olympiacos": {"hucum": 2.05, "savunma": 1.00, "seviye": 1.25},
     "jagiellonia": {"hucum": 1.45, "savunma": 1.25, "seviye": 0.90},
@@ -451,7 +470,7 @@ def mac_hesapla(ev_key, dep_key):
 st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 
 # ================= SEKMELER (TABS) =================
-tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar Tablosu", "📊 İstatistikler"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar", "📊 İstatistikler", "🔥 Değerli Oran"])
 
 with tab1:
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
@@ -554,7 +573,6 @@ with tab2:
 
         st.divider()
 
-        # 3 MAÇLIK KOMBİNE MANTIĞI
         if kombine_btn or (tara_btn and len(yesil_maclar) >= 3):
             if len(yesil_maclar) >= 3:
                 sirali_yesiller = sorted(yesil_maclar, key=lambda x: x["guven_raw"], reverse=True)
@@ -673,7 +691,7 @@ with tab3:
     else:
         st.info("Henüz kasaya kaydedilmiş bir işlem yok.")
 
-# ================= TAB 4: İSTATİSTİKLER (TAKIM & SEÇENEK SEÇMELİ) =================
+# ================= TAB 4: İSTATİSTİKLER =================
 DOSYA_ISTATISTIK = "istatistik_defteri.csv"
 
 if os.path.exists(DOSYA_ISTATISTIK):
@@ -687,7 +705,7 @@ else:
 
 with tab4:
     st.markdown("### 📊 Model Başarı İstatistikleri Karnesi")
-    st.caption("Ev sahibi, deplasman takımlarını ve tahmin türünü seçerek modelinin başarı oranını (Win Rate) net olarak takip et.")
+    st.caption("Ev sahibi, deplasman takımlarını ve tahmin türünü seçerek modelinin başarı oranını takip et.")
 
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
 
@@ -767,4 +785,78 @@ with tab4:
                 os.remove(DOSYA_ISTATISTIK)
             st.rerun()
     else:
-        st.info("Henüz istatistik için eklenmiş bir tahmin yok. Yukarıdaki formdan ekleme yapabilirsin.")
+        st.info("Henüz istatistik için eklenmiş bir tahmin yok.")
+
+# ================= TAB 5: DEĞERLİ ORAN (VALUE BET) HESAPLAYICI =================
+with tab5:
+    st.markdown("### 🔥 Değerli Oran (Value Bet) Hesaplayıcı")
+    st.caption("İddaa şirketinin açtığı oran ile modelin gerçek olasılığını kıyasla, oran hatalarını yakala.")
+
+    col_v1, col_v2 = st.columns(2)
+    with col_v1:
+        v_ev = st.selectbox("🏠 Ev Sahibi", takim_listesi, index=0, key="val_ev")
+    with col_v2:
+        v_dep = st.selectbox("✈️ Deplasman", takim_listesi, index=1 if len(takim_listesi) > 1 else 0, key="val_dep")
+
+    if st.button("⚖️ Maçın Olasılıklarını Hesapla", use_container_width=True):
+        res_v = mac_hesapla(v_ev, v_dep)
+        
+        # Session state'e hesap sonuçlarını kaydedelim ki oran kıyaslayabilelim
+        st.session_state["val_sonuclar"] = {
+            "ev_adi": v_ev.title(),
+            "dep_adi": v_dep.title(),
+            "p_ev": res_v["p_ev"],
+            "p_ber": res_v["p_ber"],
+            "p_dep": res_v["p_dep"],
+            "p_15": res_v["p_15_ust"],
+            "p_25": res_v["p_25_ust"],
+            "p_kg": res_v["p_kg_var"]
+        }
+
+    if "val_sonuclar" in st.session_state:
+        d = st.session_state["val_sonuclar"]
+        st.info(f"Seçilen Maç: **{d['ev_adi']} vs {d['dep_adi']}** | Model Olasılıkları Çıkarıldı 👇")
+
+        col_o1, col_o2 = st.columns(2)
+        with col_o1:
+            secilen_bahis = st.selectbox("Bahis Türü Seç", [
+                f"MS 1 ({d['ev_adi']})", 
+                "Maç Sonu Beraberlik", 
+                f"MS 2 ({d['dep_adi']})", 
+                "1.5 ÜST", 
+                "2.5 ÜST", 
+                "KG VAR"
+            ])
+        with col_o2:
+            iddaa_orani = st.number_input("İddaa'nın Açtığı Oran", min_value=1.01, max_value=50.0, value=1.80, step=0.05)
+
+        # Olasılığı eşleştirme
+        if "MS 1" in secilen_bahis: model_yuzde = d["p_ev"]
+        elif "Beraberlik" in secilen_bahis: model_yuzde = d["p_ber"]
+        elif "MS 2" in secilen_bahis: model_yuzde = d["p_dep"]
+        elif "1.5 ÜST" in secilen_bahis: model_yuzde = d["p_15"]
+        elif "2.5 ÜST" in secilen_bahis: model_yuzde = d["p_25"]
+        else: model_yuzde = d["p_kg"]
+
+        ideal_oran = 100 / model_yuzde if model_yuzde > 0 else 99.9
+        beklenen_deger = (iddaa_orani * (model_yuzde / 100)) - 1  # EV (Expected Value) formülü
+
+        m_w1, m_w2, m_w3 = st.columns(3)
+        m_w1.metric("Model Olasılığı", f"%{model_yuzde:.1f}")
+        m_w2.metric("Olması Gereken İdeal Oran", f"{ideal_oran:.2f}")
+        m_w3.metric("İddaa Oranı", f"{iddaa_orani:.2f}")
+
+        if iddaa_orani > ideal_oran:
+            st.markdown(f"""
+            <div class="value-box-true">
+                <h3 style="margin:0; color:#2ecc71;">🔥 DEĞERLİ ORAN (VALUE BET) YAKALANDI!</h3>
+                <p style="margin:8px 0 0 0; font-size:1rem;">İddaa'nın açtığı oran ({iddaa_orani}), modelin beklentisinden ({ideal_oran:.2f}) yüksek. Bu oranda matematiksel olarak <b>DEĞER (VALUE)</b> var!</p>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown(f"""
+            <div class="value-box-false">
+                <h3 style="margin:0; color:#e74c3c;">❌ DEĞER YOK (RİSKLİ ORAN)</h3>
+                <p style="margin:8px 0 0 0; font-size:1rem;">İddaa'nın açtığı oran ({iddaa_orani}), modelin olasılığına göre düşük kalmış ({ideal_oran:.2f}). Bu oranda iddaa şirketi kazanır, uzun vadede zarar ettirir.</p>
+            </div>
+            """, unsafe_allow_html=True)
