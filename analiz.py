@@ -17,7 +17,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Dinamik Gerçek Siyah / Beyaz Tema CSS Ayarları
+# Kusursuz Uyumlu Dinamik Tema CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -43,7 +43,7 @@ else:
             background-color: #0E1117 !important;
             color: #FAFAFA !important;
         }
-        h1, h2, h3, h4, h5, h6, p, label, span {
+        h1, h2, h3, h4, h5, h6, p, label, span, .stMarkdown {
             color: #FAFAFA !important;
         }
         div[data-testid="stMetric"] {
@@ -51,17 +51,24 @@ else:
             border: 1px solid #30333D !important;
             color: #FAFAFA !important;
         }
-        div.stSelectbox > div > div {
+        /* Selectbox ve Input Alanları */
+        div[data-baseweb="select"] > div {
+            background-color: #1A1C23 !important;
+            color: #FAFAFA !important;
+            border-color: #30333D !important;
+        }
+        input {
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
         }
-        div.stTextArea textarea {
+        textarea {
             background-color: #1A1C23 !important;
             color: #FAFAFA !important;
         }
-        div.stTextInput input {
-            background-color: #1A1C23 !important;
-            color: #FAFAFA !important;
+        /* Expander ve Kutular */
+        div[data-testid="stExpander"] {
+            background-color: #161922 !important;
+            border: 1px solid #30333D !important;
         }
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
