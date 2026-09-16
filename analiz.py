@@ -450,7 +450,7 @@ def mac_hesapla(ev_key, dep_key):
 
 st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 
-# ================= SEKMELER (TABS) - 4'E DÜŞÜRÜLDÜ =================
+# ================= SEKMELER (TABS) =================
 tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar", "📊 İstatistikler"])
 
 with tab1:
@@ -650,7 +650,13 @@ with tab3:
 
         st.subheader("📋 Kasa Geçmişi ve İşlem Silme")
 
-        for idx, row in kasa_df.iterrows():
+        # Kasa Arama Çubuğu
+        kasa_arama = st.text_input("🔍 Kasa Geçmişinde Ara (Açıklama / Tarih)", value="", key="kasa_arama_input")
+        filtrelenmis_kasa = kasa_df
+        if kasa_arama.strip():
+            filtrelenmis_kasa = kasa_df[kasa_df.astype(str).apply(lambda x: x.str.contains(kasa_arama, case=False)).any(axis=1)]
+
+        for idx, row in filtrelenmis_kasa.iterrows():
             col_s1, col_s2, col_s3, col_s4, col_s5, col_s6 = st.columns([1.5, 2.5, 1, 1, 1, 0.8])
             col_s1.write(f"📅 {row['Tarih']}")
             col_s2.write(f"📝 {row['Açıklama']}")
@@ -747,7 +753,13 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        for idx, row in istatistik_df.iterrows():
+        # İstatistik Arama Çubuğu
+        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
+        filtrelenmis_ist = istatistik_df
+        if ist_arama.strip():
+            filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
+
+        for idx, row in filtrelenmis_ist.iterrows():
             col_is1, col_is2, col_is3, col_is4, col_is5 = st.columns([1.2, 2.5, 1.5, 1.2, 0.7])
             col_is1.write(f"📅 {row['Tarih']}")
             col_is2.write(f"⚽ {row['Maç']}")
