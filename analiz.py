@@ -18,7 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Tablo, Hücre Yazıları ve Tema Uyumlu CSS Ayarları
+# Kusursuz Expander, Tablo, Buton ve Tema Uyumlu CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -79,9 +79,26 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* Tablo Üst Araç Çubuğu (Toolbar) */
         [data-testid="stDataFrame"] [data-testid="baseToolbar"] {
             background-color: #1A1C23 !important;
+        }
+        /* Expander (Açılır Kapanır Kısımlar) Kesin Çözüm */
+        div[data-testid="stExpander"] {
+            background-color: #161922 !important;
+            border: 1px solid #30333D !important;
+            color: #FAFAFA !important;
+        }
+        div[data-testid="stExpander"] summary {
+            background-color: #1A1C23 !important;
+            color: #FAFAFA !important;
+            border-radius: 6px;
+        }
+        div[data-testid="stExpander"] summary span {
+            color: #FAFAFA !important;
+        }
+        div[data-testid="stExpander"] div[role="group"] {
+            background-color: #161922 !important;
+            color: #FAFAFA !important;
         }
         /* Tüm Butonlar Koyu Temada Şık Antrasit */
         div.stButton > button {
@@ -104,11 +121,6 @@ else:
             background-color: #1b4d3e !important;
             border-color: #2ecc71 !important;
             color: #2ecc71 !important;
-        }
-        /* Expander ve Kutular */
-        div[data-testid="stExpander"] {
-            background-color: #161922 !important;
-            border: 1px solid #30333D !important;
         }
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
