@@ -25,7 +25,7 @@ if "tema_degis" in query_params:
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
+# Kusursuz Uyumlu Tema ve Garantili Antrasit HTML Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -117,28 +117,30 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* Özel HTML Tabloları */
+        /* Garantili Özel HTML Tabloları (Yazılar Asla Kaybolmaz, Antrasit) */
         .custom-table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #161922;
-            color: #FAFAFA;
+            background-color: #161922 !important;
+            color: #FAFAFA !important;
             font-size: 0.9rem;
             border-radius: 8px;
             overflow: hidden;
         }
         .custom-table th, .custom-table td {
-            border: 1px solid #30333D;
+            border: 1px solid #30333D !important;
             padding: 10px 12px;
             text-align: center;
+            background-color: #161922 !important;
+            color: #FAFAFA !important;
         }
         .custom-table th {
-            background-color: #1F242D;
-            color: #2ecc71;
+            background-color: #1F242D !important;
+            color: #2ecc71 !important;
             font-weight: bold;
         }
-        .custom-table tr:nth-child(even) {
-            background-color: #1A1C23;
+        .custom-table tr:nth-child(even) td {
+            background-color: #1A1C23 !important;
         }
         /* Diğer Normal Butonlar */
         div.stButton > button {
@@ -169,7 +171,7 @@ else:
     </style>
     """
 
-# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Tema Butonunun Uzun Kutulaşması Düzeltildi)
+# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Buton Tam Sağa Sınıra Yaslı)
 st.markdown(f"""
 {tema_css}
 <style>
@@ -210,16 +212,21 @@ st.markdown(f"""
         font-size: 1rem;
         font-weight: bold;
     }}
-    /* Sağ Üst Tema Butonunun Genişleme Hatasının Kesin Çözümü */
+    /* Sağ Üst Tema Butonunu Ekranın En Sağ Duvarına Sıfır Yapıştırma */
     div[data-testid="column"]:nth-of-type(2) {{
         display: flex !important;
         justify-content: flex-end !important;
         align-items: center !important;
+        padding-right: 0px !important;
     }}
     div[data-testid="column"]:nth-of-type(2) div.stButton > button {{
-        width: auto !important;
-        min-width: unset !important;
-        flex-grow: 0 !important;
+        width: 42px !important;
+        min-width: 42px !important;
+        height: 38px !important;
+        padding: 0px !important;
+        margin: 0 !important;
+        margin-right: -10px !important;
+        font-size: 1.2rem !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -612,8 +619,8 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu (Genişleme Hatasız Saf Simge)
-col_baslik, col_tema = st.columns([4, 1])
+# Üst Başlık ve Sağ Üst Sadece Antrasit Uyumlu Saf Simge (Tam Sağa Sınıra Yaslı)
+col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
@@ -682,7 +689,6 @@ with tab1:
                 index=[f"{ev[:4]}. {i}" for i in range(6)],
                 columns=[f"{dep[:4]}. {j}" for j in range(6)]
             )
-            # Garantili Antrasit HTML Tablosu (Yazılar Asla Kaybolmaz)
             html_tablo = df_matrix.to_html(classes='custom-table', escape=False)
             st.markdown(html_tablo, unsafe_allow_html=True)
 
