@@ -25,7 +25,7 @@ if "tema_degis" in query_params:
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema, Tablo ve Görünür Yazı CSS Ayarları
+# Kusursuz Uyumlu Tema ve Garantili Antrasit Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -44,6 +44,21 @@ if st.session_state.tema == "Beyaz":
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
+        }
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFFFFF;
+            color: #212529;
+            font-size: 0.9rem;
+        }
+        .custom-table th, .custom-table td {
+            border: 1px solid #CED4DA;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        .custom-table th {
+            background-color: #E9ECEF;
         }
     </style>
     """
@@ -102,20 +117,28 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* 🎯 st.dataframe Tablolarını ve İçindeki Yazıları Kesin Görünür Yapan CSS */
-        [data-testid="stDataFrame"] {
-            background-color: #161922 !important;
+        /* Garantili Özel HTML Tabloları (Asla Beyazlamaz) */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #161922;
+            color: #FAFAFA;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            overflow: hidden;
         }
-        [data-testid="stDataFrame"] div, [data-testid="stDataFrame"] span, [data-testid="stDataFrame"] td, [data-testid="stDataFrame"] th, [data-testid="stDataFrame"] p {
-            background-color: #161922 !important;
-            color: #FAFAFA !important;
+        .custom-table th, .custom-table td {
+            border: 1px solid #30333D;
+            padding: 10px 12px;
+            text-align: center;
         }
-        /* Tablo Hücreleri İçindeki Grid Metinleri */
-        [data-testid="stDataFrame"] [data-cell-type] {{
-            color: #FAFAFA !important;
-        }}
-        [data-testid="stDataFrame"] [data-testid="baseToolbar"] {
-            background-color: #1A1C23 !important;
+        .custom-table th {
+            background-color: #1F242D;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .custom-table tr:nth-child(even) {
+            background-color: #1A1C23;
         }
         /* Diğer Normal Butonlar */
         div.stButton > button {
@@ -648,7 +671,9 @@ with tab1:
                 index=[f"{ev[:4]}. {i}" for i in range(6)],
                 columns=[f"{dep[:4]}. {j}" for j in range(6)]
             )
-            st.dataframe(df_matrix, use_container_width=True)
+            # Garantili Antrasit HTML Tablosu (Yazılar Asla Kaybolmaz)
+            html_tablo = df_matrix.to_html(classes='custom-table', escape=False)
+            st.markdown(html_tablo, unsafe_allow_html=True)
 
 with tab2:
     st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik 3'lü kombine al:")
@@ -721,14 +746,16 @@ with tab2:
         st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
             df_gosterim = pd.DataFrame(yesil_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
-            st.dataframe(df_gosterim, use_container_width=True, hide_index=True)
+            html_gosterim = df_gosterim.to_html(classes='custom-table', index=False, escape=False)
+            st.markdown(html_gosterim, unsafe_allow_html=True)
         else:
             st.info("Bültende doğrudan eşiği aşan yeşil maç bulunamadı.")
 
         with st.expander(f"🟡 Pas Geçilen / Sarı Maçlar ({len(sari_maclar)})"):
             if sari_maclar:
                 df_sari = pd.DataFrame(sari_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
-                st.dataframe(df_sari, use_container_width=True, hide_index=True)
+                html_sari = df_sari.to_html(classes='custom-table', index=False, escape=False)
+                st.markdown(html_sari, unsafe_allow_html=True)
 
 # ================= TAB 3: KÂR / ZARAR TABLOSU =================
 DOSYA_KASA = "kasa_defteri.csv"
@@ -905,9 +932,10 @@ with tab4:
         for idx, row in filtrelenmis_ist.iterrows():
             col_is1, col_is2, col_is3, col_is4, col_is5 = st.columns([1.2, 2.5, 1.5, 1.2, 0.7])
             col_is1.write(f"📅 {row['Tarih']}")
-            col_is2.write(f"⚽ {row['Maç']}")
-            col_is3.write(f"🎯 <b>{row['Tahmin']}</b>", unsafe_allow_html=True)
-            col_is4.write(f"<b>{row['Sonuç']}</b>", unsafe_allow_html=True)
+            col_is2.write(f"📝 {row['Açıklama']}")
+            col_is3.write(f"Yat: {row['Yatırılan (TL)']:.2f}")
+            col_is4.write(f"Al: {row['Alınan (TL)']:.2f}")
+            col_is5.write(f"Net: {row['Net Durum (TL)']:.2f}")
             
             if col_is5.button("🗑️ Sil", key=f"sil_ist_{idx}"):
                 istatistik_df = istatistik_df.drop(idx).reset_index(drop=True)
