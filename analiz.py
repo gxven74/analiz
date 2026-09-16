@@ -693,7 +693,7 @@ with tab3:
     with st.form("kasa_form", clear_on_submit=True):
         col_f1, col_f2, col_f3 = st.columns(3)
         with col_f1:
-            tarih_input = st.text_input("📅 Tarih (Örn: 2026-09-16)", value="2026-09-16")
+            tarih_input = st.text_input("📅 Tarih", value="16/09/2026")
         with col_f2:
             aciklama_input = st.text_input("📝 İşlem Açıklaması", value="Günün Kombinesi")
         with col_f3:
@@ -786,7 +786,7 @@ with tab4:
     with st.form("istatistik_form", clear_on_submit=True):
         col_i1, col_i2 = st.columns(2)
         with col_i1:
-            ist_tarih = st.text_input("📅 Tarih (Örn: 2026-09-16)", value="2026-09-16", key="ist_tarih_input")
+            ist_tarih = st.text_input("📅 Tarih", value="16/09/2026", key="ist_tarih_input")
         with col_i2:
             tahmin_turu = st.selectbox("🎯 Tahmin / Bahis Türü", [
                 "MS 1", "MS 2", "Maç Sonu Beraberlik (0)", 
