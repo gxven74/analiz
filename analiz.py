@@ -18,14 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# URL parametresi ile tema değişimi kontrolü
-query_params = st.query_params
-if "tema_degis" in query_params:
-    yeni_t = query_params["tema_degis"]
-    if yeni_t in ["Siyah", "Beyaz"]:
-        st.session_state.tema = yeni_t
-
-# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
+# Kusursuz Uyumlu Tema, Tablo ve Saf Simge Buton CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -140,28 +133,6 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
-        /* Diğer Butonlar */
-        div.stButton > button {
-            background-color: #1F242D !important;
-            color: #FAFAFA !important;
-            border: 1px solid #30333D !important;
-        }
-        div.stButton > button:hover {
-            background-color: #1b4d3e !important;
-            border-color: #2ecc71 !important;
-            color: #2ecc71 !important;
-        }
-        /* Form Gönder Butonları */
-        div.stFormSubmitButton > button {
-            background-color: #1F242D !important;
-            color: #FAFAFA !important;
-            border: 1px solid #30333D !important;
-        }
-        div.stFormSubmitButton > button:hover {
-            background-color: #1b4d3e !important;
-            border-color: #2ecc71 !important;
-            color: #2ecc71 !important;
-        }
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
@@ -169,9 +140,32 @@ else:
     </style>
     """
 
+# Sağ Üst Tema Butonunu Arkası Beyaz ve Kompakt Yapan Özel CSS
+tema_buton_css = """
+<style>
+    div[data-testid="column"]:nth-of-type(2) div.stButton > button {
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        border: 1px solid #CCCCCC !important;
+        border-radius: 8px !important;
+        width: 44px !important;
+        height: 38px !important;
+        padding: 0px !important;
+        margin-left: auto !important;
+        display: block !important;
+    }
+    div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {
+        background-color: #F0F2F6 !important;
+        border-color: #999999 !important;
+        color: #000000 !important;
+    }
+</style>
+"""
+
 # Genel Mobil ve Arayüz Uyumlu CSS
 st.markdown(f"""
 {tema_css}
+{tema_buton_css}
 <style>
     .block-container {{
         padding-top: 2.0rem !important;
@@ -584,23 +578,19 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Tamamen Saf HTML/CSS Tema Simgesi (Sıfır Beyaz Kutu, Sıfır Mavi Çizgi)
+# Üst Başlık ve Sağ Üst Gerçek Streamlit Butonu (Mevcut Sekmede Anında Tema Değişimi, Arka Planı Beyaz Simge)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        yeni_tema_hedef = "Beyaz"
-        ikon = "☀️"
+        if st.button("☀️", key="tema_degis_buton", use_container_width=True):
+            st.session_state.tema = "Beyaz"
+            st.rerun()
     else:
-        yeni_tema_hedef = "Siyah"
-        ikon = "🌙"
-    
-    st.markdown(f"""
-    <div style="display: flex; justify-content: flex-end; align-items: center; height: 100%; padding-top: 5px;">
-        <a href="?tema_degis={yeni_tema_hedef}" style="background-color: #1F242D; border: 1px solid #30333D; color: #FAFAFA; font-size: 1.1rem; padding: 4px 10px; border-radius: 8px; text-decoration: none; display: inline-block;">{ikon}</a>
-    </div>
-    """, unsafe_allow_html=True)
+        if st.button("🌙", key="tema_degis_buton", use_container_width=True):
+            st.session_state.tema = "Siyah"
+            st.rerun()
 
 # ================= SEKMELER (TABS) =================
 tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar", "📊 İstatistikler"])
@@ -695,9 +685,9 @@ with tab2:
                 "Öneri": f"{sonuc['aksiyon']} (%{sonuc['guven_orani']:.0f})" if sonuc["durum"] == "YESIL" else "PAS",
                 "MS 1": f"%{sonuc['p_ev']:.0f}",
                 "MS 2": f"%{sonuc['p_dep']:.0f}",
-                "1.5Ü": f"%{sonuc['p_15_ust']:.1f}",
-                "2.5Ü": f"%{sonuc['p_25_ust']:.1f}",
-                "KG Var": f"%{sonuc['p_kg_var']:.1f}",
+                "1.5Ü": f"%{sonuc['p_15_ust']:.0f}",
+                "2.5Ü": f"%{sonuc['p_25_ust']:.0f}",
+                "KG Var": f"%{sonuc['p_kg_var']:.0f}",
                 "guven_raw": sonuc["guven_orani"],
                 "aksiyon_raw": sonuc["aksiyon"]
             }
