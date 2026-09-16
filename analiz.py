@@ -140,6 +140,28 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
+        /* Diğer Normal Butonlar */
+        div.stButton > button {
+            background-color: #1F242D !important;
+            color: #FAFAFA !important;
+            border: 1px solid #30333D !important;
+        }
+        div.stButton > button:hover {
+            background-color: #1b4d3e !important;
+            border-color: #2ecc71 !important;
+            color: #2ecc71 !important;
+        }
+        /* Form Gönder Butonları */
+        div.stFormSubmitButton > button {
+            background-color: #1F242D !important;
+            color: #FAFAFA !important;
+            border: 1px solid #30333D !important;
+        }
+        div.stFormSubmitButton > button:hover {
+            background-color: #1b4d3e !important;
+            border-color: #2ecc71 !important;
+            color: #2ecc71 !important;
+        }
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
@@ -147,7 +169,7 @@ else:
     </style>
     """
 
-# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Buton Tam Sağa Yaslı)
+# Genel Mobil ve Arayüz Uyumlu CSS
 st.markdown(f"""
 {tema_css}
 <style>
@@ -183,26 +205,10 @@ st.markdown(f"""
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
     }}
-    /* Sağ Üst Sütunu ve Butonu Tam Sağa Yaslama */
-    div[data-testid="column"]:nth-of-type(2) {{
-        display: flex !important;
-        justify-content: flex-end !important;
-        align-items: center !important;
-    }}
-    div[data-testid="column"]:nth-of-type(2) div.stButton > button {{
-        background-color: #1F242D !important;
-        color: #FAFAFA !important;
-        border: 1px solid #30333D !important;
-        border-radius: 8px !important;
-        width: 45px !important;
-        height: 38px !important;
-        padding: 0px !important;
-        margin: 0 !important;
-    }}
-    div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {{
-        background-color: #1b4d3e !important;
-        border-color: #2ecc71 !important;
-        color: #2ecc71 !important;
+    div.stButton > button {{
+        height: 3em;
+        font-size: 1rem;
+        font-weight: bold;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -230,27 +236,14 @@ TAKIM_PROFILLERI = {
     "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.80},
     "adana demirspor": {"hucum": 1.00, "savunma": 1.70, "seviye": 0.70},
 
-    # ==================== YENİ EKLENEN MAÇ TAKIMLARI ====================
-    "juventus": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
+    # ==================== YENİ EKLENEN TAKIMLAR ====================
     "nijmegen": {"hucum": 1.25, "savunma": 1.30, "seviye": 0.90},
     "levski sofya": {"hucum": 1.35, "savunma": 1.20, "seviye": 0.85},
-    "salzburg": {"hucum": 1.90, "savunma": 1.15, "seviye": 1.25},
     "ofi": {"hucum": 1.20, "savunma": 1.35, "seviye": 0.85},
-    "hoffenheim": {"hucum": 1.55, "savunma": 1.60, "seviye": 0.95},
-    "marsilya": {"hucum": 1.95, "savunma": 1.25, "seviye": 1.25},
-    "celtic": {"hucum": 1.85, "savunma": 1.10, "seviye": 1.20},
     "ferencvaros": {"hucum": 1.55, "savunma": 1.20, "seviye": 1.00},
-    "crystal palace": {"hucum": 1.30, "savunma": 1.25, "seviye": 1.00},
     "lech poznan": {"hucum": 1.40, "savunma": 1.20, "seviye": 0.95},
-    "viktoria plzen": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.10},
     "union st.g": {"hucum": 1.75, "savunma": 1.10, "seviye": 1.15},
-    "lillestrom": {"hucum": 1.25, "savunma": 1.40, "seviye": 0.85},
     "torreense": {"hucum": 1.15, "savunma": 1.35, "seviye": 0.80},
-    "real sociedad": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
-    "bournemouth": {"hucum": 1.45, "savunma": 1.35, "seviye": 1.05},
-    "malaga": {"hucum": 1.25, "savunma": 1.25, "seviye": 0.80},
-    "villarreal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
-    "manchester city": {"hucum": 2.25, "savunma": 0.95, "seviye": 1.45},
     "norwich": {"hucum": 1.35, "savunma": 1.45, "seviye": 0.90},
 
     # ==================== DİĞER TAKIMLAR ====================
@@ -302,6 +295,7 @@ TAKIM_PROFILLERI = {
     "brentford": {"hucum": 1.55, "savunma": 1.40, "seviye": 1.05},
     "bournemouth": {"hucum": 1.45, "savunma": 1.35, "seviye": 1.05},
     "west ham": {"hucum": 1.40, "savunma": 1.45, "seviye": 1.05},
+    "crystal palace": {"hucum": 1.30, "savunma": 1.25, "seviye": 1.00},
     "everton": {"hucum": 1.20, "savunma": 1.25, "seviye": 1.00},
     "wolves": {"hucum": 1.30, "savunma": 1.55, "seviye": 0.95},
     "leicester": {"hucum": 1.25, "savunma": 1.55, "seviye": 0.90},
@@ -314,7 +308,7 @@ TAKIM_PROFILLERI = {
     "barcelona": {"hucum": 2.45, "savunma": 1.10, "seviye": 1.45},
     "atletico madrid": {"hucum": 1.75, "savunma": 0.95, "seviye": 1.35},
     "athletic bilbao": {"hucum": 1.65, "savunma": 1.05, "seviye": 1.20},
-    "villareal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
+    "villarreal": {"hucum": 1.85, "savunma": 1.35, "seviye": 1.15},
     "real betis": {"hucum": 1.45, "savunma": 1.15, "seviye": 1.15},
     "girona": {"hucum": 1.65, "savunma": 1.30, "seviye": 1.15},
     "mallorca": {"hucum": 1.15, "savunma": 1.10, "seviye": 1.05},
@@ -372,6 +366,7 @@ TAKIM_PROFILLERI = {
     "bochum": {"hucum": 1.15, "savunma": 1.75, "seviye": 0.80},
     "psg": {"hucum": 2.10, "savunma": 1.15, "seviye": 1.30},
     "monaco": {"hucum": 1.95, "savunma": 1.15, "seviye": 1.25},
+    "marsilya": {"hucum": 1.95, "savunma": 1.25, "seviye": 1.25},
     "lille": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
     "lyon": {"hucum": 1.75, "savunma": 1.30, "seviye": 1.15},
     "lens": {"hucum": 1.45, "savunma": 1.05, "seviye": 1.15},
@@ -410,7 +405,13 @@ TAKIM_PROFILLERI = {
     "falkrik": {"hucum": 1.35, "savunma": 1.25, "seviye": 0.85},
     "hearts": {"hucum": 1.50, "savunma": 1.20, "seviye": 1.05},
     "grasshoppers": {"hucum": 1.30, "savunma": 1.40, "seviye": 0.95},
-    "sion": {"hucum": 1.35, "savunma": 1.35, "seviye": 0.95}
+    "sion": {"hucum": 1.35, "savunma": 1.35, "seviye": 0.95},
+    "juventus": {"hucum": 1.70, "savunma": 1.10, "seviye": 1.20},
+    "salzburg": {"hucum": 1.90, "savunma": 1.15, "seviye": 1.25},
+    "celtic": {"hucum": 1.85, "savunma": 1.10, "seviye": 1.20},
+    "viktoria plzen": {"hucum": 1.60, "savunma": 1.15, "seviye": 1.10},
+    "lillestrom": {"hucum": 1.25, "savunma": 1.40, "seviye": 0.85},
+    "manchester city": {"hucum": 2.25, "savunma": 0.95, "seviye": 1.45}
 }
 
 TAKMA_ADLAR = {
@@ -599,17 +600,17 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Sadece Antrasit Uyumlu Saf Simge
-col_baslik, col_tema = st.columns([5, 1])
+# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu
+col_baslik, col_tema = st.columns([4, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
     if st.session_state.tema == "Siyah":
-        if st.button("☀️", key="tema_degis_buton", use_container_width=False):
+        if st.button("☀️ Beyaz Tema", use_container_width=True):
             st.session_state.tema = "Beyaz"
             st.rerun()
     else:
-        if st.button("🌙", key="tema_degis_buton", use_container_width=False):
+        if st.button("🌙 Siyah Tema", use_container_width=True):
             st.session_state.tema = "Siyah"
             st.rerun()
 
@@ -669,8 +670,7 @@ with tab1:
                 index=[f"{ev[:4]}. {i}" for i in range(6)],
                 columns=[f"{dep[:4]}. {j}" for j in range(6)]
             )
-            html_tablo = df_matrix.to_html(classes='custom-table', escape=False)
-            st.markdown(html_tablo, unsafe_allow_html=True)
+            st.dataframe(df_matrix, use_container_width=True)
 
 with tab2:
     st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik 3'lü kombine al:")
@@ -743,16 +743,14 @@ with tab2:
         st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
             df_gosterim = pd.DataFrame(yesil_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
-            html_gosterim = df_gosterim.to_html(classes='custom-table', index=False, escape=False)
-            st.markdown(html_gosterim, unsafe_allow_html=True)
+            st.dataframe(df_gosterim, use_container_width=True, hide_index=True)
         else:
             st.info("Bültende doğrudan eşiği aşan yeşil maç bulunamadı.")
 
         with st.expander(f"🟡 Pas Geçilen / Sarı Maçlar ({len(sari_maclar)})"):
             if sari_maclar:
                 df_sari = pd.DataFrame(sari_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
-                html_sari = df_sari.to_html(classes='custom-table', index=False, escape=False)
-                st.markdown(html_sari, unsafe_allow_html=True)
+                st.dataframe(df_sari, use_container_width=True, hide_index=True)
 
 # ================= TAB 3: KÂR / ZARAR TABLOSU =================
 DOSYA_KASA = "kasa_defteri.csv"
@@ -838,7 +836,7 @@ with tab3:
                 st.rerun()
 
         st.divider()
-        if st.button("🗑️ Tüm Kasayı Sıfırla", key="tum_kasayi_sifirla_btn", use_container_width=True):
+        if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
             kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
             if os.path.exists(DOSYA_KASA):
                 os.remove(DOSYA_KASA)
@@ -921,7 +919,7 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        ist_arama = st.text_input("🔍 Kasa Geçmişinde Ara (Açıklama / Tarih)", value="", key="ist_arama_input")
+        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
             filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
@@ -939,7 +937,7 @@ with tab4:
                 st.rerun()
 
         st.divider()
-        if st.button("🗑️ Tüm İstatistikleri Sıfırla", key="tum_istatistikleri_sifirla_btn", use_container_width=True):
+        if st.button("🗑️ Tüm İstatistikleri Sıfırla", use_container_width=True):
             istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
             if os.path.exists(DOSYA_ISTATISTIK):
                 os.remove(DOSYA_ISTATISTIK)
