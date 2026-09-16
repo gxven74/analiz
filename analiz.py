@@ -18,7 +18,14 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Uyumlu Tema ve Tablo CSS Ayarları
+# URL parametresi ile tema değişimi kontrolü (Mevcut sekmede anında yenileme)
+query_params = st.query_params
+if "tema_degis" in query_params:
+    yeni_t = query_params["tema_degis"]
+    if yeni_t in ["Siyah", "Beyaz"]:
+        st.session_state.tema = yeni_t
+
+# Kusursuz Uyumlu Tema, Tablo ve Saf Antrasit Simge CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -133,6 +140,28 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
+        /* Diğer Normal Butonlar */
+        div.stButton > button {
+            background-color: #1F242D !important;
+            color: #FAFAFA !important;
+            border: 1px solid #30333D !important;
+        }
+        div.stButton > button:hover {
+            background-color: #1b4d3e !important;
+            border-color: #2ecc71 !important;
+            color: #2ecc71 !important;
+        }
+        /* Form Gönder Butonları (Beyazlık Yok) */
+        div.stFormSubmitButton > button {
+            background-color: #1F242D !important;
+            color: #FAFAFA !important;
+            border: 1px solid #30333D !important;
+        }
+        div.stFormSubmitButton > button:hover {
+            background-color: #1b4d3e !important;
+            border-color: #2ecc71 !important;
+            color: #2ecc71 !important;
+        }
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
@@ -140,33 +169,9 @@ else:
     </style>
     """
 
-# Sadece Sağ Üst Tema Butonunu Hedefleyen Güvenli CSS
-tema_ozel_css = """
-<style>
-    /* Diğer Hiçbir Butona Dokunmadan Sadece Tema Butonunu Şekillendirme */
-    div.tema-ozel-kapsayici button {
-        background-color: #1F242D !important;
-        color: #FAFAFA !important;
-        border: 1px solid #30333D !important;
-        border-radius: 8px !important;
-        width: 50px !important;
-        height: 38px !important;
-        padding: 0px !important;
-        margin-left: auto !important;
-        display: block !important;
-    }
-    div.tema-ozel-kapsayici button:hover {
-        background-color: #1b4d3e !important;
-        border-color: #2ecc71 !important;
-        color: #2ecc71 !important;
-    }
-</style>
-"""
-
 # Genel Mobil ve Arayüz Uyumlu CSS
 st.markdown(f"""
 {tema_css}
-{tema_ozel_css}
 <style>
     .block-container {{
         padding-top: 2.0rem !important;
@@ -200,10 +205,28 @@ st.markdown(f"""
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
     }}
-    div.stButton > button {{
-        height: 3em;
-        font-size: 1rem;
-        font-weight: bold;
+    /* Sağ Üst Saf HTML/CSS Kompakt Tema Simgesi Tasarımı (Sıfır Beyaz Blok) */
+    .tema-simge-kapsayici {{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+        padding-top: 5px;
+    }}
+    .tema-ikon-btn {{
+        background-color: #1F242D;
+        border: 1px solid #30333D;
+        color: #FAFAFA;
+        font-size: 1.1rem;
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.2s;
+    }}
+    .tema-ikon-btn:hover {{
+        border-color: #2ecc71;
+        background-color: #1b4d3e;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -584,11 +607,12 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Gerçek Streamlit Butonu (Arka Planı Beyaz, Kompakt, Mevcut Sekmede Çalışır)
+# Üst Başlık ve Sağ Üst Sadece Antrasit Uyumlu Saf Simge
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
 with col_tema:
+    st.markdown('<div class="tema-simge-kapsayici">', unsafe_allow_html=True)
     if st.session_state.tema == "Siyah":
         if st.button("☀️", key="tema_degis_buton", use_container_width=False):
             st.session_state.tema = "Beyaz"
@@ -597,6 +621,7 @@ with col_tema:
         if st.button("🌙", key="tema_degis_buton", use_container_width=False):
             st.session_state.tema = "Siyah"
             st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ================= SEKMELER (TABS) =================
 tab1, tab2, tab3, tab4 = st.tabs(["🔍 Tekli Analiz", "⚡ Bülten & Kombine", "📈 Kâr / Zarar", "📊 İstatistikler"])
@@ -750,7 +775,7 @@ else:
     kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
 
 with tab3:
-    st.markdown("### 📊 Günlük Kasa ve Kâr/Zarار Takibi")
+    st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
     st.caption("Buradan finansal yatırımlarını ve kasa durumunu takip edebilirsin.")
 
     # Otomatik bugünün tarihi (GG/AA/YYYY formatında)
