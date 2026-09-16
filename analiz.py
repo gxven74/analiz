@@ -25,7 +25,7 @@ if "tema_degis" in query_params:
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
 
-# Kusursuz Uyumlu Tema ve Garantili HTML Tablo CSS Ayarları
+# Kusursuz Uyumlu Tema ve Garantili Antrasit HTML Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -117,28 +117,30 @@ else:
             background-color: #161922 !important;
             color: #FAFAFA !important;
         }
-        /* Garantili Özel HTML Tabloları (Yazılar Asla Kaybolmaz, Antrasit) */
+        /* 🎯 Garantili Antrasit ve Beyaz Yazılı HTML Tabloları */
         .custom-table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #161922;
-            color: #FAFAFA;
+            background-color: #161922 !important;
+            color: #FAFAFA !important;
             font-size: 0.9rem;
             border-radius: 8px;
             overflow: hidden;
         }
         .custom-table th, .custom-table td {
-            border: 1px solid #30333D;
+            border: 1px solid #30333D !important;
             padding: 10px 12px;
             text-align: center;
+            background-color: #161922 !important;
+            color: #FAFAFA !important;
         }
         .custom-table th {
-            background-color: #1F242D;
-            color: #2ecc71;
+            background-color: #1F242D !important;
+            color: #2ecc71 !important;
             font-weight: bold;
         }
-        .custom-table tr:nth-child(even) {
-            background-color: #1A1C23;
+        .custom-table tr:nth-child(even) td {
+            background-color: #1A1C23 !important;
         }
         /* Diğer Normal Butonlar */
         div.stButton > button {
@@ -671,7 +673,9 @@ with tab1:
                 index=[f"{ev[:4]}. {i}" for i in range(6)],
                 columns=[f"{dep[:4]}. {j}" for j in range(6)]
             )
-            st.dataframe(df_matrix, use_container_width=True)
+            # Garantili Antrasit HTML Tablosu (Asla Beyazlamaz, Yazılar Görünür)
+            html_tablo = df_matrix.to_html(classes='custom-table', escape=False)
+            st.markdown(html_tablo, unsafe_allow_html=True)
 
 with tab2:
     st.caption("📋 Maçları alt alta yapıştırıp bülteni tara ve otomatik 3'lü kombine al:")
@@ -744,14 +748,16 @@ with tab2:
         st.markdown(f"**🟢 Oynanabilir Yeşil Maçlar ({len(yesil_maclar)})**")
         if yesil_maclar:
             df_gosterim = pd.DataFrame(yesil_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
-            st.dataframe(df_gosterim, use_container_width=True, hide_index=True)
+            html_gosterim = df_gosterim.to_html(classes='custom-table', index=False, escape=False)
+            st.markdown(html_gosterim, unsafe_allow_html=True)
         else:
             st.info("Bültende doğrudan eşiği aşan yeşil maç bulunamadı.")
 
         with st.expander(f"🟡 Pas Geçilen / Sarı Maçlar ({len(sari_maclar)})"):
             if sari_maclar:
                 df_sari = pd.DataFrame(sari_maclar).drop(columns=["guven_raw", "aksiyon_raw"])
-                st.dataframe(df_sari, use_container_width=True, hide_index=True)
+                html_sari = df_sari.to_html(classes='custom-table', index=False, escape=False)
+                st.markdown(html_sari, unsafe_allow_html=True)
 
 # ================= TAB 3: KÂR / ZARAR TABLOSU =================
 DOSYA_KASA = "kasa_defteri.csv"
@@ -920,7 +926,7 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
+        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Açıklama / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
             filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
