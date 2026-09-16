@@ -17,7 +17,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Dinamik Tema CSS Ayarları
+# Dinamik Gerçek Siyah / Beyaz Tema CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -39,13 +39,33 @@ if st.session_state.tema == "Beyaz":
 else:
     tema_css = """
     <style>
+        .stApp {
+            background-color: #0E1117 !important;
+            color: #FAFAFA !important;
+        }
+        h1, h2, h3, h4, h5, h6, p, label, span {
+            color: #FAFAFA !important;
+        }
         div[data-testid="stMetric"] {
-            background-color: rgba(128, 128, 128, 0.08);
-            border: 1px solid rgba(128, 128, 128, 0.2);
+            background-color: #1A1C23 !important;
+            border: 1px solid #30333D !important;
+            color: #FAFAFA !important;
+        }
+        div.stSelectbox > div > div {
+            background-color: #1A1C23 !important;
+            color: #FAFAFA !important;
+        }
+        div.stTextArea textarea {
+            background-color: #1A1C23 !important;
+            color: #FAFAFA !important;
+        }
+        div.stTextInput input {
+            background-color: #1A1C23 !important;
+            color: #FAFAFA !important;
         }
         .kombine-box {
-            background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%);
-            color: white;
+            background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
+            color: white !important;
         }
     </style>
     """
@@ -65,7 +85,7 @@ st.markdown(f"""
         display: flex !important;
         width: 100% !important;
         justify-content: space-around !important;
-        background-color: rgba(128, 128, 128, 0.05);
+        background-color: rgba(128, 128, 128, 0.1);
         padding: 8px 10px;
         border-radius: 12px;
         margin-bottom: 20px;
