@@ -18,7 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# Kusursuz Uyumlu Tema, Tablo ve Kompakt Tema Butonu CSS Ayarları
+# Kusursuz Uyumlu Tema, Tablo ve Kompakt Simge Butonu CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -133,19 +133,19 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
-        /* Sağ Üst Tema Butonu (Antrasit Uyumlu, Dikey Uzun & Enine Kısa) */
+        /* Sağ Üst Tema Butonu (İnce, Uzun, Üzerine Gelince Bloklaşma Yok) */
         div[data-testid="column"]:nth-of-type(2) div.stButton > button {
             background-color: #1F242D !important;
             color: #FAFAFA !important;
             border: 1px solid #30333D !important;
-            width: 55px !important;
-            height: 48px !important;
-            border-radius: 10px !important;
+            width: 38px !important;
+            height: 44px !important;
+            border-radius: 8px !important;
             margin-left: auto !important;
             display: block !important;
         }
         div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {
-            background-color: #1b4d3e !important;
+            background-color: #1F242D !important;
             border-color: #2ecc71 !important;
             color: #2ecc71 !important;
         }
