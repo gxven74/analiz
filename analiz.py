@@ -18,14 +18,7 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
-# URL parametresi ile tema değişimi kontrolü
-query_params = st.query_params
-if "tema_degis" in query_params:
-    yeni_t = query_params["tema_degis"]
-    if yeni_t in ["Siyah", "Beyaz"]:
-        st.session_state.tema = yeni_t
-
-# Kusursuz Uyumlu Tema, Tablo ve Saf HTML/CSS Tema Simgesi Ayarları
+# Kusursuz Uyumlu Tema, Tablo ve Saf Simge Buton CSS Ayarları
 if st.session_state.tema == "Beyaz":
     tema_css = """
     <style>
@@ -140,6 +133,26 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
+        /* Sağ Üst Tema Simgesi Butonunu Saf Şeffaf Yapma (Beyaz kutu ve mavi çizgiler yok) */
+        div[data-testid="column"]:nth-of-type(2) div.stButton > button {
+            background: transparent !important;
+            background-color: transparent !important;
+            color: #FAFAFA !important;
+            border: none !important;
+            box-shadow: none !important;
+            font-size: 1.4rem !important;
+            width: auto !important;
+            height: auto !important;
+            padding: 0px !important;
+            margin-left: auto !important;
+            display: block !important;
+        }
+        div[data-testid="column"]:nth-of-type(2) div.stButton > button:hover {
+            background: transparent !important;
+            background-color: transparent !important;
+            border: none !important;
+            transform: scale(1.1);
+        }
         /* Diğer Butonlar */
         div.stButton > button {
             background-color: #1F242D !important;
@@ -169,7 +182,7 @@ else:
     </style>
     """
 
-# Genel Mobil ve Arayüz Uyumlu CSS
+# Genel Mobil dan Arayüz Uyumlu CSS
 st.markdown(f"""
 {tema_css}
 <style>
@@ -204,29 +217,6 @@ st.markdown(f"""
     }}
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
-    }}
-    /* Sağ Üst Saf HTML Tema Değiştirme Simgesi Tasarımı */
-    .tema-simge-container {{
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        height: 100%;
-        padding-top: 5px;
-    }}
-    .tema-btn {{
-        background-color: #1F242D;
-        border: 1px solid #30333D;
-        color: #FAFAFA;
-        font-size: 1.2rem;
-        padding: 6px 12px;
-        border-radius: 8px;
-        text-decoration: none;
-        display: inline-block;
-        transition: 0.2s;
-    }}
-    .tema-btn:hover {{
-        border-color: #2ecc71;
-        background-color: #1b4d3e;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -607,7 +597,7 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Saf HTML Simgesi (Beyaz Arka Plan Yok, Sıfır Blok)
+# Üst Başlık ve Sağ Üst Tamamen Saf HTML/CSS Tema Simgesi (Sıfır Beyaz Kutu, Sıfır Mavi Çizgi)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
@@ -620,8 +610,8 @@ with col_tema:
         ikon = "🌙"
     
     st.markdown(f"""
-    <div class="tema-simge-container">
-        <a href="?tema_degis={yeni_tema_hedef}" class="tema-btn">{ikon}</a>
+    <div style="display: flex; justify-content: flex-end; align-items: center; height: 100%; padding-top: 5px;">
+        <a href="?tema_degis={yeni_tema_hedef}" style="background-color: #1F242D; border: 1px solid #30333D; color: #FAFAFA; font-size: 1.1rem; padding: 4px 10px; border-radius: 8px; text-decoration: none; display: inline-block;">{ikon}</a>
     </div>
     """, unsafe_allow_html=True)
 
@@ -951,7 +941,7 @@ with tab4:
                 st.rerun()
 
         st.divider()
-        if st.button("🗑️ Tüm İstatistikleri Sıfırla", use_container_width=True):
+        if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
             istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
             if os.path.exists(DOSYA_ISTATISTIK):
                 os.remove(DOSYA_ISTATISTIK)
