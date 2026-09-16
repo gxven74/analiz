@@ -140,28 +140,6 @@ else:
         .custom-table tr:nth-child(even) {
             background-color: #1A1C23;
         }
-        /* Diğer Normal Butonlar */
-        div.stButton > button {
-            background-color: #1F242D !important;
-            color: #FAFAFA !important;
-            border: 1px solid #30333D !important;
-        }
-        div.stButton > button:hover {
-            background-color: #1b4d3e !important;
-            border-color: #2ecc71 !important;
-            color: #2ecc71 !important;
-        }
-        /* Form Gönder Butonları */
-        div.stFormSubmitButton > button {
-            background-color: #1F242D !important;
-            color: #FAFAFA !important;
-            border: 1px solid #30333D !important;
-        }
-        div.stFormSubmitButton > button:hover {
-            background-color: #1b4d3e !important;
-            border-color: #2ecc71 !important;
-            color: #2ecc71 !important;
-        }
         .kombine-box {
             background: linear-gradient(135deg, #1b4d3e 0%, #0d2818 100%) !important;
             color: white !important;
@@ -169,7 +147,7 @@ else:
     </style>
     """
 
-# Genel Mobil ve Arayüz Uyumlu CSS
+# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Buton Tam Sağa Yaslı)
 st.markdown(f"""
 {tema_css}
 <style>
@@ -205,7 +183,7 @@ st.markdown(f"""
     div[data-testid="stMetricValue"] div {{
         font-size: 1.25rem !important;
     }}
-    /* Sağ Üst Simgeyi Tam Sağa Yaslayan ve Beyaz Kutuyu Yok Eden Flex Ayarı */
+    /* Sağ Üst Sütunu ve Butonu Tam Sağa Yaslama */
     div[data-testid="column"]:nth-of-type(2) {{
         display: flex !important;
         justify-content: flex-end !important;
@@ -605,7 +583,7 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Sadece Antrasit Uyumlu Saf Simge
+# Üst Başlık ve Sağ Üst Sadece Antrasit Uyumlu Saf Simge (Tam Sağa Yaslı)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
