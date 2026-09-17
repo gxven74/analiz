@@ -23,6 +23,25 @@ st.set_page_config(
 if "tema" not in st.session_state:
     st.session_state.tema = "Siyah"
 
+# Oturum Hafızasında Kasa ve İstatistik Listelerini Tutma (Hata Yok, Anında Çalışır)
+if "kasa_verileri" not in st.session_state:
+    if os.path.exists(DOSYA_KASA):
+        try:
+            st.session_state.kasa_verileri = pd.read_csv(DOSYA_KASA).to_dict('records')
+        except:
+            st.session_state.kasa_verileri = []
+    else:
+        st.session_state.kasa_verileri = []
+
+if "istatistik_verileri" not in st.session_state:
+    if os.path.exists(DOSYA_ISTATISTIK):
+        try:
+            st.session_state.istatistik_verileri = pd.read_csv(DOSYA_ISTATISTIK).to_dict('records')
+        except:
+            st.session_state.istatistik_verileri = []
+    else:
+        st.session_state.istatistik_verileri = []
+
 # URL parametresi ile tema değişimi kontrolü (Mevcut sekmede anında yenileme)
 query_params = st.query_params
 if "tema_degis" in query_params:
@@ -780,16 +799,6 @@ with tab2:
                 st.markdown(html_sari, unsafe_allow_html=True)
 
 # ================= TAB 3: KÂR / ZARAR TABLOSU =================
-if os.path.exists(DOSYA_KASA):
-    try:
-        kasa_df = pd.read_csv(DOSYA_KASA)
-        if "Durum" not in kasa_df.columns:
-            kasa_df["Durum"] = "Kazandı ✅"
-    except Exception:
-        kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
-else:
-    kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
-
 with tab3:
     st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
     st.caption("Buradan finansal yatırımlarını ve kasa durumunu takip edebilirsin.")
@@ -815,24 +824,27 @@ with tab3:
 
         if kaydet_btn:
             net = alinan - yatirilan
-            yeni_veri = pd.DataFrame({
-                "Tarih": [str(tarih_input)],
-                "Açıklama": [f"{aciklama_input} ({durum_tipi})"],
-                "Durum": [durum_tipi],
-                "Yatırılan (TL)": [yatirilan],
-                "Alınan (TL)": [alinan],
-                "Net Durum (TL)": [net]
-            })
+            yeni_veri = {
+                "Tarih": str(tarih_input),
+                "Açıklama": f"{aciklama_input} ({durum_tipi})",
+                "Durum": durum_tipi,
+                "Yatırılan (TL)": yatirilan,
+                "Alınan (TL)": alinan,
+                "Net Durum (TL)": net
+            }
+            st.session_state.kasa_verileri.append(yeni_veri)
+            try:
+                pd.DataFrame(st.session_state.kasa_verileri).to_csv(DOSYA_KASA, index=False, encoding="utf-8")
+            except:
+                pass
             
-            kasa_df = pd.concat([kasa_df, yeni_veri], ignore_index=True)
-            kasa_df.to_csv(DOSYA_KASA, index=False, encoding="utf-8")
-            
-            st.success("İşlem kasaya kalıcı olarak eklendi!")
+            st.success("İşlem kasaya eklendi!")
             st.rerun()
 
     st.divider()
 
-    if not kasa_df.empty:
+    if st.session_state.kasa_verileri:
+        kasa_df = pd.DataFrame(st.session_state.kasa_verileri)
         toplam_yatirilan = kasa_df["Yatırılan (TL)"].sum()
         toplam_alinan = kasa_df["Alınan (TL)"].sum()
         net_kar_zarar = toplam_alinan - toplam_yatirilan
@@ -858,32 +870,24 @@ with tab3:
             col_s5.write(f"Net: {row['Net Durum (TL)']:.2f}")
             
             if col_s6.button("🗑️ Sil", key=f"sil_kasa_{idx}"):
-                kasa_df = kasa_df.drop(idx).reset_index(drop=True)
-                kasa_df.to_csv(DOSYA_KASA, index=False, encoding="utf-8")
+                st.session_state.kasa_verileri.pop(idx)
+                try:
+                    pd.DataFrame(st.session_state.kasa_verileri).to_csv(DOSYA_KASA, index=False, encoding="utf-8")
+                except:
+                    pass
                 st.rerun()
 
         st.divider()
         if st.button("🗑️ Tüm Kasayı Sıfırla", key="tum_kasayi_sifirla_btn", use_container_width=True):
-            kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
+            st.session_state.kasa_verileri = []
             if os.path.exists(DOSYA_KASA):
-                os.remove(DOSYA_KASA)
+                try: os.remove(DOSYA_KASA)
+                except: pass
             st.rerun()
     else:
         st.info("Henüz kasaya kaydedilmiş bir işlem yok.")
 
 # ================= TAB 4: İSTATİSTİKLER =================
-if os.path.exists(DOSYA_ISTATISTIK):
-    try:
-        istatistik_df = pd.read_csv(DOSYA_ISTATISTIK)
-        if "Maç" not in istatistik_df.columns and "Tahmin / Maç Adı" in istatistik_df.columns:
-            istatistik_df = istatistik_df.rename(columns={"Tahmin / Maç Adı": "Maç"})
-        if "Tahmin" not in istatistik_df.columns:
-            istatistik_df["Tahmin"] = "Genel"
-    except Exception:
-        istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
-else:
-    istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
-
 with tab4:
     st.markdown("### 📊 Model Başarı İstatistikleri Karnesi")
     st.caption("Ev sahibi, deplasman takımlarını ve tahmin türünü seçerek modelinin başarı oranını takip et.")
@@ -915,21 +919,25 @@ with tab4:
 
         if ist_kaydet:
             mac_adi = f"{ist_ev.title()} vs {ist_dep.title()}"
-            yeni_ist = pd.DataFrame({
-                "Tarih": [str(ist_tarih)],
-                "Maç": [mac_adi],
-                "Tahmin": [tahmin_turu],
-                "Sonuç": [ist_sonuc]
-            })
-            istatistik_df = pd.concat([istatistik_df, yeni_ist], ignore_index=True)
-            istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False, encoding="utf-8")
+            yeni_ist = {
+                "Tarih": str(ist_tarih),
+                "Maç": mac_adi,
+                "Tahmin": tahmin_turu,
+                "Sonuç": ist_sonuc
+            }
+            st.session_state.istatistik_verileri.append(yeni_ist)
+            try:
+                pd.DataFrame(st.session_state.istatistik_verileri).to_csv(DOSYA_ISTATISTIK, index=False, encoding="utf-8")
+            except:
+                pass
             
             st.success("Maç tahmini istatistiklere eklendi!")
             st.rerun()
 
     st.divider()
 
-    if not istatistik_df.empty:
+    if st.session_state.istatistik_verileri:
+        istatistik_df = pd.DataFrame(st.session_state.istatistik_verileri)
         toplam_tahmin = len(istatistik_df)
         kazananlar_ist = istatistik_df[istatistik_df["Sonuç"] == "Kazandı ✅"]
         kaybedenler_ist = istatistik_df[istatistik_df["Sonuç"] == "Kaybetti ❌"]
@@ -961,15 +969,19 @@ with tab4:
             col_is4.write(f"<b>{row['Sonuç']}</b>", unsafe_allow_html=True)
             
             if col_is5.button("🗑️ Sil", key=f"sil_ist_{idx}"):
-                istatistik_df = istatistik_df.drop(idx).reset_index(drop=True)
-                istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False, encoding="utf-8")
+                st.session_state.istatistik_verileri.pop(idx)
+                try:
+                    pd.DataFrame(st.session_state.istatistik_verileri).to_csv(DOSYA_ISTATISTIK, index=False, encoding="utf-8")
+                except:
+                    pass
                 st.rerun()
 
         st.divider()
         if st.button("🗑️ Tüm İstatistikleri Sıfırla", key="tum_istatistikleri_sifirla_btn", use_container_width=True):
-            istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
+            st.session_state.istatistik_verileri = []
             if os.path.exists(DOSYA_ISTATISTIK):
-                os.remove(DOSYA_ISTATISTIK)
+                try: os.remove(DOSYA_ISTATISTIK)
+                except: pass
             st.rerun()
     else:
         st.info("Henüz istatistik için eklenmiş bir tahmin yok.")
