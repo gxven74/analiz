@@ -4,6 +4,7 @@ import pandas as pd
 from scipy.stats import poisson
 import difflib
 import os
+import subprocess
 from datetime import datetime
 
 # Mobil öncelikli sayfa ayarı ve Sol Menü Kapalı / Gizli
@@ -24,6 +25,25 @@ if "tema_degis" in query_params:
     yeni_t = query_params["tema_degis"]
     if yeni_t in ["Siyah", "Beyaz"]:
         st.session_state.tema = yeni_t
+
+# Verileri GitHub'a Otomatik Yedekleme Fonksiyonu (Veriler Uçmasın Diye)
+def githuba_yedekle():
+    try:
+        files_to_add = []
+        if os.path.exists("kasa_defteri.csv"):
+            files_to_add.append("kasa_defteri.csv")
+        if os.path.exists("istatistik_defteri.csv"):
+            files_to_add.append("istatistik_defteri.csv")
+        
+        if files_to_add:
+            subprocess.run(["git", "config", "--global", "user.email", "codespaces@streamlit.local"], capture_output=True)
+            subprocess.run(["git", "config", "--global", "user.name", "Streamlit Bot"], capture_output=True)
+            subprocess.run(["git", "add"] + files_to_add, capture_output=True)
+            commit_res = subprocess.run(["git", "commit", "-m", "Otomatik veri yedekleme"], capture_output=True)
+            if commit_res.returncode == 0:
+                subprocess.run(["git", "push"], capture_output=True)
+    except Exception:
+        pass
 
 # Kusursuz Uyumlu Tema ve Garantili Antrasit HTML Tablo CSS Ayarları
 if st.session_state.tema == "Beyaz":
@@ -619,7 +639,7 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu (En Sağ Duvara Sıfır Yaslı ve Mini)
+# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu (En Sağ Duvara Sıfır Yaslı)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
@@ -821,6 +841,7 @@ with tab3:
             
             kasa_df = pd.concat([kasa_df, yeni_veri], ignore_index=True)
             kasa_df.to_csv(DOSYA_KASA, index=False)
+            githuba_yedekle() # Otomatik Git Yedeklemesi
             
             st.success("İşlem kasaya kalıcı olarak eklendi!")
             st.rerun()
@@ -855,13 +876,15 @@ with tab3:
             if col_s6.button("🗑️ Sil", key=f"sil_kasa_{idx}"):
                 kasa_df = kasa_df.drop(idx).reset_index(drop=True)
                 kasa_df.to_csv(DOSYA_KASA, index=False)
+                githuba_yedekle() # Otomatik Git Yedeklemesi
                 st.rerun()
 
         st.divider()
-        if st.button("🗑️ Tüm Kasayı Sıfırla", use_container_width=True):
+        if st.button("🗑️ Tüm Kasayı Sıfırla", key="tum_kasayi_sifirla_btn", use_container_width=True):
             kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
             if os.path.exists(DOSYA_KASA):
                 os.remove(DOSYA_KASA)
+                githuba_yedekle() # Otomatik Git Yedeklemesi
             st.rerun()
     else:
         st.info("Henüz kasaya kaydedilmiş bir işlem yok.")
@@ -917,6 +940,8 @@ with tab4:
             })
             istatistik_df = pd.concat([istatistik_df, yeni_ist], ignore_index=True)
             istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False)
+            githuba_yedekle() # Otomatik Git Yedeklemesi
+            
             st.success("Maç tahmini istatistiklere eklendi!")
             st.rerun()
 
@@ -956,13 +981,15 @@ with tab4:
             if col_is5.button("🗑️ Sil", key=f"sil_ist_{idx}"):
                 istatistik_df = istatistik_df.drop(idx).reset_index(drop=True)
                 istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False)
+                githuba_yedekle() # Otomatik Git Yedeklemesi
                 st.rerun()
 
         st.divider()
-        if st.button("🗑️ Tüm İstatistikleri Sıfırla", use_container_width=True):
+        if st.button("🗑️ Tüm İstatistikleri Sıfırla", key="tum_istatistikleri_sifirla_btn", use_container_width=True):
             istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
             if os.path.exists(DOSYA_ISTATISTIK):
                 os.remove(DOSYA_ISTATISTIK)
+                githuba_yedekle() # Otomatik Git Yedeklemesi
             st.rerun()
     else:
         st.info("Henüz istatistik için eklenmiş bir tahmin yok.")
