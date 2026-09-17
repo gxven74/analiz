@@ -6,6 +6,11 @@ import difflib
 import os
 from datetime import datetime
 
+# Dosyaların her zaman kodun olduğu klasörde açılmasını garantileyen tam yol ayarı
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DOSYA_KASA = os.path.join(BASE_DIR, "kasa_defteri.csv")
+DOSYA_ISTATISTIK = os.path.join(BASE_DIR, "istatistik_defteri.csv")
+
 # Mobil öncelikli sayfa ayarı ve Sol Menü Kapalı / Gizli
 st.set_page_config(
     page_title="Poisson Tahmin", 
@@ -775,8 +780,6 @@ with tab2:
                 st.markdown(html_sari, unsafe_allow_html=True)
 
 # ================= TAB 3: KÂR / ZARAR TABLOSU =================
-DOSYA_KASA = "kasa_defteri.csv"
-
 if os.path.exists(DOSYA_KASA):
     try:
         kasa_df = pd.read_csv(DOSYA_KASA)
@@ -791,7 +794,6 @@ with tab3:
     st.markdown("### 📊 Günlük Kasa ve Kâr/Zarar Takibi")
     st.caption("Buradan finansal yatırımlarını ve kasa durumunu takip edebilirsin.")
 
-    # Otomatik bugünün tarihi (GG/AA/YYYY formatında)
     bugun_tarih = datetime.now().strftime("%d/%m/%Y")
 
     with st.form("kasa_form", clear_on_submit=True):
@@ -823,10 +825,7 @@ with tab3:
             })
             
             kasa_df = pd.concat([kasa_df, yeni_veri], ignore_index=True)
-            # Dosyaya zorla ve garantili yazma (Disk buffer bypass)
             kasa_df.to_csv(DOSYA_KASA, index=False, encoding="utf-8")
-            with open(DOSYA_KASA, "a", encoding="utf-8") as f:
-                os.fsync(f.fileno())
             
             st.success("İşlem kasaya kalıcı olarak eklendi!")
             st.rerun()
@@ -873,8 +872,6 @@ with tab3:
         st.info("Henüz kasaya kaydedilmiş bir işlem yok.")
 
 # ================= TAB 4: İSTATİSTİKLER =================
-DOSYA_ISTATISTIK = "istatistik_defteri.csv"
-
 if os.path.exists(DOSYA_ISTATISTIK):
     try:
         istatistik_df = pd.read_csv(DOSYA_ISTATISTIK)
@@ -925,10 +922,7 @@ with tab4:
                 "Sonuç": [ist_sonuc]
             })
             istatistik_df = pd.concat([istatistik_df, yeni_ist], ignore_index=True)
-            # Dosyaya zorla ve garantili yazma (Disk buffer bypass)
             istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False, encoding="utf-8")
-            with open(DOSYA_ISTATISTIK, "a", encoding="utf-8") as f:
-                os.fsync(f.fileno())
             
             st.success("Maç tahmini istatistiklere eklendi!")
             st.rerun()
