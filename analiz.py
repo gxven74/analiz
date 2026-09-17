@@ -778,9 +778,12 @@ with tab2:
 DOSYA_KASA = "kasa_defteri.csv"
 
 if os.path.exists(DOSYA_KASA):
-    kasa_df = pd.read_csv(DOSYA_KASA)
-    if "Durum" not in kasa_df.columns:
-        kasa_df["Durum"] = "Kazandı ✅"
+    try:
+        kasa_df = pd.read_csv(DOSYA_KASA)
+        if "Durum" not in kasa_df.columns:
+            kasa_df["Durum"] = "Kazandı ✅"
+    except Exception:
+        kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
 else:
     kasa_df = pd.DataFrame(columns=["Tarih", "Açıklama", "Durum", "Yatırılan (TL)", "Alınan (TL)", "Net Durum (TL)"])
 
@@ -820,7 +823,10 @@ with tab3:
             })
             
             kasa_df = pd.concat([kasa_df, yeni_veri], ignore_index=True)
-            kasa_df.to_csv(DOSYA_KASA, index=False)
+            # Dosyaya zorla ve garantili yazma (Disk buffer bypass)
+            kasa_df.to_csv(DOSYA_KASA, index=False, encoding="utf-8")
+            with open(DOSYA_KASA, "a", encoding="utf-8") as f:
+                os.fsync(f.fileno())
             
             st.success("İşlem kasaya kalıcı olarak eklendi!")
             st.rerun()
@@ -854,7 +860,7 @@ with tab3:
             
             if col_s6.button("🗑️ Sil", key=f"sil_kasa_{idx}"):
                 kasa_df = kasa_df.drop(idx).reset_index(drop=True)
-                kasa_df.to_csv(DOSYA_KASA, index=False)
+                kasa_df.to_csv(DOSYA_KASA, index=False, encoding="utf-8")
                 st.rerun()
 
         st.divider()
@@ -870,11 +876,14 @@ with tab3:
 DOSYA_ISTATISTIK = "istatistik_defteri.csv"
 
 if os.path.exists(DOSYA_ISTATISTIK):
-    istatistik_df = pd.read_csv(DOSYA_ISTATISTIK)
-    if "Maç" not in istatistik_df.columns and "Tahmin / Maç Adı" in istatistik_df.columns:
-        istatistik_df = istatistik_df.rename(columns={"Tahmin / Maç Adı": "Maç"})
-    if "Tahmin" not in istatistik_df.columns:
-        istatistik_df["Tahmin"] = "Genel"
+    try:
+        istatistik_df = pd.read_csv(DOSYA_ISTATISTIK)
+        if "Maç" not in istatistik_df.columns and "Tahmin / Maç Adı" in istatistik_df.columns:
+            istatistik_df = istatistik_df.rename(columns={"Tahmin / Maç Adı": "Maç"})
+        if "Tahmin" not in istatistik_df.columns:
+            istatistik_df["Tahmin"] = "Genel"
+    except Exception:
+        istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
 else:
     istatistik_df = pd.DataFrame(columns=["Tarih", "Maç", "Tahmin", "Sonuç"])
 
@@ -916,7 +925,10 @@ with tab4:
                 "Sonuç": [ist_sonuc]
             })
             istatistik_df = pd.concat([istatistik_df, yeni_ist], ignore_index=True)
-            istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False)
+            # Dosyaya zorla ve garantili yazma (Disk buffer bypass)
+            istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False, encoding="utf-8")
+            with open(DOSYA_ISTATISTIK, "a", encoding="utf-8") as f:
+                os.fsync(f.fileno())
             
             st.success("Maç tahmini istatistiklere eklendi!")
             st.rerun()
@@ -956,7 +968,7 @@ with tab4:
             
             if col_is5.button("🗑️ Sil", key=f"sil_ist_{idx}"):
                 istatistik_df = istatistik_df.drop(idx).reset_index(drop=True)
-                istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False)
+                istatistik_df.to_csv(DOSYA_ISTATISTIK, index=False, encoding="utf-8")
                 st.rerun()
 
         st.divider()
