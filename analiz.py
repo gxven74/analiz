@@ -619,7 +619,7 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu (En Sağ Duvara Sıfır Yaslı)
+# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu (En Sağ Duvara Sıfır Yaslı ve Mini)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
@@ -941,7 +941,7 @@ with tab4:
         st.divider()
         st.subheader("📋 Kayıtlı Tahmin Geçmişi")
 
-        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Açıklama / Tarih)", value="", key="ist_arama_input")
+        ist_arama = st.text_input("🔍 Tahmin Geçmişinde Ara (Takım / Tahmin / Tarih)", value="", key="ist_arama_input")
         filtrelenmis_ist = istatistik_df
         if ist_arama.strip():
             filtrelenmis_ist = istatistik_df[istatistik_df.astype(str).apply(lambda x: x.str.contains(ist_arama, case=False)).any(axis=1)]
