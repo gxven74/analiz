@@ -171,7 +171,7 @@ else:
     </style>
     """
 
-# Genel Mobil ve Arayüz Uyumlu CSS (Sağ Üst Buton Tam Sağa Sınıra Yaslı)
+# Genel Mobil ve Arayüz Uyumlu CSS
 st.markdown(f"""
 {tema_css}
 <style>
@@ -619,7 +619,7 @@ def mac_hesapla(ev_key, dep_key):
         "durum": durum, "aksiyon": aksiyon, "guven_orani": guven_orani
     }
 
-# Üst Başlık ve Sağ Üst Sadece Antrasit Uyumlu Saf Simge (Tam Sağa Sınıra Yaslı)
+# Üst Başlık ve Sağ Üst Tema Değiştirme Butonu (En Sağ Duvara Sıfır Yaslı)
 col_baslik, col_tema = st.columns([5, 1])
 with col_baslik:
     st.markdown(f"### ⚽ Poisson Tahmin Motoru ({len(TAKIM_PROFILLERI)} Takım)")
