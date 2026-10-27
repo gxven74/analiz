@@ -1958,17 +1958,61 @@ with tab4:
 # TAB 5: AKILLI KUPON CHECK-UP (0-3 BİTEN 1X & VALUE DEDEKTÖRÜ)
 # ==============================================================================
 with tab5:
-    st.markdown("### 🕵️‍♂️ Akıllı Kupon Check-Up (26/27 Tuzak & Value Dedektörü)")
+    st.markdown("### 🕵️‍♂️ Akıllı Kupon Check-Up & Value Hunter (26/27 Tuzak & İddaa Açığı Radarı)")
 
     if "aktif_kupon" not in st.session_state:
         st.session_state.aktif_kupon = []
 
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
 
+    c_ev_col, c_dep_col = st.columns(2)
+    k_ev = c_ev_col.selectbox("🏠 Ev Sahibi", takim_listesi, index=takim_listesi.index("galatasaray") if "galatasaray" in takim_listesi else 0, key="k_ev_sec")
+    k_dep = c_dep_col.selectbox("✈️ Deplasman", takim_listesi, index=takim_listesi.index("fenerbahce") if "fenerbahce" in takim_listesi else 1, key="k_dep_sec")
+
+    if k_ev and k_dep and k_ev != k_dep:
+        analiz_onizleme = mac_hesapla(k_ev, k_dep)
+        marketler = [
+            {"Market": "1.5 ÜST", "Olasılık": analiz_onizleme["p_15_ust"], "Karakter": "Temel Banko"},
+            {"Market": "İY 0.5 ÜST", "Olasılık": analiz_onizleme["p_iy_05_ust"], "Karakter": "İlk Yarı Gol"},
+            {"Market": "2.5 ÜST", "Olasılık": analiz_onizleme["p_25_ust"], "Karakter": "Yüksek Skor"},
+            {"Market": "KG VAR", "Olasılık": analiz_onizleme["p_kg_var"], "Karakter": "Karşılıklı Skor"},
+            {"Market": "MS 1", "Olasılık": analiz_onizleme["p_ev"], "Karakter": "Ev Galibiyeti"},
+            {"Market": "MS 2", "Olasılık": analiz_onizleme["p_dep"], "Karakter": "Deplasman Galibiyeti"},
+            {"Market": "1X Çifte Şans", "Olasılık": analiz_onizleme["p_1x"], "Karakter": "Ev Kaybetmez"},
+            {"Market": "X2 Çifte Şans", "Olasılık": analiz_onizleme["p_x2"], "Karakter": "Deplasman Kaybetmez"},
+            {"Market": "MS 1 & 1.5 ÜST", "Olasılık": analiz_onizleme["p_ms1_15_ust"], "Karakter": "Kombine / Katlayıcı"},
+            {"Market": "MS 2 & 1.5 ÜST", "Olasılık": analiz_onizleme["p_ms2_15_ust"], "Karakter": "Kombine / Katlayıcı"},
+            {"Market": "2.5 ALT", "Olasılık": analiz_onizleme["p_25_alt"], "Karakter": "Kısır Maç"},
+            {"Market": "KG YOK", "Olasılık": analiz_onizleme["p_kg_yok"], "Karakter": "Tek Taraflı / Savunma"}
+        ]
+
+        tablo_verisi = []
+        for m in marketler:
+            ol = m["Olasılık"]
+            ad_oran = round(100.0 / max(ol, 5.0), 2)
+            val_esik = round(ad_oran * 1.05, 2)
+            if ol >= 75.0:
+                durum = "💎 Güçlü Banko (%75+)"
+            elif ol >= 60.0:
+                durum = "🟢 Dengeli Tercih"
+            elif ol >= 45.0:
+                durum = "⚡ Sürpriz / Yüksek Oran"
+            else:
+                durum = "⚠️ Düşük İhtimal"
+            tablo_verisi.append({
+                "🎯 Market": m["Market"],
+                "🤖 YZ İhtimali": f"%{ol:.1f}",
+                "⚖️ YZ Adil Oran": f"{ad_oran:.2f}",
+                "🔥 Value Eşiği (Min İddaa Oranı)": f"{val_esik:.2f}+",
+                "💡 Güven & Durum": durum
+            })
+
+        with st.expander(f"🔍 {k_ev.title()} vs {k_dep.title()} — Tüm Marketlerin Değer Röntgeni (Value Hunter)", expanded=False):
+            st.caption("💡 **Nasıl Kullanılır?** İddaa bürosunun açtığı oran, tablodaki 'Value Eşiği'nden yüksekse o markette **matematiksel kâr marjı (İddaa Açığı)** vardır!")
+            st.markdown(pd.DataFrame(tablo_verisi).to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
+
     with st.form("kupon_mac_ekle_form", clear_on_submit=False):
-        ck1, ck2, ck3, ck4 = st.columns([2, 2, 2, 1.5])
-        k_ev = ck1.selectbox("🏠 Ev Sahibi", takim_listesi, index=takim_listesi.index("galatasaray") if "galatasaray" in takim_listesi else 0, key="k_ev_sec")
-        k_dep = ck2.selectbox("✈️ Deplasman", takim_listesi, index=takim_listesi.index("fenerbahce") if "fenerbahce" in takim_listesi else 1, key="k_dep_sec")
+        ck3, ck4 = st.columns([2, 1.5])
         k_tahmin = ck3.selectbox(
             "🎯 Tahmin",
             [
@@ -1980,10 +2024,6 @@ with tab5:
             key="k_tah_sec"
         )
         k_oran = ck4.number_input("📈 İddaa Oranı", min_value=1.01, max_value=50.0, value=1.30, step=0.05, key="k_oran_sec")
-
-        st.divider()
-        c_bedel_col = st.columns(1)[0]
-        kupon_bedeli = c_bedel_col.number_input("💵 Kupon Bedeli (TL) [Sabit Kasa Önerisi: 100 TL]", min_value=1.0, value=100.0, step=10.0, key="k_bedel_sec")
 
         ekle_btn = st.form_submit_button("➕ Maçı Analiz Et ve Kupona Ekle", use_container_width=True)
 
@@ -2005,7 +2045,19 @@ with tab5:
                 "1X Çifte Şans": analiz["p_1x"], "X2 Çifte Şans": analiz["p_x2"]
             }
             model_yuzdesi = oran_haritasi.get(k_tahmin, 50.0)
-            beklenen_deger_ev = (model_yuzdesi / 100.0) * k_oran
+            beklenen_deger_ev = round((model_yuzdesi / 100.0) * k_oran, 3)
+            adil_oran = round(100.0 / max(model_yuzdesi, 5.0), 2)
+            value_edge = round(((k_oran - adil_oran) / adil_oran) * 100.0, 1)
+
+            if value_edge >= 12.0:
+                value_rozeti = f"🔥 +%{value_edge:.1f} VALUE"
+            elif value_edge >= 3.0:
+                value_rozeti = f"✅ +%{value_edge:.1f} DEĞERLİ"
+            elif value_edge >= -5.0:
+                value_rozeti = f"⚖️ %{value_edge:+.1f} DENGELİ"
+            else:
+                value_rozeti = f"⚠️ %{value_edge:+.1f} EZİLMİŞ"
+
             min_hak_edilen_oran = round(max(1.10, (100.0 / max(model_yuzdesi, 40.0)) * 0.84), 2)
 
             seviye_farki = ep["seviye"] - dp["seviye"]
@@ -2016,7 +2068,6 @@ with tab5:
             uyari_notu = "✅ Sağlam Seçim (Kuponda Kalabilir)"
 
             # Gelişmiş 2026-27 Sniper Tuzak, Ölü Oran & Oran Anomalisi Kuralları
-            adil_oran = 100.0 / max(model_yuzdesi, 25.0)
             oran_anomalisi = k_oran >= (adil_oran * 1.28) and model_yuzdesi >= 68.0
             olu_oran_tuzagi = k_oran < (min_hak_edilen_oran - 0.05)
 
@@ -2146,11 +2197,17 @@ with tab5:
                     risk_puani = 45
                     uyari_notu = f"⚠️ DENK MAÇ: Beraberlik potansiyeli var (%{model_yuzdesi:.1f}) ama tekli önerilir."
 
+            if value_edge >= 12.0 and risk_puani <= 40:
+                uyari_notu += f" • 🔥 İddaa Açığı (+%{value_edge:.1f} Value)"
+
             st.session_state.aktif_kupon.append({
                 "Maç": f"{k_ev.title()} vs {k_dep.title()}",
                 "Tahmin": k_tahmin,
                 "Oran": k_oran,
+                "Adil Oran": adil_oran,
                 "Model (%)": model_yuzdesi,
+                "Value Edge (%)": value_edge,
+                "Value Rozeti": value_rozeti,
                 "EV": beklenen_deger_ev,
                 "Risk Puanı": risk_puani,
                 "Analiz Notu": uyari_notu
@@ -2159,25 +2216,47 @@ with tab5:
 
     if st.session_state.aktif_kupon:
         st.divider()
+        col_baslik, col_bedel = st.columns([2, 1])
+        col_baslik.markdown("### 📋 Aktif Kupon & Value Röntgeni")
+        kupon_bedeli = col_bedel.number_input("💵 Kupon Bedeli (TL) [Sabit Kasa: 100 TL]", min_value=1.0, value=float(st.session_state.get("k_bedel_sec", 100.0)), step=10.0, key="k_bedel_sec")
+
         kupon_df = pd.DataFrame(st.session_state.aktif_kupon)
         mac_sayisi = len(kupon_df)
         toplam_oran = float(np.prod(kupon_df["Oran"]))
         olasi_kazanc = toplam_oran * kupon_bedeli
         ortak_olasilik = float(np.prod(kupon_df["Model (%)"] / 100.0)) * 100.0
+        kupon_ev = (ortak_olasilik / 100.0) * toplam_oran
+        kupon_ev_fark = round((kupon_ev - 1.0) * 100.0, 1)
 
         curuk_elmalar = kupon_df[kupon_df["Risk Puanı"] >= 60]
         en_zayif_halka = kupon_df.loc[kupon_df["Risk Puanı"].idxmax()]
         kupon_saglik_skoru = max(0, 100 - int(kupon_df["Risk Puanı"].max() * 0.45) - (len(curuk_elmalar) * 15) - (max(0, mac_sayisi - 3) * 4))
 
-        km1, km2, km3, km4, km5 = st.columns(5)
+        km1, km2, km3, km4, km5, km6 = st.columns(6)
         km1.metric("Maç Sayısı", f"{mac_sayisi} Maç")
         km2.metric("Toplam Oran", f"{toplam_oran:.2f}")
         km3.metric("Olası Kazanç", f"{olasi_kazanc:.2f} TL", delta=f"Net: +{olasi_kazanc - kupon_bedeli:.1f} TL")
-        km4.metric("Kupon Tutma İhtimali", f"%{ortak_olasilik:.1f}")
-        km5.metric("Sağlık Puanı", f"{kupon_saglik_skoru} / 100")
+        km4.metric("Kupon İhtimali", f"%{ortak_olasilik:.1f}")
+        km5.metric(
+            "Kupon Değeri (EV)",
+            f"%{kupon_ev_fark:+.1f}",
+            delta="Kasa Lehine 🔥" if kupon_ev_fark > 0 else "Kasa Aleyhine 🚨",
+            delta_color="normal" if kupon_ev_fark > 0 else "inverse"
+        )
+        km6.metric("Sağlık Puanı", f"{kupon_saglik_skoru} / 100")
 
         if kupon_bedeli > 150:
             st.warning(f"⚠️ **KASA UYARISI:** Kupon bedelin ({kupon_bedeli:.0f} TL) önerilen sabit kasa limitinin (100-150 TL) üzerinde! Tek kupona yüksek basmak yerine sabit üniteyle git.")
+
+        if kupon_ev_fark >= 5.0 and len(curuk_elmalar) == 0:
+            st.success(f"🔥 **MATEMATİKSEL VALUE KUPON! (Beklenen Kâr: +%{kupon_ev_fark:.1f} EV)** — Bu kupondaki genel oran/ihtimal dengesi kasanın lehine. Uzun vadede artı yazar!")
+        elif kupon_ev_fark <= -20.0:
+            st.error(f"🚨 **AĞIR EZİLMİŞ KUPON (-%{abs(kupon_ev_fark):.1f} EV):** İddaa'nın açtığı oranlar maçların tutma ihtimaline göre çok kırpılmış! Bu kupon uzun vadede büroya çalışır.")
+
+        value_maclar = kupon_df[kupon_df.get("Value Edge (%)", pd.Series([0]*len(kupon_df))) >= 10.0]
+        if len(value_maclar) > 0:
+            v_isimler = ", ".join([f"**{r['Maç']}** ({r['Tahmin']} @ {r['Oran']:.2f} | Adil: {r.get('Adil Oran', 0):.2f})" for _, r in value_maclar.iterrows()])
+            st.info(f"💎 **İDDAA AÇIĞI (VALUE BET) TESPİT EDİLDİ:** {v_isimler} seçiminde İddaa bürosu modele göre cömert oran açmış (+%10+ Value Edge)!")
 
         if len(curuk_elmalar) > 0:
             curuk_isimler = ", ".join([f"**{r['Maç']} ({r['Tahmin']})**" for _, r in curuk_elmalar.iterrows()])
@@ -2206,15 +2285,18 @@ with tab5:
                 f"Maç başı seçimlerin doğru ancak {mac_sayisi} maç birleşince ortak tutma ihtimali **%{ortak_olasilik:.1f}** seviyesine düşüyor. En iyi 2 veya 3 maça indirmen önerilir."
             )
 
-        st.subheader("📋 Kupondaki Maçlar ve Kalite Röntgeni")
+        st.subheader("📋 Kupondaki Maçlar ve Kalite & Value Röntgeni")
         for idx, row in kupon_df.iterrows():
-            cl1, cl2, cl3, cl4, cl5, cl6 = st.columns([2.0, 1.2, 0.8, 1.2, 3.3, 0.6])
+            cl1, cl2, cl3, cl4, cl5, cl6, cl7 = st.columns([1.8, 1.2, 0.8, 0.8, 1.3, 3.4, 0.5])
             cl1.write(f"⚽ **{row['Maç']}**")
             cl2.write(f"🎯 {row['Tahmin']}")
             cl3.write(f"📈 **{row['Oran']:.2f}**")
-            cl4.write(f"🤖 **%{row['Model (%)']:.1f}**")
-            cl5.write(f"{row['Analiz Notu']}")
-            if cl6.button("🗑️", key=f"k_sil_{idx}"):
+            adil_val = row.get("Adil Oran", 0.0)
+            cl4.write(f"⚖️ `{adil_val:.2f}`" if adil_val > 0 else "-")
+            roz_val = row.get("Value Rozeti", "-")
+            cl5.write(f"**{roz_val}**")
+            cl6.write(f"🤖 %{row['Model (%)']:.1f} • {row['Analiz Notu']}")
+            if cl7.button("🗑️", key=f"k_sil_{idx}"):
                 st.session_state.aktif_kupon.pop(idx)
                 st.rerun()
 
