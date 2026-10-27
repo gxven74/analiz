@@ -1205,26 +1205,6 @@ with col_tema:
             st.session_state.tema = "Siyah"
             st.rerun()
 
-def yerel_ip_bul():
-    import socket
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        ip = s.getsockname()[0]
-        s.close()
-        return ip
-    except Exception:
-        return "192.168.1.103"
-
-yerel_ip = yerel_ip_bul()
-
-with st.expander("📱 Telefondan Giriş Rehberi (Wi-Fi & Dışarıdan Bağlantı)", expanded=False):
-    st.markdown(f"""
-    * 🏠 **Evde / Aynı Wi-Fi'de:** Telefonun tarayıcısını (Safari / Chrome) aç ve şunu yaz:  
-      👉 **`http://{yerel_ip}:8501`** *(Bilgisayarda `Baslat.bat` açık olmalı)*
-    * 🌍 **Dışarıda / Mobil Veride (4G/5G):** Klasördeki **`Telefondan_Disaridan_Baglan.bat`** dosyasını çalıştır, vereceği güvenli `https://...trycloudflare.com` bağlantısıyla her yerden gir!
-    """)
-
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "🔍 Tekli Analiz",
     "⚡ Bülten & Kombine",
