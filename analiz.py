@@ -635,11 +635,22 @@ def canli_api_yukle():
             return {}
     return {}
 
+TUM_PUAN_LIGLERI = [
+    'eng.1', 'esp.1', 'ita.1', 'ger.1', 'ger.2', 'fra.1',
+    'tur.1', 'ned.1', 'por.1', 'bel.1', 'eng.2', 'esp.2', 'ita.2', 'fra.2',
+    'sco.1', 'gre.1', 'aut.1', 'sui.1', 'den.1', 'swe.1', 'nor.1', 'usa.1'
+]
+
+TUM_FIKSTUR_LIGLERI = [
+    'eng.1', 'esp.1', 'ita.1', 'ger.1', 'fra.1', 'tur.1', 'ned.1', 'por.1',
+    'bel.1', 'sco.1', 'gre.1', 'aut.1', 'sui.1', 'den.1', 'swe.1', 'nor.1',
+    'eng.2', 'esp.2', 'ita.2', 'ger.2', 'fra.2', 'usa.1',
+    'uefa.champions', 'uefa.europa', 'uefa.europa.conf',
+    'eng.fa', 'eng.league_cup', 'esp.copa_del_rey', 'ger.dfb_pokal', 'ita.coppa_italia', 'fra.coupe_de_france', 'ned.cup'
+]
+
 def canli_api_guncelle():
-    leagues = [
-        'eng.1', 'esp.1', 'ita.1', 'ger.1', 'ger.2', 'fra.1',
-        'tur.1', 'ned.1', 'por.1', 'bel.1', 'eng.2', 'esp.2', 'ita.2', 'fra.2'
-    ]
+    leagues = TUM_PUAN_LIGLERI
     def fetch_standings(code):
         teams = {}
         try:
@@ -659,12 +670,14 @@ def canli_api_guncelle():
                         if gp > 0:
                             gf = float(st_map.get('pointsFor', 0) or 0)
                             ga = float(st_map.get('pointsAgainst', 0) or 0)
+                            wins = float(st_map.get('wins', 0) or 0)
                             teams[tk] = {
+                                "team_id": str(e['team'].get('id', '')),
                                 "lig": code,
                                 "isim": raw_name,
                                 "sira": int(float(st_map.get('rank', 0) or 0)),
                                 "mac": int(gp),
-                                "g": int(float(st_map.get('wins', 0) or 0)),
+                                "g": int(wins),
                                 "b": int(float(st_map.get('ties', 0) or 0)),
                                 "m": int(float(st_map.get('losses', 0) or 0)),
                                 "ag": int(gf), "yg": int(ga),
@@ -672,14 +685,15 @@ def canli_api_guncelle():
                                 "mb_ag": round(gf / gp, 2),
                                 "mb_yg": round(ga / gp, 2),
                                 "mb_toplam": round((gf + ga) / gp, 2),
-                                "karne": f"{int(float(st_map.get('wins',0)))}G-{int(float(st_map.get('ties',0)))}B-{int(float(st_map.get('losses',0)))}M"
+                                "win_rate": round((wins / gp) * 100.0, 1),
+                                "karne": f"{int(wins)}G-{int(float(st_map.get('ties',0)))}B-{int(float(st_map.get('losses',0)))}M"
                             }
         except Exception:
             pass
         return teams
 
     canli_db = {}
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as ex:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as ex:
         all_results = list(ex.map(fetch_standings, leagues))
         for res in all_results:
             for k, v in res.items():
@@ -702,7 +716,7 @@ def canli_api_guncelle():
 def canli_api_fikstur_cek(tarih_str=None):
     if not tarih_str:
         tarih_str = datetime.now().strftime("%Y%m%d")
-    ligler = ['eng.1', 'esp.1', 'ita.1', 'ger.1', 'fra.1', 'tur.1', 'ned.1', 'por.1', 'ger.2']
+    ligler = TUM_FIKSTUR_LIGLERI
     mac_listesi = []
     gorulen = set()
     def fetch_lig_fikstur(code):
@@ -726,7 +740,7 @@ def canli_api_fikstur_cek(tarih_str=None):
             pass
         return res
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=14) as ex:
         for lig_maclar in ex.map(fetch_lig_fikstur, ligler):
             for m in lig_maclar:
                 if m not in gorulen:
@@ -735,7 +749,7 @@ def canli_api_fikstur_cek(tarih_str=None):
     return "\n".join(mac_listesi)
 
 def canli_biten_skorlari_getir():
-    ligler = ['eng.1', 'esp.1', 'ita.1', 'ger.1', 'fra.1', 'tur.1', 'ned.1', 'por.1', 'ger.2', 'eng.2', 'esp.2', 'ita.2', 'fra.2', 'bel.1']
+    ligler = TUM_FIKSTUR_LIGLERI
     bugun = datetime.now()
     tarihler = [(bugun - timedelta(days=i)).strftime("%Y%m%d") for i in range(4)]
     gorevler = [(lig, t) for lig in ligler for t in tarihler]
@@ -774,6 +788,400 @@ def canli_biten_skorlari_getir():
                 if ek and dk:
                     skor_db[(ek, dk)] = (h_score, a_score)
     return skor_db
+
+def american_to_decimal_oran(ml):
+    try:
+        if ml is None or ml == "":
+            return None
+        v = float(ml)
+        if v == 0:
+            return None
+        if v > 0:
+            return round(1.0 + (v / 100.0), 2)
+        else:
+            return round(1.0 + (100.0 / abs(v)), 2)
+    except Exception:
+        return None
+
+@getattr(st, "cache_data", lambda **kw: (lambda f: f))(ttl=900, show_spinner=False)
+def sofascore_mac_istihbarati_cek(ev_key, dep_key):
+    """
+    SofaScore 360° Derin Maç İstihbarat Motoru:
+    1. Ev & Deplasman Son 5 Resmi Maç Karnesi + 1.5Ü/2.5Ü/KG Var Trendi
+    2. H2H (Kafa Kafaya Aralarındaki Son Maçlar Geçmişi)
+    3. Takım Liderleri (Gol Kralları, Asist Kralları, En Çok Şut Çekenler, Kaleci Kurtarışları)
+    4. Son Resmi Maç Saha Dizilişi (Formasyon), İlk 11 Kadroları ve Maç İstatistikleri
+    5. Global Bahis Bürosu (DraftKings / Bet365) Açılış Oranları (MS 1-0-2 & 2.5 Alt/Üst)
+    """
+    canli_db = canli_api_yukle()
+    ev_info = canli_db.get(ev_key, {})
+    dep_info = canli_db.get(dep_key, {})
+    ev_id, ev_lig = str(ev_info.get("team_id", "")), ev_info.get("lig", "")
+    dep_id, dep_lig = str(dep_info.get("team_id", "")), dep_info.get("lig", "")
+
+    def json_getir(url):
+        if not url:
+            return {}
+        try:
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=5) as r:
+                return json.loads(r.read().decode('utf-8'))
+        except Exception:
+            return {}
+
+    url_ev_past = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{ev_lig}/teams/{ev_id}/schedule" if (ev_id and ev_lig) else ""
+    url_ev_fix = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{ev_lig}/teams/{ev_id}/schedule?fixture=true" if (ev_id and ev_lig) else ""
+    url_dep_past = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{dep_lig}/teams/{dep_id}/schedule" if (dep_id and dep_lig) else ""
+    url_dep_fix = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{dep_lig}/teams/{dep_id}/schedule?fixture=true" if (dep_id and dep_lig) else ""
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:
+        ev_past_d, ev_fix_d, dep_past_d, dep_fix_d = list(ex.map(json_getir, [url_ev_past, url_ev_fix, url_dep_past, url_dep_fix]))
+
+    def son5_ayikla(sched_data, team_id):
+        events = sched_data.get("events", [])
+        bitenler = []
+        for e in events:
+            comp = e.get("competitions", [{}])[0]
+            if comp.get("status", {}).get("type", {}).get("completed", False):
+                bitenler.append(e)
+        bitenler.sort(key=lambda x: x.get("date", ""), reverse=True)
+        son5_liste = []
+        toplam_gol_sayisi = 0
+        ust15_say = 0
+        ust25_say = 0
+        kg_say = 0
+        son_event_id = bitenler[0].get("id", "") if bitenler else ""
+
+        for e in bitenler[:5]:
+            comp = e.get("competitions", [{}])[0]
+            comps = comp.get("competitors", [])
+            if len(comps) != 2:
+                continue
+            biz = comps[0] if str(comps[0].get("team", {}).get("id", "")) == str(team_id) else comps[1]
+            rakip = comps[1] if biz == comps[0] else comps[0]
+            saha = "🏠 İçerde" if biz.get("homeAway") == "home" else "✈️ Deplasman"
+            b_skor_raw = biz.get("score", {})
+            r_skor_raw = rakip.get("score", {})
+            b_gol = int(float(b_skor_raw.get("value", 0) if isinstance(b_skor_raw, dict) else (b_skor_raw or 0)))
+            r_gol = int(float(r_skor_raw.get("value", 0) if isinstance(r_skor_raw, dict) else (r_skor_raw or 0)))
+            t_gol = b_gol + r_gol
+            toplam_gol_sayisi += t_gol
+            if t_gol >= 2:
+                ust15_say += 1
+            if t_gol >= 3:
+                ust25_say += 1
+            if b_gol >= 1 and r_gol >= 1:
+                kg_say += 1
+
+            if b_gol > r_gol:
+                sonuc_rozet = "🟢 G"
+            elif b_gol == r_gol:
+                sonuc_rozet = "🟡 B"
+            else:
+                sonuc_rozet = "🔴 M"
+
+            tarih_raw = e.get("date", "")[:10]
+            try:
+                tarih_fmt = datetime.strptime(tarih_raw, "%Y-%m-%d").strftime("%d.%m.%Y")
+            except Exception:
+                tarih_fmt = tarih_raw
+
+            barem_etiket = f"{'2.5 ÜST' if t_gol >= 3 else ('1.5 ÜST' if t_gol == 2 else '1.5 ALT')} | {'KG VAR' if (b_gol > 0 and r_gol > 0) else 'KG YOK'}"
+            son5_liste.append({
+                "Tarih": tarih_fmt,
+                "Saha": saha,
+                "Rakip": rakip.get("team", {}).get("displayName", "-"),
+                "Skor": f"{b_gol} - {r_gol}",
+                "Sonuç": sonuc_rozet,
+                "Barem": barem_etiket
+            })
+
+        n = len(son5_liste)
+        trend = {
+            "mac_sayisi": n,
+            "ort_gol": round(toplam_gol_sayisi / n, 2) if n > 0 else 0.0,
+            "ust15_yuzde": int(round((ust15_say / n) * 100)) if n > 0 else 0,
+            "ust25_yuzde": int(round((ust25_say / n) * 100)) if n > 0 else 0,
+            "kg_yuzde": int(round((kg_say / n) * 100)) if n > 0 else 0,
+            "ust25_metin": f"{ust25_say}/{n}",
+            "kg_metin": f"{kg_say}/{n}"
+        }
+        return son5_liste, trend, son_event_id
+
+    ev_son5, ev_trend, ev_last_eid = son5_ayikla(ev_past_d, ev_id)
+    dep_son5, dep_trend, dep_last_eid = son5_ayikla(dep_past_d, dep_id)
+
+    # İki takım arasındaki ortak maç (geçmiş veya gelecek) ID'sini bul
+    ortak_eid = ""
+    ortak_lig = ev_lig or dep_lig
+    tum_ev_maclari = ev_past_d.get("events", []) + ev_fix_d.get("events", [])
+    for e in tum_ev_maclari:
+        comp = e.get("competitions", [{}])[0]
+        t_ids = [str(c.get("team", {}).get("id", "")) for c in comp.get("competitors", [])]
+        if dep_id and dep_id in t_ids:
+            ortak_eid = str(e.get("id", ""))
+            break
+
+    ev_next_eid = str(ev_fix_d.get("events", [{}])[0].get("id", "")) if ev_fix_d.get("events") else ""
+    dep_next_eid = str(dep_fix_d.get("events", [{}])[0].get("id", "")) if dep_fix_d.get("events") else ""
+
+    sum_urls = [
+        f"https://site.api.espn.com/apis/site/v2/sports/soccer/{ev_lig}/summary?event={ev_last_eid}" if (ev_lig and ev_last_eid) else "",
+        f"https://site.api.espn.com/apis/site/v2/sports/soccer/{dep_lig}/summary?event={dep_last_eid}" if (dep_lig and dep_last_eid) else "",
+        f"https://site.api.espn.com/apis/site/v2/sports/soccer/{ortak_lig}/summary?event={ortak_eid}" if (ortak_lig and ortak_eid) else "",
+        f"https://site.api.espn.com/apis/site/v2/sports/soccer/{ev_lig}/summary?event={ev_next_eid}" if (ev_lig and ev_next_eid and ev_next_eid != ortak_eid) else "",
+        f"https://site.api.espn.com/apis/site/v2/sports/soccer/{dep_lig}/summary?event={dep_next_eid}" if (dep_lig and dep_next_eid and dep_next_eid != ortak_eid) else ""
+    ]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:
+        ev_sum_d, dep_sum_d, ortak_sum_d, ev_next_sum_d, dep_next_sum_d = list(ex.map(json_getir, sum_urls))
+
+    def liderleri_ve_kadroyu_ayikla(last_sum_data, aday_lider_kaynaklari, team_id):
+        lider_dict = {"gol": [], "asist": [], "sut": [], "kurtaris": []}
+        for kaynak in aday_lider_kaynaklari:
+            if not kaynak or not kaynak.get("leaders"):
+                continue
+            for l_team in kaynak.get("leaders", []):
+                if str(l_team.get("team", {}).get("id", "")) == str(team_id):
+                    for cat in l_team.get("leaders", []):
+                        c_name = cat.get("name", "")
+                        for ldr in cat.get("leaders", [])[:3]:
+                            oyuncu = ldr.get("athlete", {}).get("displayName", "-")
+                            deger = ldr.get("displayValue", "")
+                            if c_name == "goalsLeaders" and len(lider_dict["gol"]) < 3:
+                                lider_dict["gol"].append(f"**{oyuncu}** ({deger.replace('Matches:', 'Maç:').replace('Goals:', 'Gol:')})")
+                            elif c_name == "assistsLeaders" and len(lider_dict["asist"]) < 3:
+                                lider_dict["asist"].append(f"**{oyuncu}** ({deger.replace('Matches:', 'Maç:').replace('Assists:', 'Asist:')})")
+                            elif c_name == "totalShots" and len(lider_dict["sut"]) < 3:
+                                lider_dict["sut"].append(f"**{oyuncu}** ({deger} Şut)")
+                            elif c_name == "saves" and len(lider_dict["kurtaris"]) < 2:
+                                lider_dict["kurtaris"].append(f"**{oyuncu}** ({deger} Kurtarış)")
+            if lider_dict["gol"] or lider_dict["asist"]:
+                break
+
+        dizilis = "-"
+        ilk_11 = []
+        for r_obj in last_sum_data.get("rosters", []):
+            if str(r_obj.get("team", {}).get("id", "")) == str(team_id):
+                dizilis = r_obj.get("formation", "-") or "-"
+                for p in r_obj.get("roster", []):
+                    if p.get("starter"):
+                        ilk_11.append(p.get("athlete", {}).get("displayName", ""))
+
+        son_mac_istatistik = {}
+        for b_team in last_sum_data.get("boxscore", {}).get("teams", []):
+            if str(b_team.get("team", {}).get("id", "")) == str(team_id):
+                st_map = {s.get("name"): s.get("displayValue", "0") for s in b_team.get("statistics", [])}
+                son_mac_istatistik = {
+                    "Topla Oynama": f"%{st_map.get('possessionPct', '-')}",
+                    "Toplam Şut": st_map.get("totalShots", "-"),
+                    "İsabetli Şut": st_map.get("shotsOnTarget", "-"),
+                    "Korner": st_map.get("wonCorners", "-"),
+                    "İsabetli Pas": f"{st_map.get('accuratePasses', '-')} / {st_map.get('totalPasses', '-')}",
+                    "Kaleci Kurtarışı": st_map.get("saves", "-"),
+                    "Faul / Sarı Kart": f"{st_map.get('foulsCommitted', '-')} Faul / {st_map.get('yellowCards', '0')} Sarı"
+                }
+        return lider_dict, {"dizilis": dizilis, "ilk_11": ilk_11, "istatistik": son_mac_istatistik}
+
+    ev_liderler, ev_son_detay = liderleri_ve_kadroyu_ayikla(ev_sum_d, [ortak_sum_d, ev_next_sum_d, ev_sum_d], ev_id)
+    dep_liderler, dep_son_detay = liderleri_ve_kadroyu_ayikla(dep_sum_d, [ortak_sum_d, dep_next_sum_d, dep_sum_d], dep_id)
+
+    # H2H (Kafa Kafaya Geçmiş Maçlar) Ayıklama
+    h2h_maclar = []
+    h2h_ozet = {}
+    h2h_kaynak = ortak_sum_d if ortak_sum_d.get("seasonseries") else ev_sum_d
+    for ser in h2h_kaynak.get("seasonseries", []):
+        if ser.get("type") == "head-to-head" or "events" in ser:
+            h2h_toplam_gol = 0
+            h2h_ust25 = 0
+            h2h_kg = 0
+            for hev in ser.get("events", []):
+                h_comps = hev.get("competitors", [])
+                if len(h_comps) != 2:
+                    continue
+                t_Ids = [str(c.get("team", {}).get("id", "")) for c in h_comps]
+                if ev_id and dep_id and (ev_id not in t_Ids or dep_id not in t_Ids):
+                    continue
+                hc = h_comps[0] if h_comps[0].get("homeAway") == "home" else h_comps[1]
+                ac = h_comps[1] if hc == h_comps[0] else h_comps[0]
+                try:
+                    hg = int(float(hc.get("score", 0) or 0))
+                    ag = int(float(ac.get("score", 0) or 0))
+                except Exception:
+                    continue
+                tg = hg + ag
+                h2h_toplam_gol += tg
+                if tg >= 3:
+                    h2h_ust25 += 1
+                if hg >= 1 and ag >= 1:
+                    h2h_kg += 1
+                t_raw = hev.get("date", "")[:10]
+                try:
+                    t_fmt = datetime.strptime(t_raw, "%Y-%m-%d").strftime("%d.%m.%Y")
+                except Exception:
+                    t_fmt = t_raw
+                h2h_maclar.append({
+                    "Tarih": t_fmt,
+                    "Ev Sahibi": hc.get("team", {}).get("displayName", "-"),
+                    "Skor": f"{hg} - {ag}",
+                    "Deplasman": ac.get("team", {}).get("displayName", "-"),
+                    "Turnuva": hev.get("competitionName", "-"),
+                    "Barem": f"{'2.5 ÜST' if tg >= 3 else '2.5 ALT'} | {'KG VAR' if (hg > 0 and ag > 0) else 'KG YOK'}"
+                })
+            if h2h_maclar:
+                hm_n = len(h2h_maclar)
+                h2h_ozet = {
+                    "mac_sayisi": hm_n,
+                    "ort_gol": round(h2h_toplam_gol / hm_n, 2),
+                    "ust25_orani": int(round((h2h_ust25 / hm_n) * 100)),
+                    "kg_orani": int(round((h2h_kg / hm_n) * 100)),
+                    "seri_notu": ser.get("summary", "")
+                }
+
+    # Global Bahis Bürosu Oranları (DraftKings / Bet365) Ayıklama
+    global_oranlar = {}
+    odds_list = ortak_sum_d.get("odds", []) or ortak_sum_d.get("pickcenter", [])
+    if odds_list:
+        o = odds_list[0]
+        buro = o.get("provider", {}).get("name", "Global Büro")
+        h_odd_obj = o.get("homeTeamOdds", {})
+        a_odd_obj = o.get("awayTeamOdds", {})
+        d_odd_obj = o.get("drawOdds", {})
+        h_tid = str(h_odd_obj.get("team", {}).get("id", ""))
+        # Oranların seçili Ev Sahibi / Deplasman yönüne göre eşlenmesi
+        if h_tid == str(dep_id):
+            ms1_dec = american_to_decimal_oran(a_odd_obj.get("moneyLine"))
+            ms2_dec = american_to_decimal_oran(h_odd_obj.get("moneyLine"))
+        else:
+            ms1_dec = american_to_decimal_oran(h_odd_obj.get("moneyLine"))
+            ms2_dec = american_to_decimal_oran(a_odd_obj.get("moneyLine"))
+        ms0_dec = american_to_decimal_oran(d_odd_obj.get("moneyLine"))
+        ust25_dec = american_to_decimal_oran(o.get("overOdds"))
+        alt25_dec = american_to_decimal_oran(o.get("underOdds"))
+        if any([ms1_dec, ms0_dec, ms2_dec, ust25_dec]):
+            global_oranlar = {
+                "buro": buro,
+                "MS 1": ms1_dec,
+                "MS 0": ms0_dec,
+                "MS 2": ms2_dec,
+                "2.5 ÜST": ust25_dec,
+                "2.5 ALT": alt25_dec
+            }
+
+    return {
+        "ev_son5": ev_son5, "ev_trend": ev_trend,
+        "dep_son5": dep_son5, "dep_trend": dep_trend,
+        "ev_liderler": ev_liderler, "dep_liderler": dep_liderler,
+        "ev_son_detay": ev_son_detay, "dep_son_detay": dep_son_detay,
+        "h2h_maclar": h2h_maclar, "h2h_ozet": h2h_ozet,
+        "global_oranlar": global_oranlar
+    }
+
+def sofascore_canli_maclari_listele():
+    """Sekme 6 için bugünün ve dünün (gece maçları) canlı/oynanan maçlarını 30 lig ve kupadan çeker."""
+    bugun_s = datetime.now().strftime("%Y%m%d")
+    dun_s = (datetime.now() - timedelta(days=1)).strftime("%Y%m%d")
+    gorevler = [(lig, bugun_s) for lig in TUM_FIKSTUR_LIGLERI] + [(lig, dun_s) for lig in ['uefa.champions', 'uefa.europa', 'uefa.europa.conf', 'eng.1', 'esp.1', 'ita.1', 'ger.1', 'tur.1']]
+
+    def tarama(args):
+        lig, t_str = args
+        bulunan = []
+        try:
+            url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{lig}/scoreboard?dates={t_str}"
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=4) as r:
+                d = json.loads(r.read().decode('utf-8'))
+                for ev in d.get("events", []):
+                    comp = ev.get("competitions", [{}])[0]
+                    st_type = comp.get("status", {}).get("type", {})
+                    state = st_type.get("state", "pre")
+                    short_det = st_type.get("shortDetail", "")
+                    clock_disp = comp.get("status", {}).get("displayClock", "")
+                    comps = comp.get("competitors", [])
+                    if len(comps) != 2:
+                        continue
+                    hc = comps[0] if comps[0].get("homeAway") == "home" else comps[1]
+                    ac = comps[1] if hc == comps[0] else comps[0]
+                    h_name = hc.get("team", {}).get("displayName", "")
+                    a_name = ac.get("team", {}).get("displayName", "")
+                    h_tk = canli_api_takim_esle(h_name) or canli_api_takim_esle(hc.get("team", {}).get("shortDisplayName", ""))
+                    a_tk = canli_api_takim_esle(a_name) or canli_api_takim_esle(ac.get("team", {}).get("shortDisplayName", ""))
+                    if not (h_tk and a_tk):
+                        continue
+                    h_sc = int(float(hc.get("score", 0) or 0))
+                    a_sc = int(float(ac.get("score", 0) or 0))
+                    dk_num = 60
+                    m_dk = re.search(r'(\d+)', str(clock_disp or short_det))
+                    if state == "in" and m_dk:
+                        dk_num = min(90, max(1, int(m_dk.group(1))))
+                    elif state == "post":
+                        dk_num = 85
+                    elif state == "pre":
+                        dk_num = 1
+
+                    durum_ikon = "🟢 CANLI" if state == "in" else ("🏁 BİTTİ" if state == "post" else "⏳ MAÇ ÖNÜ")
+                    oncelik = 0 if state == "in" else (1 if state == "post" else 2)
+                    etiket = f"{durum_ikon} ({short_det}) | {h_tk.title()} {h_sc} - {a_sc} {a_tk.title()} [{lig.upper()}]"
+                    bulunan.append({
+                        "etiket": etiket,
+                        "event_id": str(ev.get("id", "")),
+                        "lig": lig,
+                        "ev_key": h_tk,
+                        "dep_key": a_tk,
+                        "ev_skor": h_sc,
+                        "dep_skor": a_sc,
+                        "dakika": dk_num,
+                        "state": state,
+                        "oncelik": oncelik
+                    })
+        except Exception:
+            pass
+        return bulunan
+
+    tum_maclar = []
+    gorulen_id = set()
+    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as ex:
+        for lst in ex.map(tarama, gorevler):
+            for m in lst:
+                if m["event_id"] not in gorulen_id:
+                    gorulen_id.add(m["event_id"])
+                    tum_maclar.append(m)
+    tum_maclar.sort(key=lambda x: (x["oncelik"], x["etiket"]))
+    return tum_maclar
+
+def sofascore_canli_mac_istatistik_cek(lig_kodu, event_id):
+    """Belirli bir event_id için canlı/maç sonu şut, isabetli şut, korner, topla oynama ve kırmızı kart sayılarını çeker."""
+    try:
+        url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/{lig_kodu}/summary?event={event_id}"
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=5) as r:
+            sd = json.loads(r.read().decode('utf-8'))
+        teams = sd.get("boxscore", {}).get("teams", [])
+        sonuc = {
+            "ev_ts": 8, "ev_isab": 3, "ev_topla": 50, "ev_korn": 4, "ev_kirmizi": 0,
+            "dep_ts": 6, "dep_isab": 2, "dep_korn": 3, "dep_kirmizi": 0
+        }
+        for idx, t_obj in enumerate(teams):
+            ha = t_obj.get("homeAway", "home" if idx == 0 else "away")
+            st_map = {s.get("name"): s.get("displayValue", "0") for s in t_obj.get("statistics", [])}
+            ts = int(float(st_map.get("totalShots", 0) or 0))
+            isab = int(float(st_map.get("shotsOnTarget", 0) or 0))
+            korn = int(float(st_map.get("wonCorners", 0) or 0))
+            kirm = int(float(st_map.get("redCards", 0) or 0))
+            poss = int(round(float(st_map.get("possessionPct", 50) or 50)))
+            if ha == "home":
+                sonuc["ev_ts"] = ts
+                sonuc["ev_isab"] = isab
+                sonuc["ev_topla"] = min(90, max(10, poss))
+                sonuc["ev_korn"] = korn
+                sonuc["ev_kirmizi"] = kirm
+            else:
+                sonuc["dep_ts"] = ts
+                sonuc["dep_isab"] = isab
+                sonuc["dep_korn"] = korn
+                sonuc["dep_kirmizi"] = kirm
+        return sonuc
+    except Exception:
+        return None
 
 def tahmin_sonucunu_belirle(tahmin_str, h_score, a_score):
     toplam = h_score + a_score
@@ -1239,6 +1647,9 @@ with tab1:
             dep_avrupa = st.checkbox("⚡ Hafta İçi Ağır Avrupa Maçı Oynadı (Rotasyon Riski)", key="dep_avrupa_cb")
 
     if st.button("🚀 Detaylı Analiz Et", use_container_width=True):
+        st.session_state["tab1_aktif_analiz"] = True
+
+    if st.session_state.get("tab1_aktif_analiz", False):
         if ev == dep:
             st.error("⚠️ Aynı takımı hem Ev Sahibi hem Deplasman olarak seçtin kanka! Lütfen iki farklı takım seç.")
             st.stop()
@@ -1286,6 +1697,128 @@ with tab1:
                         st.write(f"⚽ Gol: **{cdep['ag']} Attı** ({cdep['mb_ag']}/m) - **{cdep['yg']} Yedi** ({cdep['mb_yg']}/m)")
                     else:
                         st.caption(f"✈️ {dep.title()}: Canlı lig verisi bulunamadı.")
+
+        # ==============================================================================
+        # 📡 SOFASCORE 360° DERİN MAÇ İSTİHBARAT PANELİ
+        # ==============================================================================
+        with st.expander(f"📡 SofaScore 360° Derin Maç İstihbaratı ({ev.title()} vs {dep.title()} — Son 5 Maç, H2H, Gol Kralları, İlk 11 & Global Oranlar)", expanded=True):
+            with st.spinner("Canlı SofaScore tarzı derin maç verileri çekiliyor..."):
+                ss_veri = sofascore_mac_istihbarati_cek(ev, dep)
+
+            ss_tab1, ss_tab2, ss_tab3, ss_tab4, ss_tab5 = st.tabs([
+                "📊 Son 5 Maç & Trend",
+                "⚔️ H2H (Kafa Kafaya)",
+                "🎯 Gol/Asist/Şut Kralları",
+                "📋 Son Maç İlk 11 & İstatistik",
+                "💰 Global Büro Oranları"
+            ])
+
+            with ss_tab1:
+                sc_s1, sc_s2 = st.columns(2)
+                with sc_s1:
+                    st.markdown(f"##### 🏠 {ev.title()} — Son 5 Resmi Maç")
+                    ev_tr = ss_veri.get("ev_trend", {})
+                    if ss_veri.get("ev_son5"):
+                        st.info(
+                            f"🔥 **Maç Başı Gol:** {ev_tr.get('ort_gol', 0):.2f} | "
+                            f"**2.5 ÜST:** {ev_tr.get('ust25_metin', '-')} (%{ev_tr.get('ust25_yuzde', 0)}) | "
+                            f"**KG VAR:** {ev_tr.get('kg_metin', '-')} (%{ev_tr.get('kg_yuzde', 0)})"
+                        )
+                        st.markdown(pd.DataFrame(ss_veri["ev_son5"]).to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
+                    else:
+                        st.caption("Bu takım için son 5 maç fikstür verisi bulunamadı.")
+                with sc_s2:
+                    st.markdown(f"##### ✈️ {dep.title()} — Son 5 Resmi Maç")
+                    dep_tr = ss_veri.get("dep_trend", {})
+                    if ss_veri.get("dep_son5"):
+                        st.info(
+                            f"🔥 **Maç Başı Gol:** {dep_tr.get('ort_gol', 0):.2f} | "
+                            f"**2.5 ÜST:** {dep_tr.get('ust25_metin', '-')} (%{dep_tr.get('ust25_yuzde', 0)}) | "
+                            f"**KG VAR:** {dep_tr.get('kg_metin', '-')} (%{dep_tr.get('kg_yuzde', 0)})"
+                        )
+                        st.markdown(pd.DataFrame(ss_veri["dep_son5"]).to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
+                    else:
+                        st.caption("Bu takım için son 5 maç fikstür verisi bulunamadı.")
+
+            with ss_tab2:
+                h2h_m = ss_veri.get("h2h_maclar", [])
+                h2h_oz = ss_veri.get("h2h_ozet", {})
+                if h2h_m:
+                    st.success(
+                        f"⚔️ **Kafa Kafaya (H2H) Özeti ({h2h_oz.get('mac_sayisi', 0)} Maç):** "
+                        f"Maç Başı Ortalama **{h2h_oz.get('ort_gol', 0):.2f} Gol** | "
+                        f"**2.5 ÜST Oranı:** %{h2h_oz.get('ust25_orani', 0)} | "
+                        f"**KG VAR Oranı:** %{h2h_oz.get('kg_orani', 0)}"
+                    )
+                    st.markdown(pd.DataFrame(h2h_m).to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
+                else:
+                    st.caption("İki takım arasında yakın tarihli doğrudan H2H kayıtlı maç bulunamadı (Farklı lig veya yeni yükselen takım olabilir).")
+
+            with ss_tab3:
+                lc1, lc2 = st.columns(2)
+                ev_l = ss_veri.get("ev_liderler", {})
+                dep_l = ss_veri.get("dep_liderler", {})
+                with lc1:
+                    st.markdown(f"##### 🏠 {ev.title()} Sezon Liderleri")
+                    st.write("⚽ **En Golcüler:** " + (", ".join(ev_l.get("gol", [])) if ev_l.get("gol") else "Veri yok"))
+                    st.write("🎯 **Asist Kralları:** " + (", ".join(ev_l.get("asist", [])) if ev_l.get("asist") else "Veri yok"))
+                    st.write("🚀 **Şut Liderleri:** " + (", ".join(ev_l.get("sut", [])) if ev_l.get("sut") else "Veri yok"))
+                    st.write("🧤 **Kaleci Kurtarışları:** " + (", ".join(ev_l.get("kurtaris", [])) if ev_l.get("kurtaris") else "Veri yok"))
+                with lc2:
+                    st.markdown(f"##### ✈️ {dep.title()} Sezon Liderleri")
+                    st.write("⚽ **En Golcüler:** " + (", ".join(dep_l.get("gol", [])) if dep_l.get("gol") else "Veri yok"))
+                    st.write("🎯 **Asist Kralları:** " + (", ".join(dep_l.get("asist", [])) if dep_l.get("asist") else "Veri yok"))
+                    st.write("🚀 **Şut Liderleri:** " + (", ".join(dep_l.get("sut", [])) if dep_l.get("sut") else "Veri yok"))
+                    st.write("🧤 **Kaleci Kurtarışları:** " + (", ".join(dep_l.get("kurtaris", [])) if dep_l.get("kurtaris") else "Veri yok"))
+
+            with ss_tab4:
+                kd1, kd2 = st.columns(2)
+                ev_sd = ss_veri.get("ev_son_detay", {})
+                dep_sd = ss_veri.get("dep_son_detay", {})
+                with kd1:
+                    st.markdown(f"##### 🏠 {ev.title()} — Son Maç Diziliş & Saha Verisi")
+                    st.write(f"📐 **Sahaya Çıktığı Diziliş:** `{ev_sd.get('dizilis', '-')}`")
+                    if ev_sd.get("ilk_11"):
+                        st.write("👥 **Son Maç İlk 11:** " + ", ".join(ev_sd["ilk_11"]))
+                    if ev_sd.get("istatistik"):
+                        st_df_ev = pd.DataFrame([{"İstatistik": k, "Değer": v} for k, v in ev_sd["istatistik"].items()])
+                        st.markdown(st_df_ev.to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
+                with kd2:
+                    st.markdown(f"##### ✈️ {dep.title()} — Son Maç Diziliş & Saha Verisi")
+                    st.write(f"📐 **Sahaya Çıktığı Diziliş:** `{dep_sd.get('dizilis', '-')}`")
+                    if dep_sd.get("ilk_11"):
+                        st.write("👥 **Son Maç İlk 11:** " + ", ".join(dep_sd["ilk_11"]))
+                    if dep_sd.get("istatistik"):
+                        st_df_dep = pd.DataFrame([{"İstatistik": k, "Değer": v} for k, v in dep_sd["istatistik"].items()])
+                        st.markdown(st_df_dep.to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
+
+            with ss_tab5:
+                g_oran = ss_veri.get("global_oranlar", {})
+                adil_harita = {
+                    "MS 1": round(100.0 / max(res["p_ev"], 5.0), 2),
+                    "MS 0": round(100.0 / max(res["p_ber"], 5.0), 2),
+                    "MS 2": round(100.0 / max(res["p_dep"], 5.0), 2),
+                    "2.5 ÜST": round(100.0 / max(res["p_25_ust"], 5.0), 2),
+                    "2.5 ALT": round(100.0 / max(res["p_25_alt"], 5.0), 2)
+                }
+                oran_karsilastirma = []
+                for mk in ["MS 1", "MS 0", "MS 2", "2.5 ÜST", "2.5 ALT"]:
+                    ad_o = adil_harita[mk]
+                    gl_o = g_oran.get(mk)
+                    if gl_o:
+                        fark_yuzde = round(((gl_o - ad_o) / ad_o) * 100.0, 1)
+                        val_durum = f"🔥 +%{fark_yuzde:.1f} VALUE" if fark_yuzde >= 5.0 else (f"⚖️ %{fark_yuzde:+.1f} Dengeli" if fark_yuzde >= -6.0 else f"⚠️ %{fark_yuzde:+.1f} Düşük")
+                        gl_str = f"{gl_o:.2f}"
+                    else:
+                        gl_str = "Açılmadı / Maç Önü Bekleniyor"
+                        val_durum = f"🎯 İddaa > {ad_o*1.05:.2f} ise Değerli"
+                    oran_karsilastirma.append({
+                        "Market": mk,
+                        "⚖️ YZ Adil Oran": f"{ad_o:.2f}",
+                        f"🌍 Global Büro Oranı ({g_oran.get('buro', 'Avrupa')})": gl_str,
+                        "💎 Value / Değer Analizi": val_durum
+                    })
+                st.markdown(pd.DataFrame(oran_karsilastirma).to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
 
         # Kulüp Güç & Beklenen Gol (xG) Karşılaştırma Kartları
         xg1, xg2, xg3 = st.columns(3)
@@ -2310,7 +2843,62 @@ with tab5:
 # TAB 6: CANLI MAÇ & İSTATİSTİK BAZLI MOMENTUM ASİSTANI (CANLI POISSON MOTORU)
 # ==============================================================================
 with tab6:
-    st.markdown("### ⚡ Canlı Maç & İstatistik Bazlı Momentum Asistanı")
+    st.markdown("### ⚡ Canlı Maç & İstatistik Bazlı Momentum Asistanı (SofaScore Canlı Veri Entegreli)")
+
+    with st.expander("📡 Canlı / Bugünkü Maçlardan İstatistikleri Tek Tıkla Otomatik Çek", expanded=True):
+        st.caption("Şut, isabetli şut, korner, topla oynama, kırmızı kart, dakika ve skor verilerini elle girmek yerine canlı API'den otomatik doldurabilirsin:")
+        col_c_btn1, col_c_btn2 = st.columns(2)
+        with col_c_btn1:
+            if st.button("📡 Bugünün Canlı / Oynanan Maçlarını Listele", use_container_width=True):
+                with st.spinner("30 Avrupa ligi ve kupasındaki canlı maçlar taranıyor..."):
+                    st.session_state["canli_mac_listesi_v3"] = sofascore_canli_maclari_listele()
+                    st.rerun()
+        with col_c_btn2:
+            if st.button("📊 Aşağıda Seçili 2 Takımın Son Maç Verisini Doldur", use_container_width=True):
+                ev_sec_m = st.session_state.get("canli_ev_sec_v3", "galatasaray")
+                dep_sec_m = st.session_state.get("canli_dep_sec_v3", "fenerbahce")
+                with st.spinner(f"{ev_sec_m.title()} ve {dep_sec_m.title()} son maç saha verileri çekiliyor..."):
+                    ss_m = sofascore_mac_istihbarati_cek(ev_sec_m, dep_sec_m)
+                    ev_ist = ss_m.get("ev_son_detay", {}).get("istatistik", {})
+                    dep_ist = ss_m.get("dep_son_detay", {}).get("istatistik", {})
+                    try:
+                        st.session_state["ev_ts_v3"] = int(float(str(ev_ist.get("Toplam Şut", "10")).replace("-", "10")))
+                        st.session_state["ev_isab_v3"] = int(float(str(ev_ist.get("İsabetli Şut", "4")).replace("-", "4")))
+                        st.session_state["ev_topla_v3"] = min(90, max(10, int(round(float(str(ev_ist.get("Topla Oynama", "%55")).replace("%", "").replace("-", "55"))))))
+                        st.session_state["ev_korn_v3"] = int(float(str(ev_ist.get("Korner", "5")).replace("-", "5")))
+                        st.session_state["dep_ts_v3"] = int(float(str(dep_ist.get("Toplam Şut", "8")).replace("-", "8")))
+                        st.session_state["dep_isab_v3"] = int(float(str(dep_ist.get("İsabetli Şut", "3")).replace("-", "3")))
+                        st.session_state["dep_korn_v3"] = int(float(str(dep_ist.get("Korner", "4")).replace("-", "4")))
+                        st.success(f"✅ {ev_sec_m.title()} ve {dep_sec_m.title()} son resmi maç saha istatistikleri forma otomatik dolduruldu!")
+                        st.rerun()
+                    except Exception:
+                        st.warning("⚠️ Bu takımlar için detaylı şut istatistiği bulunamadı.")
+
+        canli_liste = st.session_state.get("canli_mac_listesi_v3", [])
+        if canli_liste:
+            secenekler = [m["etiket"] for m in canli_liste]
+            secili_etiket = st.selectbox("🎯 Canlı / Bülten Maçı Seçin:", secenekler, key="canli_otomatik_secim")
+            if st.button("⚡ Seçili Maçın Canlı İstatistiklerini (Şut, Korner, Topla Oynama, Skor, Dakika) Forma Doldur!", use_container_width=True):
+                secili_obj = next((m for m in canli_liste if m["etiket"] == secili_etiket), None)
+                if secili_obj:
+                    with st.spinner("Maçın canlı saha istatistikleri çekiliyor..."):
+                        det = sofascore_canli_mac_istatistik_cek(secili_obj["lig"], secili_obj["event_id"])
+                        st.session_state["canli_ev_sec_v3"] = secili_obj["ev_key"]
+                        st.session_state["canli_dep_sec_v3"] = secili_obj["dep_key"]
+                        st.session_state["canli_dk_v3"] = int(secili_obj["dakika"])
+                        st.session_state["canli_ev_skor_v3"] = int(secili_obj["ev_skor"])
+                        st.session_state["canli_dep_skor_v3"] = int(secili_obj["dep_skor"])
+                        if det:
+                            st.session_state["ev_ts_v3"] = int(det["ev_ts"])
+                            st.session_state["ev_isab_v3"] = int(det["ev_isab"])
+                            st.session_state["ev_topla_v3"] = int(det["ev_topla"])
+                            st.session_state["ev_korn_v3"] = int(det["ev_korn"])
+                            st.session_state["ev_kirmizi_v3"] = int(det["ev_kirmizi"])
+                            st.session_state["dep_ts_v3"] = int(det["dep_ts"])
+                            st.session_state["dep_isab_v3"] = int(det["dep_isab"])
+                            st.session_state["dep_korn_v3"] = int(det["dep_korn"])
+                            st.session_state["dep_kirmizi_v3"] = int(det["dep_kirmizi"])
+                        st.rerun()
 
     c_canli1, c_canli2 = st.columns(2)
     c_ev_canli = c_canli1.selectbox("🏠 Ev Sahibi (Canlı)", takim_listesi, index=takim_listesi.index("galatasaray") if "galatasaray" in takim_listesi else 0, key="canli_ev_sec_v3")
@@ -2331,12 +2919,14 @@ with tab6:
         ev_isabetli = st.number_input("İsabetli Şut (Ev)", min_value=0, value=5, step=1, key="ev_isab_v3")
         ev_topla_oynama = st.slider("Topla Oynama % (Ev)", min_value=10, max_value=90, value=60, step=1, key="ev_topla_v3")
         ev_korner = st.number_input("Korner (Ev)", min_value=0, value=6, step=1, key="ev_korn_v3")
+        ev_kirmizi = st.number_input("🟥 Kırmızı Kart (Ev)", min_value=0, max_value=4, value=0, step=1, key="ev_kirmizi_v3")
 
     with sc2:
         st.markdown(f"**✈️ {c_dep_canli.title()}**")
         dep_toplam_sut = st.number_input("Toplam Şut (Dep)", min_value=0, value=4, step=1, key="dep_ts_v3")
         dep_isabetli = st.number_input("İsabetli Şut (Dep)", min_value=0, value=1, step=1, key="dep_isab_v3")
         dep_korner = st.number_input("Korner (Dep)", min_value=0, value=2, step=1, key="dep_korn_v3")
+        dep_kirmizi = st.number_input("🟥 Kırmızı Kart (Dep)", min_value=0, max_value=4, value=0, step=1, key="dep_kirmizi_v3")
 
     if st.button("🔄 İstatistikleri İşle ve Canlı Olasılıkları Güncelle", use_container_width=True):
         temel_analiz = mac_hesapla(c_ev_canli, c_dep_canli)
@@ -2360,6 +2950,15 @@ with tab6:
 
         guncel_ev_xg = baz_kalan_ev_xg * (0.45 + ev_guc_orani * 1.10) * tempo_carpani
         guncel_dep_xg = baz_kalan_dep_xg * (0.45 + dep_guc_orani * 1.10) * tempo_carpani
+
+        # 🟥 Kırmızı Kart Momentum Düzeltmesi
+        if ev_kirmizi > 0:
+            guncel_ev_xg *= (0.70 ** ev_kirmizi)
+            guncel_dep_xg *= (1.25 ** ev_kirmizi)
+        if dep_kirmizi > 0:
+            guncel_dep_xg *= (0.70 ** dep_kirmizi)
+            guncel_ev_xg *= (1.25 ** dep_kirmizi)
+
         kalan_toplam_xg = guncel_ev_xg + guncel_dep_xg
 
         # Canlı Poisson Olasılıkları (Kalan Süredeki Gol İhtimalleri)
@@ -2370,6 +2969,9 @@ with tab6:
 
         st.divider()
         st.markdown(f"#### 📈 Canlı Analiz Sonucu (Dakika {dakika_input} | Skor: {ev_skor} - {dep_skor} | Mevcut Toplam Gol: {ev_skor + dep_skor})")
+
+        if ev_kirmizi > 0 or dep_kirmizi > 0:
+            st.error(f"🟥 **KIRMIZI KART ETKİSİ AKTİF:** Ev Sahibi {ev_kirmizi} Kırmızı | Deplasman {dep_kirmizi} Kırmızı — Eksik kalan takımın hücum xG'si kırpıldı, rakibin gol beklentisi artırıldı!")
 
         mc1, mc2, mc3, mc4 = st.columns(4)
         mc1.metric("Kalan Süre xG (Ev)", f"{guncel_ev_xg:.2f} xG", delta=f"Baskı: %{ev_guc_orani*100:.0f}")

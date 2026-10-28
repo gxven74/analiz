@@ -13,7 +13,8 @@
     "mb_ag": 2.5,
     "mb_yg": 1.12,
     "mb_toplam": 3.62,
-    "karne": "7G-0B-1M"
+    "karne": "7G-0B-1M",
+    "team_id": "382"
   },
   "arsenal": {
     "lig": "eng.1",
@@ -29,7 +30,8 @@
     "mb_ag": 1.62,
     "mb_yg": 0.62,
     "mb_toplam": 2.25,
-    "karne": "7G-0B-1M"
+    "karne": "7G-0B-1M",
+    "team_id": "359"
   },
   "brighton": {
     "lig": "eng.1",
@@ -45,7 +47,8 @@
     "mb_ag": 2.88,
     "mb_yg": 0.88,
     "mb_toplam": 3.75,
-    "karne": "5G-1B-2M"
+    "karne": "5G-1B-2M",
+    "team_id": "331"
   },
   "liverpool": {
     "lig": "eng.1",
@@ -61,7 +64,8 @@
     "mb_ag": 1.38,
     "mb_yg": 1.0,
     "mb_toplam": 2.38,
-    "karne": "4G-3B-1M"
+    "karne": "4G-3B-1M",
+    "team_id": "364"
   },
   "chelsea": {
     "lig": "eng.1",
@@ -77,7 +81,8 @@
     "mb_ag": 2.12,
     "mb_yg": 1.88,
     "mb_toplam": 4.0,
-    "karne": "4G-1B-3M"
+    "karne": "4G-1B-3M",
+    "team_id": "363"
   },
   "brentford": {
     "lig": "eng.1",
@@ -93,7 +98,8 @@
     "mb_ag": 1.75,
     "mb_yg": 1.12,
     "mb_toplam": 2.88,
-    "karne": "2G-5B-1M"
+    "karne": "2G-5B-1M",
+    "team_id": "337"
   },
   "leeds": {
     "lig": "eng.1",
@@ -109,7 +115,8 @@
     "mb_ag": 1.12,
     "mb_yg": 0.75,
     "mb_toplam": 1.88,
-    "karne": "2G-5B-1M"
+    "karne": "2G-5B-1M",
+    "team_id": "357"
   },
   "newcastle": {
     "lig": "eng.1",
@@ -125,7 +132,8 @@
     "mb_ag": 1.5,
     "mb_yg": 1.75,
     "mb_toplam": 3.25,
-    "karne": "3G-2B-3M"
+    "karne": "3G-2B-3M",
+    "team_id": "361"
   },
   "aston villa": {
     "lig": "eng.1",
@@ -141,7 +149,8 @@
     "mb_ag": 1.12,
     "mb_yg": 1.5,
     "mb_toplam": 2.62,
-    "karne": "3G-2B-3M"
+    "karne": "3G-2B-3M",
+    "team_id": "362"
   },
   "hull city": {
     "lig": "eng.1",
@@ -157,7 +166,8 @@
     "mb_ag": 1.12,
     "mb_yg": 1.0,
     "mb_toplam": 2.12,
-    "karne": "2G-4B-2M"
+    "karne": "2G-4B-2M",
+    "team_id": "306"
   },
   "everton": {
     "lig": "eng.1",
@@ -173,7 +183,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.12,
     "mb_toplam": 2.12,
-    "karne": "2G-4B-2M"
+    "karne": "2G-4B-2M",
+    "team_id": "368"
   },
   "ipswich": {
     "lig": "eng.1",
@@ -189,7 +200,8 @@
     "mb_ag": 1.5,
     "mb_yg": 2.0,
     "mb_toplam": 3.5,
-    "karne": "3G-1B-4M"
+    "karne": "3G-1B-4M",
+    "team_id": "373"
   },
   "bournemouth": {
     "lig": "eng.1",
@@ -205,7 +217,8 @@
     "mb_ag": 1.5,
     "mb_yg": 1.62,
     "mb_toplam": 3.12,
-    "karne": "2G-3B-3M"
+    "karne": "2G-3B-3M",
+    "team_id": "349"
   },
   "tottenham": {
     "lig": "eng.1",
@@ -221,7 +234,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.25,
     "mb_toplam": 2.25,
-    "karne": "2G-3B-3M"
+    "karne": "2G-3B-3M",
+    "team_id": "367"
   },
   "fulham": {
     "lig": "eng.1",
@@ -237,7 +251,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.25,
     "mb_toplam": 2.25,
-    "karne": "2G-2B-4M"
+    "karne": "2G-2B-4M",
+    "team_id": "370"
   },
   "manchester united": {
     "lig": "eng.1",
@@ -253,7 +268,8 @@
     "mb_ag": 1.25,
     "mb_yg": 1.62,
     "mb_toplam": 2.88,
-    "karne": "1G-4B-3M"
+    "karne": "1G-4B-3M",
+    "team_id": "360"
   },
   "crystal palace": {
     "lig": "eng.1",
@@ -269,7 +285,8 @@
     "mb_ag": 1.12,
     "mb_yg": 2.38,
     "mb_toplam": 3.5,
-    "karne": "2G-1B-5M"
+    "karne": "2G-1B-5M",
+    "team_id": "384"
   },
   "nottingham forest": {
     "lig": "eng.1",
@@ -285,7 +302,8 @@
     "mb_ag": 0.75,
     "mb_yg": 1.25,
     "mb_toplam": 2.0,
-    "karne": "1G-3B-4M"
+    "karne": "1G-3B-4M",
+    "team_id": "393"
   },
   "coventry": {
     "lig": "eng.1",
@@ -301,7 +319,8 @@
     "mb_ag": 0.75,
     "mb_yg": 1.88,
     "mb_toplam": 2.62,
-    "karne": "2G-0B-6M"
+    "karne": "2G-0B-6M",
+    "team_id": "388"
   },
   "sunderland": {
     "lig": "eng.1",
@@ -317,7 +336,8 @@
     "mb_ag": 0.75,
     "mb_yg": 1.75,
     "mb_toplam": 2.5,
-    "karne": "1G-2B-5M"
+    "karne": "1G-2B-5M",
+    "team_id": "366"
   },
   "barcelona": {
     "lig": "esp.1",
@@ -333,7 +353,8 @@
     "mb_ag": 4.0,
     "mb_yg": 1.1,
     "mb_toplam": 5.1,
-    "karne": "9G-0B-1M"
+    "karne": "9G-0B-1M",
+    "team_id": "83"
   },
   "real madrid": {
     "lig": "esp.1",
@@ -349,7 +370,8 @@
     "mb_ag": 2.5,
     "mb_yg": 1.0,
     "mb_toplam": 3.5,
-    "karne": "8G-0B-2M"
+    "karne": "8G-0B-2M",
+    "team_id": "86"
   },
   "real betis": {
     "lig": "esp.1",
@@ -365,7 +387,8 @@
     "mb_ag": 1.6,
     "mb_yg": 1.4,
     "mb_toplam": 3.0,
-    "karne": "6G-2B-2M"
+    "karne": "6G-2B-2M",
+    "team_id": "244"
   },
   "real sociedad": {
     "lig": "esp.1",
@@ -381,7 +404,8 @@
     "mb_ag": 1.9,
     "mb_yg": 1.8,
     "mb_toplam": 3.7,
-    "karne": "6G-1B-3M"
+    "karne": "6G-1B-3M",
+    "team_id": "89"
   },
   "sevilla": {
     "lig": "esp.1",
@@ -397,7 +421,8 @@
     "mb_ag": 1.56,
     "mb_yg": 1.78,
     "mb_toplam": 3.33,
-    "karne": "4G-2B-3M"
+    "karne": "4G-2B-3M",
+    "team_id": "243"
   },
   "celta vigo": {
     "lig": "esp.1",
@@ -413,7 +438,8 @@
     "mb_ag": 1.0,
     "mb_yg": 0.7,
     "mb_toplam": 1.7,
-    "karne": "2G-6B-2M"
+    "karne": "2G-6B-2M",
+    "team_id": "131858"
   },
   "villarreal": {
     "lig": "esp.1",
@@ -429,7 +455,8 @@
     "mb_ag": 1.5,
     "mb_yg": 1.4,
     "mb_toplam": 2.9,
-    "karne": "3G-3B-4M"
+    "karne": "3G-3B-4M",
+    "team_id": "102"
   },
   "deportivo": {
     "lig": "esp.1",
@@ -445,7 +472,8 @@
     "mb_ag": 1.3,
     "mb_yg": 1.3,
     "mb_toplam": 2.6,
-    "karne": "2G-5B-3M"
+    "karne": "2G-5B-3M",
+    "team_id": "90"
   },
   "osasuna": {
     "lig": "esp.1",
@@ -461,7 +489,8 @@
     "mb_ag": 1.11,
     "mb_yg": 2.0,
     "mb_toplam": 3.11,
-    "karne": "3G-2B-4M"
+    "karne": "3G-2B-4M",
+    "team_id": "97"
   },
   "racing": {
     "lig": "bel.1",
@@ -477,7 +506,8 @@
     "mb_ag": 2.0,
     "mb_yg": 1.44,
     "mb_toplam": 3.44,
-    "karne": "4G-3B-2M"
+    "karne": "4G-3B-2M",
+    "team_id": "938"
   },
   "levante": {
     "lig": "esp.1",
@@ -493,7 +523,8 @@
     "mb_ag": 1.6,
     "mb_yg": 1.9,
     "mb_toplam": 3.5,
-    "karne": "2G-4B-4M"
+    "karne": "2G-4B-4M",
+    "team_id": "1538"
   },
   "elche": {
     "lig": "esp.1",
@@ -509,7 +540,8 @@
     "mb_ag": 1.4,
     "mb_yg": 1.7,
     "mb_toplam": 3.1,
-    "karne": "2G-4B-4M"
+    "karne": "2G-4B-4M",
+    "team_id": "3751"
   },
   "rayo vallecano": {
     "lig": "esp.1",
@@ -525,7 +557,8 @@
     "mb_ag": 1.33,
     "mb_yg": 2.22,
     "mb_toplam": 3.56,
-    "karne": "2G-3B-4M"
+    "karne": "2G-3B-4M",
+    "team_id": "101"
   },
   "getafe": {
     "lig": "esp.1",
@@ -541,7 +574,8 @@
     "mb_ag": 0.5,
     "mb_yg": 1.5,
     "mb_toplam": 2.0,
-    "karne": "2G-3B-5M"
+    "karne": "2G-3B-5M",
+    "team_id": "2922"
   },
   "espanyol": {
     "lig": "esp.1",
@@ -557,7 +591,8 @@
     "mb_ag": 1.2,
     "mb_yg": 1.4,
     "mb_toplam": 2.6,
-    "karne": "2G-2B-6M"
+    "karne": "2G-2B-6M",
+    "team_id": "88"
   },
   "valencia": {
     "lig": "esp.1",
@@ -573,7 +608,8 @@
     "mb_ag": 0.7,
     "mb_yg": 1.7,
     "mb_toplam": 2.4,
-    "karne": "1G-3B-6M"
+    "karne": "1G-3B-6M",
+    "team_id": "94"
   },
   "inter": {
     "lig": "ita.1",
@@ -589,7 +625,8 @@
     "mb_ag": 2.88,
     "mb_yg": 1.25,
     "mb_toplam": 4.12,
-    "karne": "7G-1B-0M"
+    "karne": "7G-1B-0M",
+    "team_id": "110"
   },
   "lazio": {
     "lig": "ita.1",
@@ -605,7 +642,8 @@
     "mb_ag": 2.0,
     "mb_yg": 0.62,
     "mb_toplam": 2.62,
-    "karne": "7G-1B-0M"
+    "karne": "7G-1B-0M",
+    "team_id": "112"
   },
   "roma": {
     "lig": "ita.1",
@@ -621,7 +659,8 @@
     "mb_ag": 2.38,
     "mb_yg": 0.75,
     "mb_toplam": 3.12,
-    "karne": "5G-3B-0M"
+    "karne": "5G-3B-0M",
+    "team_id": "104"
   },
   "milan": {
     "lig": "ita.1",
@@ -637,7 +676,8 @@
     "mb_ag": 2.0,
     "mb_yg": 0.88,
     "mb_toplam": 2.88,
-    "karne": "5G-3B-0M"
+    "karne": "5G-3B-0M",
+    "team_id": "103"
   },
   "como": {
     "lig": "ita.1",
@@ -653,7 +693,8 @@
     "mb_ag": 1.75,
     "mb_yg": 0.88,
     "mb_toplam": 2.62,
-    "karne": "5G-2B-1M"
+    "karne": "5G-2B-1M",
+    "team_id": "2572"
   },
   "frosinone": {
     "lig": "ita.1",
@@ -669,7 +710,8 @@
     "mb_ag": 2.12,
     "mb_yg": 1.62,
     "mb_toplam": 3.75,
-    "karne": "4G-2B-2M"
+    "karne": "4G-2B-2M",
+    "team_id": "4057"
   },
   "juventus": {
     "lig": "ita.1",
@@ -685,7 +727,8 @@
     "mb_ag": 1.38,
     "mb_yg": 1.0,
     "mb_toplam": 2.38,
-    "karne": "4G-2B-2M"
+    "karne": "4G-2B-2M",
+    "team_id": "3975"
   },
   "torino": {
     "lig": "ita.1",
@@ -701,7 +744,8 @@
     "mb_ag": 1.62,
     "mb_yg": 1.38,
     "mb_toplam": 3.0,
-    "karne": "4G-1B-3M"
+    "karne": "4G-1B-3M",
+    "team_id": "239"
   },
   "cagliari": {
     "lig": "ita.1",
@@ -717,7 +761,8 @@
     "mb_ag": 0.75,
     "mb_yg": 1.12,
     "mb_toplam": 1.88,
-    "karne": "4G-1B-3M"
+    "karne": "4G-1B-3M",
+    "team_id": "2925"
   },
   "napoli": {
     "lig": "ita.1",
@@ -733,7 +778,8 @@
     "mb_ag": 1.62,
     "mb_yg": 1.25,
     "mb_toplam": 2.88,
-    "karne": "3G-2B-3M"
+    "karne": "3G-2B-3M",
+    "team_id": "114"
   },
   "atalanta": {
     "lig": "ita.1",
@@ -749,7 +795,8 @@
     "mb_ag": 1.75,
     "mb_yg": 1.88,
     "mb_toplam": 3.62,
-    "karne": "3G-1B-4M"
+    "karne": "3G-1B-4M",
+    "team_id": "105"
   },
   "lecce": {
     "lig": "ita.1",
@@ -765,7 +812,8 @@
     "mb_ag": 1.12,
     "mb_yg": 1.75,
     "mb_toplam": 2.88,
-    "karne": "3G-0B-5M"
+    "karne": "3G-0B-5M",
+    "team_id": "113"
   },
   "bologna": {
     "lig": "ita.1",
@@ -781,7 +829,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.25,
     "mb_toplam": 2.25,
-    "karne": "2G-2B-4M"
+    "karne": "2G-2B-4M",
+    "team_id": "107"
   },
   "sassuolo": {
     "lig": "ita.1",
@@ -797,7 +846,8 @@
     "mb_ag": 1.5,
     "mb_yg": 2.0,
     "mb_toplam": 3.5,
-    "karne": "2G-2B-4M"
+    "karne": "2G-2B-4M",
+    "team_id": "3997"
   },
   "monza": {
     "lig": "ita.1",
@@ -813,7 +863,8 @@
     "mb_ag": 1.88,
     "mb_yg": 2.25,
     "mb_toplam": 4.12,
-    "karne": "2G-1B-5M"
+    "karne": "2G-1B-5M",
+    "team_id": "4007"
   },
   "genoa": {
     "lig": "ita.1",
@@ -829,7 +880,8 @@
     "mb_ag": 0.75,
     "mb_yg": 1.62,
     "mb_toplam": 2.38,
-    "karne": "2G-1B-5M"
+    "karne": "2G-1B-5M",
+    "team_id": "3263"
   },
   "udinese": {
     "lig": "ita.1",
@@ -845,7 +897,8 @@
     "mb_ag": 1.12,
     "mb_yg": 2.25,
     "mb_toplam": 3.38,
-    "karne": "1G-1B-6M"
+    "karne": "1G-1B-6M",
+    "team_id": "118"
   },
   "fiorentina": {
     "lig": "ita.1",
@@ -861,7 +914,8 @@
     "mb_ag": 1.12,
     "mb_yg": 2.38,
     "mb_toplam": 3.5,
-    "karne": "1G-1B-6M"
+    "karne": "1G-1B-6M",
+    "team_id": "109"
   },
   "parma": {
     "lig": "ita.1",
@@ -877,7 +931,8 @@
     "mb_ag": 0.62,
     "mb_yg": 1.88,
     "mb_toplam": 2.5,
-    "karne": "1G-1B-6M"
+    "karne": "1G-1B-6M",
+    "team_id": "115"
   },
   "venezia": {
     "lig": "ita.1",
@@ -893,7 +948,8 @@
     "mb_ag": 0.75,
     "mb_yg": 2.12,
     "mb_toplam": 2.88,
-    "karne": "1G-0B-7M"
+    "karne": "1G-0B-7M",
+    "team_id": "17530"
   },
   "bayern munih": {
     "lig": "ger.1",
@@ -909,7 +965,8 @@
     "mb_ag": 3.57,
     "mb_yg": 0.86,
     "mb_toplam": 4.43,
-    "karne": "5G-2B-0M"
+    "karne": "5G-2B-0M",
+    "team_id": "132"
   },
   "dortmund": {
     "lig": "ger.1",
@@ -925,7 +982,8 @@
     "mb_ag": 1.71,
     "mb_yg": 0.57,
     "mb_toplam": 2.29,
-    "karne": "5G-2B-0M"
+    "karne": "5G-2B-0M",
+    "team_id": "124"
   },
   "freiburg": {
     "lig": "ger.1",
@@ -941,7 +999,8 @@
     "mb_ag": 2.29,
     "mb_yg": 1.29,
     "mb_toplam": 3.57,
-    "karne": "4G-1B-2M"
+    "karne": "4G-1B-2M",
+    "team_id": "126"
   },
   "bayer leverkusen": {
     "lig": "ger.1",
@@ -957,7 +1016,8 @@
     "mb_ag": 2.29,
     "mb_yg": 1.71,
     "mb_toplam": 4.0,
-    "karne": "4G-1B-2M"
+    "karne": "4G-1B-2M",
+    "team_id": "131"
   },
   "leipzig": {
     "lig": "ger.1",
@@ -973,7 +1033,8 @@
     "mb_ag": 2.86,
     "mb_yg": 1.57,
     "mb_toplam": 4.43,
-    "karne": "4G-0B-3M"
+    "karne": "4G-0B-3M",
+    "team_id": "11420"
   },
   "werder bremen": {
     "lig": "ger.1",
@@ -989,7 +1050,8 @@
     "mb_ag": 2.14,
     "mb_yg": 2.0,
     "mb_toplam": 4.14,
-    "karne": "3G-3B-1M"
+    "karne": "3G-3B-1M",
+    "team_id": "137"
   },
   "mainz": {
     "lig": "ger.1",
@@ -1005,7 +1067,8 @@
     "mb_ag": 2.29,
     "mb_yg": 1.86,
     "mb_toplam": 4.14,
-    "karne": "3G-1B-3M"
+    "karne": "3G-1B-3M",
+    "team_id": "2950"
   },
   "elversberg": {
     "lig": "ger.1",
@@ -1021,7 +1084,8 @@
     "mb_ag": 1.71,
     "mb_yg": 2.14,
     "mb_toplam": 3.86,
-    "karne": "3G-1B-3M"
+    "karne": "3G-1B-3M",
+    "team_id": "10388"
   },
   "augsburg": {
     "lig": "ger.1",
@@ -1037,7 +1101,8 @@
     "mb_ag": 2.43,
     "mb_yg": 1.86,
     "mb_toplam": 4.29,
-    "karne": "2G-3B-2M"
+    "karne": "2G-3B-2M",
+    "team_id": "3841"
   },
   "hoffenheim": {
     "lig": "ger.1",
@@ -1053,7 +1118,8 @@
     "mb_ag": 2.0,
     "mb_yg": 2.0,
     "mb_toplam": 4.0,
-    "karne": "3G-0B-4M"
+    "karne": "3G-0B-4M",
+    "team_id": "7911"
   },
   "hamburg": {
     "lig": "ger.1",
@@ -1069,7 +1135,8 @@
     "mb_ag": 0.86,
     "mb_yg": 2.29,
     "mb_toplam": 3.14,
-    "karne": "3G-0B-4M"
+    "karne": "3G-0B-4M",
+    "team_id": "127"
   },
   "paderborn": {
     "lig": "ger.1",
@@ -1085,7 +1152,8 @@
     "mb_ag": 0.86,
     "mb_yg": 1.29,
     "mb_toplam": 2.14,
-    "karne": "2G-2B-3M"
+    "karne": "2G-2B-3M",
+    "team_id": "3307"
   },
   "eintracht frankfurt": {
     "lig": "ger.1",
@@ -1101,7 +1169,8 @@
     "mb_ag": 1.43,
     "mb_yg": 2.43,
     "mb_toplam": 3.86,
-    "karne": "2G-2B-3M"
+    "karne": "2G-2B-3M",
+    "team_id": "125"
   },
   "stuttgart": {
     "lig": "ger.1",
@@ -1117,7 +1186,8 @@
     "mb_ag": 1.43,
     "mb_yg": 1.86,
     "mb_toplam": 3.29,
-    "karne": "2G-0B-5M"
+    "karne": "2G-0B-5M",
+    "team_id": "134"
   },
   "schalke": {
     "lig": "ger.1",
@@ -1133,7 +1203,8 @@
     "mb_ag": 0.57,
     "mb_yg": 1.0,
     "mb_toplam": 1.57,
-    "karne": "1G-3B-3M"
+    "karne": "1G-3B-3M",
+    "team_id": "133"
   },
   "union berlin": {
     "lig": "ger.1",
@@ -1149,7 +1220,8 @@
     "mb_ag": 0.86,
     "mb_yg": 2.57,
     "mb_toplam": 3.43,
-    "karne": "1G-3B-3M"
+    "karne": "1G-3B-3M",
+    "team_id": "598"
   },
   "borussia monchengladbach": {
     "lig": "ger.1",
@@ -1165,7 +1237,8 @@
     "mb_ag": 1.57,
     "mb_yg": 3.14,
     "mb_toplam": 4.71,
-    "karne": "1G-0B-6M"
+    "karne": "1G-0B-6M",
+    "team_id": "268"
   },
   "wolfsburg": {
     "lig": "ger.2",
@@ -1181,7 +1254,8 @@
     "mb_ag": 2.56,
     "mb_yg": 1.56,
     "mb_toplam": 4.11,
-    "karne": "4G-4B-1M"
+    "karne": "4G-4B-1M",
+    "team_id": "138"
   },
   "heidenheim": {
     "lig": "ger.2",
@@ -1197,7 +1271,8 @@
     "mb_ag": 1.78,
     "mb_yg": 1.78,
     "mb_toplam": 3.56,
-    "karne": "4G-3B-2M"
+    "karne": "4G-3B-2M",
+    "team_id": "6418"
   },
   "st pauli": {
     "lig": "ger.2",
@@ -1213,7 +1288,8 @@
     "mb_ag": 1.22,
     "mb_yg": 1.0,
     "mb_toplam": 2.22,
-    "karne": "2G-6B-1M"
+    "karne": "2G-6B-1M",
+    "team_id": "270"
   },
   "holstein kiel": {
     "lig": "ger.2",
@@ -1229,7 +1305,8 @@
     "mb_ag": 1.11,
     "mb_yg": 1.22,
     "mb_toplam": 2.33,
-    "karne": "1G-5B-3M"
+    "karne": "1G-5B-3M",
+    "team_id": "7884"
   },
   "bochum": {
     "lig": "ger.2",
@@ -1245,7 +1322,8 @@
     "mb_ag": 0.67,
     "mb_yg": 1.11,
     "mb_toplam": 1.78,
-    "karne": "2G-2B-5M"
+    "karne": "2G-2B-5M",
+    "team_id": "121"
   },
   "rennes": {
     "lig": "fra.1",
@@ -1261,7 +1339,8 @@
     "mb_ag": 2.25,
     "mb_yg": 1.75,
     "mb_toplam": 4.0,
-    "karne": "5G-1B-2M"
+    "karne": "5G-1B-2M",
+    "team_id": "169"
   },
   "lille": {
     "lig": "fra.1",
@@ -1277,7 +1356,8 @@
     "mb_ag": 1.38,
     "mb_yg": 0.75,
     "mb_toplam": 2.12,
-    "karne": "4G-3B-1M"
+    "karne": "4G-3B-1M",
+    "team_id": "166"
   },
   "monaco": {
     "lig": "fra.1",
@@ -1293,7 +1373,8 @@
     "mb_ag": 1.38,
     "mb_yg": 0.88,
     "mb_toplam": 2.25,
-    "karne": "4G-3B-1M"
+    "karne": "4G-3B-1M",
+    "team_id": "174"
   },
   "lyon": {
     "lig": "fra.1",
@@ -1309,7 +1390,8 @@
     "mb_ag": 1.86,
     "mb_yg": 0.71,
     "mb_toplam": 2.57,
-    "karne": "4G-2B-1M"
+    "karne": "4G-2B-1M",
+    "team_id": "167"
   },
   "psg": {
     "lig": "fra.1",
@@ -1325,7 +1407,8 @@
     "mb_ag": 2.0,
     "mb_yg": 1.29,
     "mb_toplam": 3.29,
-    "karne": "4G-2B-1M"
+    "karne": "4G-2B-1M",
+    "team_id": "160"
   },
   "paris fc": {
     "lig": "fra.1",
@@ -1341,7 +1424,8 @@
     "mb_ag": 1.62,
     "mb_yg": 1.12,
     "mb_toplam": 2.75,
-    "karne": "4G-2B-2M"
+    "karne": "4G-2B-2M",
+    "team_id": "6851"
   },
   "lens": {
     "lig": "fra.1",
@@ -1357,7 +1441,8 @@
     "mb_ag": 2.0,
     "mb_yg": 1.5,
     "mb_toplam": 3.5,
-    "karne": "4G-1B-3M"
+    "karne": "4G-1B-3M",
+    "team_id": "175"
   },
   "lorient": {
     "lig": "fra.1",
@@ -1373,7 +1458,8 @@
     "mb_ag": 0.88,
     "mb_yg": 0.75,
     "mb_toplam": 1.62,
-    "karne": "3G-3B-2M"
+    "karne": "3G-3B-2M",
+    "team_id": "273"
   },
   "nice": {
     "lig": "fra.1",
@@ -1389,7 +1475,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.25,
     "mb_toplam": 2.25,
-    "karne": "3G-2B-3M"
+    "karne": "3G-2B-3M",
+    "team_id": "2502"
   },
   "toulouse": {
     "lig": "fra.1",
@@ -1405,7 +1492,8 @@
     "mb_ag": 1.5,
     "mb_yg": 1.38,
     "mb_toplam": 2.88,
-    "karne": "2G-4B-2M"
+    "karne": "2G-4B-2M",
+    "team_id": "179"
   },
   "auxerre": {
     "lig": "fra.1",
@@ -1421,7 +1509,8 @@
     "mb_ag": 1.5,
     "mb_yg": 2.25,
     "mb_toplam": 3.75,
-    "karne": "3G-1B-4M"
+    "karne": "3G-1B-4M",
+    "team_id": "172"
   },
   "brest": {
     "lig": "fra.1",
@@ -1437,7 +1526,8 @@
     "mb_ag": 1.75,
     "mb_yg": 1.5,
     "mb_toplam": 3.25,
-    "karne": "2G-3B-3M"
+    "karne": "2G-3B-3M",
+    "team_id": "6997"
   },
   "angers": {
     "lig": "fra.1",
@@ -1453,7 +1543,8 @@
     "mb_ag": 1.12,
     "mb_yg": 1.88,
     "mb_toplam": 3.0,
-    "karne": "2G-2B-4M"
+    "karne": "2G-2B-4M",
+    "team_id": "7868"
   },
   "le mans": {
     "lig": "fra.1",
@@ -1469,7 +1560,8 @@
     "mb_ag": 1.38,
     "mb_yg": 2.0,
     "mb_toplam": 3.38,
-    "karne": "1G-4B-3M"
+    "karne": "1G-4B-3M",
+    "team_id": "2697"
   },
   "strasbourg": {
     "lig": "fra.1",
@@ -1485,7 +1577,8 @@
     "mb_ag": 1.5,
     "mb_yg": 2.25,
     "mb_toplam": 3.75,
-    "karne": "2G-1B-5M"
+    "karne": "2G-1B-5M",
+    "team_id": "180"
   },
   "troyes": {
     "lig": "fra.1",
@@ -1501,7 +1594,8 @@
     "mb_ag": 0.62,
     "mb_yg": 2.0,
     "mb_toplam": 2.62,
-    "karne": "1G-2B-5M"
+    "karne": "1G-2B-5M",
+    "team_id": "170"
   },
   "le havre": {
     "lig": "fra.1",
@@ -1517,7 +1611,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.88,
     "mb_toplam": 2.88,
-    "karne": "0G-2B-6M"
+    "karne": "0G-2B-6M",
+    "team_id": "3236"
   },
   "amed": {
     "lig": "tur.1",
@@ -1533,7 +1628,8 @@
     "mb_ag": 2.22,
     "mb_yg": 1.11,
     "mb_toplam": 3.33,
-    "karne": "6G-2B-1M"
+    "karne": "6G-2B-1M",
+    "team_id": "132335"
   },
   "galatasaray": {
     "lig": "tur.1",
@@ -1549,7 +1645,8 @@
     "mb_ag": 2.12,
     "mb_yg": 1.38,
     "mb_toplam": 3.5,
-    "karne": "6G-1B-1M"
+    "karne": "6G-1B-1M",
+    "team_id": "432"
   },
   "fenerbahce": {
     "lig": "tur.1",
@@ -1565,7 +1662,8 @@
     "mb_ag": 2.75,
     "mb_yg": 0.75,
     "mb_toplam": 3.5,
-    "karne": "5G-1B-2M"
+    "karne": "5G-1B-2M",
+    "team_id": "436"
   },
   "trabzonspor": {
     "lig": "tur.1",
@@ -1581,7 +1679,8 @@
     "mb_ag": 2.25,
     "mb_yg": 0.62,
     "mb_toplam": 2.88,
-    "karne": "5G-1B-2M"
+    "karne": "5G-1B-2M",
+    "team_id": "997"
   },
   "kasimpasa": {
     "lig": "tur.1",
@@ -1597,7 +1696,8 @@
     "mb_ag": 1.44,
     "mb_yg": 1.0,
     "mb_toplam": 2.44,
-    "karne": "4G-4B-1M"
+    "karne": "4G-4B-1M",
+    "team_id": "6870"
   },
   "besiktas": {
     "lig": "tur.1",
@@ -1613,7 +1713,8 @@
     "mb_ag": 2.0,
     "mb_yg": 1.25,
     "mb_toplam": 3.25,
-    "karne": "5G-0B-3M"
+    "karne": "5G-0B-3M",
+    "team_id": "1895"
   },
   "kocaelispor": {
     "lig": "tur.1",
@@ -1629,7 +1730,8 @@
     "mb_ag": 1.22,
     "mb_yg": 1.0,
     "mb_toplam": 2.22,
-    "karne": "5G-0B-4M"
+    "karne": "5G-0B-4M",
+    "team_id": "995"
   },
   "erzurumspor": {
     "lig": "tur.1",
@@ -1645,7 +1747,8 @@
     "mb_ag": 0.89,
     "mb_yg": 1.33,
     "mb_toplam": 2.22,
-    "karne": "4G-2B-3M"
+    "karne": "4G-2B-3M",
+    "team_id": "19267"
   },
   "corum": {
     "lig": "tur.1",
@@ -1661,7 +1764,8 @@
     "mb_ag": 2.0,
     "mb_yg": 1.67,
     "mb_toplam": 3.67,
-    "karne": "4G-1B-4M"
+    "karne": "4G-1B-4M",
+    "team_id": "132334"
   },
   "goztepe": {
     "lig": "tur.1",
@@ -1677,7 +1781,8 @@
     "mb_ag": 2.11,
     "mb_yg": 1.78,
     "mb_toplam": 3.89,
-    "karne": "3G-3B-3M"
+    "karne": "3G-3B-3M",
+    "team_id": "789"
   },
   "alanyaspor": {
     "lig": "tur.1",
@@ -1693,7 +1798,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.22,
     "mb_toplam": 2.22,
-    "karne": "3G-3B-3M"
+    "karne": "3G-3B-3M",
+    "team_id": "9078"
   },
   "basaksehir": {
     "lig": "tur.1",
@@ -1709,7 +1815,8 @@
     "mb_ag": 1.5,
     "mb_yg": 1.5,
     "mb_toplam": 3.0,
-    "karne": "3G-2B-3M"
+    "karne": "3G-2B-3M",
+    "team_id": "7914"
   },
   "rizespor": {
     "lig": "tur.1",
@@ -1725,7 +1832,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.38,
     "mb_toplam": 2.38,
-    "karne": "3G-1B-4M"
+    "karne": "3G-1B-4M",
+    "team_id": "7656"
   },
   "konyaspor": {
     "lig": "tur.1",
@@ -1741,7 +1849,8 @@
     "mb_ag": 0.67,
     "mb_yg": 1.0,
     "mb_toplam": 1.67,
-    "karne": "2G-2B-5M"
+    "karne": "2G-2B-5M",
+    "team_id": "7648"
   },
   "gaziantep": {
     "lig": "tur.1",
@@ -1757,7 +1866,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.67,
     "mb_toplam": 2.67,
-    "karne": "2G-2B-5M"
+    "karne": "2G-2B-5M",
+    "team_id": "20070"
   },
   "genclerbirligi": {
     "lig": "tur.1",
@@ -1773,7 +1883,8 @@
     "mb_ag": 0.78,
     "mb_yg": 2.0,
     "mb_toplam": 2.78,
-    "karne": "2G-2B-5M"
+    "karne": "2G-2B-5M",
+    "team_id": "996"
   },
   "samsunspor": {
     "lig": "tur.1",
@@ -1789,7 +1900,8 @@
     "mb_ag": 0.89,
     "mb_yg": 2.33,
     "mb_toplam": 3.22,
-    "karne": "1G-1B-7M"
+    "karne": "1G-1B-7M",
+    "team_id": "11429"
   },
   "eyupspor": {
     "lig": "tur.1",
@@ -1805,7 +1917,8 @@
     "mb_ag": 0.22,
     "mb_yg": 2.56,
     "mb_toplam": 2.78,
-    "karne": "1G-0B-8M"
+    "karne": "1G-0B-8M",
+    "team_id": "20729"
   },
   "feyenoord": {
     "lig": "ned.1",
@@ -1821,7 +1934,8 @@
     "mb_ag": 3.2,
     "mb_yg": 1.1,
     "mb_toplam": 4.3,
-    "karne": "7G-3B-0M"
+    "karne": "7G-3B-0M",
+    "team_id": "142"
   },
   "ajax": {
     "lig": "ned.1",
@@ -1837,7 +1951,8 @@
     "mb_ag": 2.9,
     "mb_yg": 1.3,
     "mb_toplam": 4.2,
-    "karne": "6G-3B-1M"
+    "karne": "6G-3B-1M",
+    "team_id": "139"
   },
   "psv": {
     "lig": "ned.1",
@@ -1853,7 +1968,8 @@
     "mb_ag": 2.8,
     "mb_yg": 1.3,
     "mb_toplam": 4.1,
-    "karne": "6G-2B-2M"
+    "karne": "6G-2B-2M",
+    "team_id": "148"
   },
   "twente": {
     "lig": "ned.1",
@@ -1869,7 +1985,8 @@
     "mb_ag": 1.9,
     "mb_yg": 1.0,
     "mb_toplam": 2.9,
-    "karne": "6G-2B-2M"
+    "karne": "6G-2B-2M",
+    "team_id": "152"
   },
   "az alkmaar": {
     "lig": "ned.1",
@@ -1885,7 +2002,8 @@
     "mb_ag": 2.0,
     "mb_yg": 1.2,
     "mb_toplam": 3.2,
-    "karne": "6G-2B-2M"
+    "karne": "6G-2B-2M",
+    "team_id": "140"
   },
   "fortuna sittard": {
     "lig": "ned.1",
@@ -1901,7 +2019,8 @@
     "mb_ag": 1.7,
     "mb_yg": 1.7,
     "mb_toplam": 3.4,
-    "karne": "5G-3B-2M"
+    "karne": "5G-3B-2M",
+    "team_id": "143"
   },
   "heerenveen": {
     "lig": "ned.1",
@@ -1917,7 +2036,8 @@
     "mb_ag": 1.8,
     "mb_yg": 1.3,
     "mb_toplam": 3.1,
-    "karne": "4G-3B-3M"
+    "karne": "4G-3B-3M",
+    "team_id": "146"
   },
   "groningen": {
     "lig": "ned.1",
@@ -1933,7 +2053,8 @@
     "mb_ag": 2.4,
     "mb_yg": 2.1,
     "mb_toplam": 4.5,
-    "karne": "4G-3B-3M"
+    "karne": "4G-3B-3M",
+    "team_id": "145"
   },
   "go ahead": {
     "lig": "ned.1",
@@ -1949,7 +2070,8 @@
     "mb_ag": 2.3,
     "mb_yg": 2.3,
     "mb_toplam": 4.6,
-    "karne": "3G-5B-2M"
+    "karne": "3G-5B-2M",
+    "team_id": "3706"
   },
   "cambuur": {
     "lig": "ned.1",
@@ -1965,7 +2087,8 @@
     "mb_ag": 1.9,
     "mb_yg": 2.2,
     "mb_toplam": 4.1,
-    "karne": "3G-3B-4M"
+    "karne": "3G-3B-4M",
+    "team_id": "3736"
   },
   "utrecht": {
     "lig": "ned.1",
@@ -1981,7 +2104,8 @@
     "mb_ag": 1.7,
     "mb_yg": 2.7,
     "mb_toplam": 4.4,
-    "karne": "3G-3B-4M"
+    "karne": "3G-3B-4M",
+    "team_id": "153"
   },
   "nec": {
     "lig": "ned.1",
@@ -1997,7 +2121,8 @@
     "mb_ag": 1.7,
     "mb_yg": 1.8,
     "mb_toplam": 3.5,
-    "karne": "2G-5B-3M"
+    "karne": "2G-5B-3M",
+    "team_id": "147"
   },
   "excelsior": {
     "lig": "ned.1",
@@ -2013,7 +2138,8 @@
     "mb_ag": 1.6,
     "mb_yg": 1.9,
     "mb_toplam": 3.5,
-    "karne": "3G-2B-5M"
+    "karne": "3G-2B-5M",
+    "team_id": "2566"
   },
   "sparta rotterdam": {
     "lig": "ned.1",
@@ -2029,7 +2155,8 @@
     "mb_ag": 1.7,
     "mb_yg": 2.4,
     "mb_toplam": 4.1,
-    "karne": "2G-3B-5M"
+    "karne": "2G-3B-5M",
+    "team_id": "151"
   },
   "zwolle": {
     "lig": "ned.1",
@@ -2045,7 +2172,8 @@
     "mb_ag": 1.1,
     "mb_yg": 2.3,
     "mb_toplam": 3.4,
-    "karne": "2G-2B-6M"
+    "karne": "2G-2B-6M",
+    "team_id": "2565"
   },
   "telstar": {
     "lig": "ned.1",
@@ -2061,7 +2189,8 @@
     "mb_ag": 1.2,
     "mb_yg": 2.1,
     "mb_toplam": 3.3,
-    "karne": "1G-3B-6M"
+    "karne": "1G-3B-6M",
+    "team_id": "3735"
   },
   "ado": {
     "lig": "ned.1",
@@ -2077,7 +2206,8 @@
     "mb_ag": 1.3,
     "mb_yg": 2.3,
     "mb_toplam": 3.6,
-    "karne": "1G-3B-6M"
+    "karne": "1G-3B-6M",
+    "team_id": "2726"
   },
   "porto": {
     "lig": "por.1",
@@ -2093,7 +2223,8 @@
     "mb_ag": 2.33,
     "mb_yg": 0.44,
     "mb_toplam": 2.78,
-    "karne": "9G-0B-0M"
+    "karne": "9G-0B-0M",
+    "team_id": "437"
   },
   "benfica": {
     "lig": "por.1",
@@ -2109,7 +2240,8 @@
     "mb_ag": 3.0,
     "mb_yg": 0.88,
     "mb_toplam": 3.88,
-    "karne": "6G-1B-1M"
+    "karne": "6G-1B-1M",
+    "team_id": "1929"
   },
   "sporting cp": {
     "lig": "por.1",
@@ -2125,7 +2257,8 @@
     "mb_ag": 2.33,
     "mb_yg": 1.22,
     "mb_toplam": 3.56,
-    "karne": "5G-3B-1M"
+    "karne": "5G-3B-1M",
+    "team_id": "3788"
   },
   "santa clara": {
     "lig": "por.1",
@@ -2141,7 +2274,8 @@
     "mb_ag": 1.5,
     "mb_yg": 0.5,
     "mb_toplam": 2.0,
-    "karne": "5G-3B-0M"
+    "karne": "5G-3B-0M",
+    "team_id": "12215"
   },
   "arouca": {
     "lig": "por.1",
@@ -2157,7 +2291,8 @@
     "mb_ag": 1.33,
     "mb_yg": 0.78,
     "mb_toplam": 2.11,
-    "karne": "5G-2B-2M"
+    "karne": "5G-2B-2M",
+    "team_id": "15784"
   },
   "gil vicente": {
     "lig": "por.1",
@@ -2173,7 +2308,8 @@
     "mb_ag": 0.89,
     "mb_yg": 0.78,
     "mb_toplam": 1.67,
-    "karne": "4G-2B-3M"
+    "karne": "4G-2B-3M",
+    "team_id": "3699"
   },
   "braga": {
     "lig": "por.1",
@@ -2189,7 +2325,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.22,
     "mb_toplam": 2.22,
-    "karne": "3G-2B-4M"
+    "karne": "3G-2B-4M",
+    "team_id": "2994"
   },
   "moreirense": {
     "lig": "por.1",
@@ -2205,7 +2342,8 @@
     "mb_ag": 1.22,
     "mb_yg": 1.78,
     "mb_toplam": 3.0,
-    "karne": "3G-2B-4M"
+    "karne": "3G-2B-4M",
+    "team_id": "3696"
   },
   "famalicao": {
     "lig": "por.1",
@@ -2221,7 +2359,8 @@
     "mb_ag": 1.56,
     "mb_yg": 1.22,
     "mb_toplam": 2.78,
-    "karne": "2G-4B-3M"
+    "karne": "2G-4B-3M",
+    "team_id": "12698"
   },
   "vitoria guimaraes": {
     "lig": "por.1",
@@ -2237,7 +2376,8 @@
     "mb_ag": 1.11,
     "mb_yg": 1.11,
     "mb_toplam": 2.22,
-    "karne": "2G-2B-5M"
+    "karne": "2G-2B-5M",
+    "team_id": "5309"
   },
   "estoril praia": {
     "lig": "por.1",
@@ -2253,7 +2393,8 @@
     "mb_ag": 0.56,
     "mb_yg": 1.67,
     "mb_toplam": 2.22,
-    "karne": "0G-2B-7M"
+    "karne": "0G-2B-7M",
+    "team_id": "12216"
   },
   "gent": {
     "lig": "bel.1",
@@ -2269,7 +2410,8 @@
     "mb_ag": 2.11,
     "mb_yg": 0.44,
     "mb_toplam": 2.56,
-    "karne": "8G-1B-0M"
+    "karne": "8G-1B-0M",
+    "team_id": "3611"
   },
   "club brugge": {
     "lig": "bel.1",
@@ -2285,7 +2427,8 @@
     "mb_ag": 1.22,
     "mb_yg": 2.33,
     "mb_toplam": 3.56,
-    "karne": "0G-3B-6M"
+    "karne": "0G-3B-6M",
+    "team_id": "3610"
   },
   "union st.g": {
     "lig": "bel.1",
@@ -2301,7 +2444,8 @@
     "mb_ag": 3.0,
     "mb_yg": 0.67,
     "mb_toplam": 3.67,
-    "karne": "7G-2B-0M"
+    "karne": "7G-2B-0M",
+    "team_id": "5807"
   },
   "anderlecht": {
     "lig": "bel.1",
@@ -2317,7 +2461,8 @@
     "mb_ag": 1.0,
     "mb_yg": 1.11,
     "mb_toplam": 2.11,
-    "karne": "5G-1B-3M"
+    "karne": "5G-1B-3M",
+    "team_id": "441"
   },
   "standard liege": {
     "lig": "bel.1",
@@ -2333,7 +2478,8 @@
     "mb_ag": 1.56,
     "mb_yg": 1.67,
     "mb_toplam": 3.22,
-    "karne": "3G-2B-4M"
+    "karne": "3G-2B-4M",
+    "team_id": "559"
   },
   "antwerp": {
     "lig": "bel.1",
@@ -2349,7 +2495,8 @@
     "mb_ag": 1.67,
     "mb_yg": 2.22,
     "mb_toplam": 3.89,
-    "karne": "3G-1B-5M"
+    "karne": "3G-1B-5M",
+    "team_id": "17544"
   },
   "truidense": {
     "lig": "bel.1",
@@ -2365,7 +2512,8 @@
     "mb_ag": 1.89,
     "mb_yg": 2.11,
     "mb_toplam": 4.0,
-    "karne": "2G-2B-5M"
+    "karne": "2G-2B-5M",
+    "team_id": "936"
   },
   "middlesbrough": {
     "lig": "eng.2",
@@ -2381,7 +2529,8 @@
     "mb_ag": 2.25,
     "mb_yg": 1.42,
     "mb_toplam": 3.67,
-    "karne": "7G-4B-1M"
+    "karne": "7G-4B-1M",
+    "team_id": "369"
   },
   "west ham": {
     "lig": "eng.2",
@@ -2397,7 +2546,8 @@
     "mb_ag": 2.67,
     "mb_yg": 1.25,
     "mb_toplam": 3.92,
-    "karne": "6G-4B-2M"
+    "karne": "6G-4B-2M",
+    "team_id": "371"
   },
   "wolves": {
     "lig": "eng.2",
@@ -2413,7 +2563,8 @@
     "mb_ag": 1.67,
     "mb_yg": 1.33,
     "mb_toplam": 3.0,
-    "karne": "6G-3B-3M"
+    "karne": "6G-3B-3M",
+    "team_id": "380"
   },
   "west bromwich": {
     "lig": "eng.2",
@@ -2429,7 +2580,8 @@
     "mb_ag": 1.33,
     "mb_yg": 1.08,
     "mb_toplam": 2.42,
-    "karne": "6G-3B-3M"
+    "karne": "6G-3B-3M",
+    "team_id": "383"
   },
   "southampton": {
     "lig": "eng.2",
@@ -2445,7 +2597,8 @@
     "mb_ag": 2.0,
     "mb_yg": 1.0,
     "mb_toplam": 3.0,
-    "karne": "7G-3B-2M"
+    "karne": "7G-3B-2M",
+    "team_id": "376"
   },
   "rangers": {
     "lig": "eng.2",
@@ -2461,7 +2614,8 @@
     "mb_ag": 1.67,
     "mb_yg": 1.0,
     "mb_toplam": 2.67,
-    "karne": "5G-5B-2M"
+    "karne": "5G-5B-2M",
+    "team_id": "257"
   },
   "sheffield united": {
     "lig": "eng.2",
@@ -2477,7 +2631,8 @@
     "mb_ag": 1.33,
     "mb_yg": 1.25,
     "mb_toplam": 2.58,
-    "karne": "4G-4B-4M"
+    "karne": "4G-4B-4M",
+    "team_id": "398"
   },
   "millwall": {
     "lig": "eng.2",
@@ -2493,7 +2648,8 @@
     "mb_ag": 1.58,
     "mb_yg": 1.67,
     "mb_toplam": 3.25,
-    "karne": "4G-3B-5M"
+    "karne": "4G-3B-5M",
+    "team_id": "391"
   },
   "norwich": {
     "lig": "eng.2",
@@ -2509,7 +2665,8 @@
     "mb_ag": 1.67,
     "mb_yg": 1.83,
     "mb_toplam": 3.5,
-    "karne": "4G-0B-8M"
+    "karne": "4G-0B-8M",
+    "team_id": "381"
   },
   "watford": {
     "lig": "eng.2",
@@ -2525,7 +2682,8 @@
     "mb_ag": 0.83,
     "mb_yg": 1.67,
     "mb_toplam": 2.5,
-    "karne": "3G-2B-7M"
+    "karne": "3G-2B-7M",
+    "team_id": "395"
   },
   "burnley": {
     "lig": "eng.2",
@@ -2541,7 +2699,8 @@
     "mb_ag": 1.42,
     "mb_yg": 2.08,
     "mb_toplam": 3.5,
-    "karne": "1G-5B-6M"
+    "karne": "1G-5B-6M",
+    "team_id": "379"
   },
   "girona": {
     "lig": "esp.2",
@@ -2557,7 +2716,8 @@
     "mb_ag": 2.0,
     "mb_yg": 0.91,
     "mb_toplam": 2.91,
-    "karne": "6G-3B-2M"
+    "karne": "6G-3B-2M",
+    "team_id": "9812"
   },
   "granada": {
     "lig": "esp.2",
@@ -2573,7 +2733,8 @@
     "mb_ag": 1.64,
     "mb_yg": 1.27,
     "mb_toplam": 2.91,
-    "karne": "6G-2B-3M"
+    "karne": "6G-2B-3M",
+    "team_id": "3747"
   },
   "mallorca": {
     "lig": "esp.2",
@@ -2589,7 +2750,8 @@
     "mb_ag": 1.18,
     "mb_yg": 0.55,
     "mb_toplam": 1.73,
-    "karne": "5G-4B-2M"
+    "karne": "5G-4B-2M",
+    "team_id": "84"
   },
   "real oviedo": {
     "lig": "esp.2",
@@ -2605,7 +2767,8 @@
     "mb_ag": 1.36,
     "mb_yg": 1.09,
     "mb_toplam": 2.45,
-    "karne": "5G-3B-3M"
+    "karne": "5G-3B-3M",
+    "team_id": "92"
   },
   "burgos": {
     "lig": "esp.2",
@@ -2621,7 +2784,8 @@
     "mb_ag": 1.3,
     "mb_yg": 1.0,
     "mb_toplam": 2.3,
-    "karne": "5G-2B-3M"
+    "karne": "5G-2B-3M",
+    "team_id": "12597"
   },
   "tenerife": {
     "lig": "esp.2",
@@ -2637,7 +2801,8 @@
     "mb_ag": 1.18,
     "mb_yg": 1.36,
     "mb_toplam": 2.55,
-    "karne": "3G-5B-3M"
+    "karne": "3G-5B-3M",
+    "team_id": "245"
   },
   "las palmas": {
     "lig": "esp.2",
@@ -2653,7 +2818,8 @@
     "mb_ag": 1.27,
     "mb_yg": 1.73,
     "mb_toplam": 3.0,
-    "karne": "4G-2B-5M"
+    "karne": "4G-2B-5M",
+    "team_id": "98"
   },
   "valladolid": {
     "lig": "esp.2",
@@ -2669,7 +2835,8 @@
     "mb_ag": 1.45,
     "mb_yg": 1.45,
     "mb_toplam": 2.91,
-    "karne": "3G-3B-5M"
+    "karne": "3G-3B-5M",
+    "team_id": "95"
   },
   "palermo": {
     "lig": "ita.2",
@@ -2685,7 +2852,8 @@
     "mb_ag": 2.25,
     "mb_yg": 1.0,
     "mb_toplam": 3.25,
-    "karne": "7G-1B-0M"
+    "karne": "7G-1B-0M",
+    "team_id": "2923"
   },
   "pisa": {
     "lig": "ita.2",
@@ -2701,7 +2869,8 @@
     "mb_ag": 1.88,
     "mb_yg": 1.25,
     "mb_toplam": 3.12,
-    "karne": "4G-2B-2M"
+    "karne": "4G-2B-2M",
+    "team_id": "3956"
   },
   "sudtirol": {
     "lig": "ita.2",
@@ -2717,7 +2886,8 @@
     "mb_ag": 1.25,
     "mb_yg": 0.88,
     "mb_toplam": 2.12,
-    "karne": "3G-4B-1M"
+    "karne": "3G-4B-1M",
+    "team_id": "11139"
   },
   "verona": {
     "lig": "ita.2",
@@ -2733,7 +2903,8 @@
     "mb_ag": 1.88,
     "mb_yg": 1.62,
     "mb_toplam": 3.5,
-    "karne": "2G-3B-3M"
+    "karne": "2G-3B-3M",
+    "team_id": "119"
   },
   "empoli": {
     "lig": "ita.2",
@@ -2749,7 +2920,8 @@
     "mb_ag": 0.88,
     "mb_yg": 1.62,
     "mb_toplam": 2.5,
-    "karne": "2G-1B-5M"
+    "karne": "2G-1B-5M",
+    "team_id": "2574"
   },
   "cremonese": {
     "lig": "ita.2",
@@ -2765,7 +2937,8 @@
     "mb_ag": 0.75,
     "mb_yg": 1.38,
     "mb_toplam": 2.12,
-    "karne": "1G-3B-4M"
+    "karne": "1G-3B-4M",
+    "team_id": "4050"
   },
   "montpellier": {
     "lig": "fra.2",
@@ -2781,7 +2954,8 @@
     "mb_ag": 1.22,
     "mb_yg": 0.56,
     "mb_toplam": 1.78,
-    "karne": "5G-3B-1M"
+    "karne": "5G-3B-1M",
+    "team_id": "274"
   },
   "reims": {
     "lig": "fra.2",
@@ -2797,7 +2971,8 @@
     "mb_ag": 2.11,
     "mb_yg": 1.22,
     "mb_toplam": 3.33,
-    "karne": "4G-5B-0M"
+    "karne": "4G-5B-0M",
+    "team_id": "3243"
   },
   "kizilyildiz": {
     "lig": "fra.2",
@@ -2813,7 +2988,8 @@
     "mb_ag": 1.33,
     "mb_yg": 1.11,
     "mb_toplam": 2.44,
-    "karne": "5G-2B-2M"
+    "karne": "5G-2B-2M",
+    "team_id": "11884"
   },
   "metz": {
     "lig": "fra.2",
@@ -2829,7 +3005,8 @@
     "mb_ag": 1.6,
     "mb_yg": 1.4,
     "mb_toplam": 3.0,
-    "karne": "3G-5B-2M"
+    "karne": "3G-5B-2M",
+    "team_id": "177"
   },
   "guingamp": {
     "lig": "fra.2",
@@ -2845,7 +3022,8 @@
     "mb_ag": 1.3,
     "mb_yg": 1.5,
     "mb_toplam": 2.8,
-    "karne": "3G-2B-5M"
+    "karne": "3G-2B-5M",
+    "team_id": "171"
   },
   "nantes": {
     "lig": "fra.2",
@@ -2861,6 +3039,457 @@
     "mb_ag": 1.1,
     "mb_yg": 1.7,
     "mb_toplam": 2.8,
-    "karne": "2G-2B-6M"
+    "karne": "2G-2B-6M",
+    "team_id": "165"
+  },
+  "celtic": {
+    "team_id": "256",
+    "lig": "sco.1",
+    "isim": "Celtic",
+    "sira": 1,
+    "mac": 11,
+    "g": 9,
+    "b": 1,
+    "m": 1,
+    "ag": 27,
+    "yg": 8,
+    "puan": 28,
+    "mb_ag": 2.45,
+    "mb_yg": 0.73,
+    "mb_toplam": 3.18,
+    "win_rate": 81.8,
+    "karne": "9G-1B-1M"
+  },
+  "hearts": {
+    "team_id": "262",
+    "lig": "sco.1",
+    "isim": "Heart of Midlothian",
+    "sira": 3,
+    "mac": 11,
+    "g": 6,
+    "b": 2,
+    "m": 3,
+    "ag": 24,
+    "yg": 17,
+    "puan": 20,
+    "mb_ag": 2.18,
+    "mb_yg": 1.55,
+    "mb_toplam": 3.73,
+    "win_rate": 54.5,
+    "karne": "6G-2B-3M"
+  },
+  "falkrik": {
+    "team_id": "254",
+    "lig": "sco.1",
+    "isim": "Falkirk",
+    "sira": 6,
+    "mac": 11,
+    "g": 4,
+    "b": 3,
+    "m": 4,
+    "ag": 13,
+    "yg": 12,
+    "puan": 15,
+    "mb_ag": 1.18,
+    "mb_yg": 1.09,
+    "mb_toplam": 2.27,
+    "win_rate": 36.4,
+    "karne": "4G-3B-4M"
+  },
+  "aberdeen": {
+    "team_id": "263",
+    "lig": "sco.1",
+    "isim": "Aberdeen",
+    "sira": 9,
+    "mac": 11,
+    "g": 3,
+    "b": 2,
+    "m": 6,
+    "ag": 12,
+    "yg": 14,
+    "puan": 11,
+    "mb_ag": 1.09,
+    "mb_yg": 1.27,
+    "mb_toplam": 2.36,
+    "win_rate": 27.3,
+    "karne": "3G-2B-6M"
+  },
+  "hibernian": {
+    "team_id": "258",
+    "lig": "sco.1",
+    "isim": "Hibernian",
+    "sira": 11,
+    "mac": 11,
+    "g": 2,
+    "b": 2,
+    "m": 7,
+    "ag": 11,
+    "yg": 17,
+    "puan": 8,
+    "mb_ag": 1.0,
+    "mb_yg": 1.55,
+    "mb_toplam": 2.55,
+    "win_rate": 18.2,
+    "karne": "2G-2B-7M"
+  },
+  "panathinaikos": {
+    "team_id": "443",
+    "lig": "gre.1",
+    "isim": "Panathinaikos",
+    "sira": 1,
+    "mac": 8,
+    "g": 7,
+    "b": 0,
+    "m": 1,
+    "ag": 18,
+    "yg": 4,
+    "puan": 21,
+    "mb_ag": 2.25,
+    "mb_yg": 0.5,
+    "mb_toplam": 2.75,
+    "win_rate": 87.5,
+    "karne": "7G-0B-1M"
+  },
+  "olympiacos": {
+    "team_id": "435",
+    "lig": "gre.1",
+    "isim": "Olympiacos",
+    "sira": 2,
+    "mac": 8,
+    "g": 6,
+    "b": 1,
+    "m": 1,
+    "ag": 12,
+    "yg": 2,
+    "puan": 19,
+    "mb_ag": 1.5,
+    "mb_yg": 0.25,
+    "mb_toplam": 1.75,
+    "win_rate": 75.0,
+    "karne": "6G-1B-1M"
+  },
+  "aris": {
+    "team_id": "11553",
+    "lig": "gre.1",
+    "isim": "Aris",
+    "sira": 4,
+    "mac": 8,
+    "g": 5,
+    "b": 1,
+    "m": 2,
+    "ag": 13,
+    "yg": 14,
+    "puan": 16,
+    "mb_ag": 1.62,
+    "mb_yg": 1.75,
+    "mb_toplam": 3.38,
+    "win_rate": 62.5,
+    "karne": "5G-1B-2M"
+  },
+  "paok": {
+    "team_id": "605",
+    "lig": "gre.1",
+    "isim": "PAOK",
+    "sira": 5,
+    "mac": 8,
+    "g": 5,
+    "b": 0,
+    "m": 3,
+    "ag": 16,
+    "yg": 11,
+    "puan": 15,
+    "mb_ag": 2.0,
+    "mb_yg": 1.38,
+    "mb_toplam": 3.38,
+    "win_rate": 62.5,
+    "karne": "5G-0B-3M"
+  },
+  "salzburg": {
+    "team_id": "2790",
+    "lig": "aut.1",
+    "isim": "RB Salzburg",
+    "sira": 2,
+    "mac": 10,
+    "g": 7,
+    "b": 3,
+    "m": 0,
+    "ag": 24,
+    "yg": 5,
+    "puan": 24,
+    "mb_ag": 2.4,
+    "mb_yg": 0.5,
+    "mb_toplam": 2.9,
+    "win_rate": 70.0,
+    "karne": "7G-3B-0M"
+  },
+  "lask linz": {
+    "team_id": "4411",
+    "lig": "aut.1",
+    "isim": "LASK Linz",
+    "sira": 3,
+    "mac": 10,
+    "g": 6,
+    "b": 1,
+    "m": 3,
+    "ag": 24,
+    "yg": 12,
+    "puan": 19,
+    "mb_ag": 2.4,
+    "mb_yg": 1.2,
+    "mb_toplam": 3.6,
+    "win_rate": 60.0,
+    "karne": "6G-1B-3M"
+  },
+  "sturm graz": {
+    "team_id": "3746",
+    "lig": "aut.1",
+    "isim": "SK Sturm Graz",
+    "sira": 4,
+    "mac": 10,
+    "g": 5,
+    "b": 3,
+    "m": 2,
+    "ag": 18,
+    "yg": 12,
+    "puan": 18,
+    "mb_ag": 1.8,
+    "mb_yg": 1.2,
+    "mb_toplam": 3.0,
+    "win_rate": 50.0,
+    "karne": "5G-3B-2M"
+  },
+  "midtjylland": {
+    "team_id": "572",
+    "lig": "den.1",
+    "isim": "FC Midtjylland",
+    "sira": 1,
+    "mac": 12,
+    "g": 8,
+    "b": 4,
+    "m": 0,
+    "ag": 24,
+    "yg": 13,
+    "puan": 28,
+    "mb_ag": 2.0,
+    "mb_yg": 1.08,
+    "mb_toplam": 3.08,
+    "win_rate": 66.7,
+    "karne": "8G-4B-0M"
+  },
+  "hammarby": {
+    "team_id": "2495",
+    "lig": "swe.1",
+    "isim": "Hammarby IF",
+    "sira": 2,
+    "mac": 25,
+    "g": 15,
+    "b": 4,
+    "m": 6,
+    "ag": 52,
+    "yg": 21,
+    "puan": 49,
+    "mb_ag": 2.08,
+    "mb_yg": 0.84,
+    "mb_toplam": 2.92,
+    "win_rate": 60.0,
+    "karne": "15G-4B-6M"
+  },
+  "elfsborg": {
+    "team_id": "529",
+    "lig": "swe.1",
+    "isim": "IF Elfsborg",
+    "sira": 5,
+    "mac": 26,
+    "g": 11,
+    "b": 10,
+    "m": 5,
+    "ag": 39,
+    "yg": 26,
+    "puan": 43,
+    "mb_ag": 1.5,
+    "mb_yg": 1.0,
+    "mb_toplam": 2.5,
+    "win_rate": 42.3,
+    "karne": "11G-10B-5M"
+  },
+  "malmo": {
+    "team_id": "2720",
+    "lig": "swe.1",
+    "isim": "Malmö FF",
+    "sira": 7,
+    "mac": 26,
+    "g": 12,
+    "b": 4,
+    "m": 10,
+    "ag": 41,
+    "yg": 34,
+    "puan": 40,
+    "mb_ag": 1.58,
+    "mb_yg": 1.31,
+    "mb_toplam": 2.88,
+    "win_rate": 46.2,
+    "karne": "12G-4B-10M"
+  },
+  "gais": {
+    "team_id": "8222",
+    "lig": "swe.1",
+    "isim": "GAIS",
+    "sira": 11,
+    "mac": 25,
+    "g": 8,
+    "b": 7,
+    "m": 10,
+    "ag": 31,
+    "yg": 26,
+    "puan": 31,
+    "mb_ag": 1.24,
+    "mb_yg": 1.04,
+    "mb_toplam": 2.28,
+    "win_rate": 32.0,
+    "karne": "8G-7B-10M"
+  },
+  "bodo glimt": {
+    "team_id": "2980",
+    "lig": "nor.1",
+    "isim": "Bodo/Glimt",
+    "sira": 2,
+    "mac": 24,
+    "g": 18,
+    "b": 2,
+    "m": 4,
+    "ag": 58,
+    "yg": 21,
+    "puan": 56,
+    "mb_ag": 2.42,
+    "mb_yg": 0.88,
+    "mb_toplam": 3.29,
+    "win_rate": 75.0,
+    "karne": "18G-2B-4M"
+  },
+  "molde": {
+    "team_id": "2715",
+    "lig": "nor.1",
+    "isim": "Molde",
+    "sira": 3,
+    "mac": 24,
+    "g": 13,
+    "b": 4,
+    "m": 7,
+    "ag": 57,
+    "yg": 36,
+    "puan": 43,
+    "mb_ag": 2.38,
+    "mb_yg": 1.5,
+    "mb_toplam": 3.88,
+    "win_rate": 54.2,
+    "karne": "13G-4B-7M"
+  },
+  "rosenborg": {
+    "team_id": "438",
+    "lig": "nor.1",
+    "isim": "Rosenborg",
+    "sira": 4,
+    "mac": 24,
+    "g": 12,
+    "b": 4,
+    "m": 8,
+    "ag": 46,
+    "yg": 31,
+    "puan": 40,
+    "mb_ag": 1.92,
+    "mb_yg": 1.29,
+    "mb_toplam": 3.21,
+    "win_rate": 50.0,
+    "karne": "12G-4B-8M"
+  },
+  "lillestrom": {
+    "team_id": "987",
+    "lig": "nor.1",
+    "isim": "Lillestrom",
+    "sira": 6,
+    "mac": 24,
+    "g": 12,
+    "b": 3,
+    "m": 9,
+    "ag": 35,
+    "yg": 33,
+    "puan": 39,
+    "mb_ag": 1.46,
+    "mb_yg": 1.38,
+    "mb_toplam": 2.83,
+    "win_rate": 50.0,
+    "karne": "12G-3B-9M"
+  },
+  "brann": {
+    "team_id": "620",
+    "lig": "nor.1",
+    "isim": "SK Brann",
+    "sira": 9,
+    "mac": 24,
+    "g": 9,
+    "b": 2,
+    "m": 13,
+    "ag": 42,
+    "yg": 40,
+    "puan": 29,
+    "mb_ag": 1.75,
+    "mb_yg": 1.67,
+    "mb_toplam": 3.42,
+    "win_rate": 37.5,
+    "karne": "9G-2B-13M"
+  },
+  "sandefjord": {
+    "team_id": "3279",
+    "lig": "nor.1",
+    "isim": "Sandefjord",
+    "sira": 13,
+    "mac": 24,
+    "g": 6,
+    "b": 6,
+    "m": 12,
+    "ag": 22,
+    "yg": 31,
+    "puan": 24,
+    "mb_ag": 0.92,
+    "mb_yg": 1.29,
+    "mb_toplam": 2.21,
+    "win_rate": 25.0,
+    "karne": "6G-6B-12M"
+  },
+  "philadelphia union": {
+    "team_id": "10739",
+    "lig": "usa.1",
+    "isim": "Philadelphia Union",
+    "sira": 6,
+    "mac": 31,
+    "g": 13,
+    "b": 7,
+    "m": 11,
+    "ag": 62,
+    "yg": 50,
+    "puan": 46,
+    "mb_ag": 2.0,
+    "mb_yg": 1.61,
+    "mb_toplam": 3.61,
+    "win_rate": 41.9,
+    "karne": "13G-7B-11M"
+  },
+  "inter miami": {
+    "team_id": "20232",
+    "lig": "usa.1",
+    "isim": "Inter Miami CF",
+    "sira": 3,
+    "mac": 31,
+    "g": 15,
+    "b": 10,
+    "m": 6,
+    "ag": 73,
+    "yg": 53,
+    "puan": 55,
+    "mb_ag": 2.35,
+    "mb_yg": 1.71,
+    "mb_toplam": 4.06,
+    "win_rate": 48.4,
+    "karne": "15G-10B-6M"
   }
 }
