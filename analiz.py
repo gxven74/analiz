@@ -143,29 +143,29 @@ st.markdown(f"""
 # ==============================================================================
 TAKIM_PROFILLERI = {
     # --- TÜRKİYE SÜPER LİG & 1. LİG (2026-27) ---
-    "galatasaray": {"hucum": 2.20, "savunma": 1.00, "seviye": 1.32},
+    "galatasaray": {"hucum": 2.22, "savunma": 0.98, "seviye": 1.32},
     "fenerbahce": {"hucum": 2.15, "savunma": 1.00, "seviye": 1.30},
     "besiktas": {"hucum": 1.75, "savunma": 1.15, "seviye": 1.18},
-    "trabzonspor": {"hucum": 1.58, "savunma": 1.16, "seviye": 1.08},
-    "basaksehir": {"hucum": 1.45, "savunma": 1.30, "seviye": 1.00},
-    "samsunspor": {"hucum": 1.18, "savunma": 1.45, "seviye": 0.90},
-    "goztepe": {"hucum": 1.40, "savunma": 1.15, "seviye": 1.00},
-    "eyupspor": {"hucum": 1.40, "savunma": 1.20, "seviye": 0.98},
-    "amed": {"hucum": 1.65, "savunma": 1.10, "seviye": 1.16},
-    "kasimpasa": {"hucum": 1.45, "savunma": 1.46, "seviye": 0.94},
+    "trabzonspor": {"hucum": 1.75, "savunma": 1.06, "seviye": 1.16},
+    "basaksehir": {"hucum": 1.45, "savunma": 1.28, "seviye": 1.00},
+    "goztepe": {"hucum": 1.44, "savunma": 1.14, "seviye": 1.00},
+    "kasimpasa": {"hucum": 1.42, "savunma": 1.32, "seviye": 0.94},
     "sivasspor": {"hucum": 1.28, "savunma": 1.35, "seviye": 0.90},
     "antalyaspor": {"hucum": 1.25, "savunma": 1.35, "seviye": 0.90},
     "alanyaspor": {"hucum": 1.26, "savunma": 1.30, "seviye": 0.90},
     "rizespor": {"hucum": 1.25, "savunma": 1.34, "seviye": 0.90},
     "gaziantep": {"hucum": 1.20, "savunma": 1.38, "seviye": 0.86},
     "konyaspor": {"hucum": 1.16, "savunma": 1.32, "seviye": 0.86},
-    "kayserispor": {"hucum": 1.15, "savunma": 1.44, "seviye": 0.84},
+    "samsunspor": {"hucum": 1.15, "savunma": 1.48, "seviye": 0.85},
     "kocaelispor": {"hucum": 1.28, "savunma": 1.22, "seviye": 0.85},
+    "kayserispor": {"hucum": 1.15, "savunma": 1.44, "seviye": 0.84},
     "fatih karagumruk": {"hucum": 1.30, "savunma": 1.26, "seviye": 0.84},
-    "genclerbirligi": {"hucum": 1.18, "savunma": 1.25, "seviye": 0.78},
+    "amed": {"hucum": 1.18, "savunma": 1.34, "seviye": 0.80},
     "bodrum fk": {"hucum": 1.02, "savunma": 1.28, "seviye": 0.80},
-    "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.78},
     "ankaragucu": {"hucum": 1.28, "savunma": 1.26, "seviye": 0.80},
+    "eyupspor": {"hucum": 1.04, "savunma": 1.52, "seviye": 0.78},
+    "genclerbirligi": {"hucum": 1.18, "savunma": 1.25, "seviye": 0.78},
+    "hatayspor": {"hucum": 1.05, "savunma": 1.45, "seviye": 0.78},
     "bandirmaspor": {"hucum": 1.22, "savunma": 1.24, "seviye": 0.76},
     "corum": {"hucum": 1.20, "savunma": 1.24, "seviye": 0.76},
     "erzurumspor": {"hucum": 1.16, "savunma": 1.20, "seviye": 0.75},
@@ -188,19 +188,19 @@ TAKIM_PROFILLERI = {
     "arsenal": {"hucum": 2.10, "savunma": 0.86, "seviye": 1.44},
     "liverpool": {"hucum": 2.20, "savunma": 0.95, "seviye": 1.42},
     "chelsea": {"hucum": 1.90, "savunma": 1.20, "seviye": 1.25},
+    "brighton": {"hucum": 1.82, "savunma": 1.10, "seviye": 1.22},
     "tottenham": {"hucum": 1.92, "savunma": 1.34, "seviye": 1.22},
-    "aston villa": {"hucum": 1.68, "savunma": 1.14, "seviye": 1.20},
-    "newcastle": {"hucum": 1.68, "savunma": 1.12, "seviye": 1.20},
+    "aston villa": {"hucum": 1.68, "savunma": 1.14, "seviye": 1.18},
+    "newcastle": {"hucum": 1.48, "savunma": 1.26, "seviye": 1.18},
     "manchester united": {"hucum": 1.66, "savunma": 1.28, "seviye": 1.16},
-    "brighton": {"hucum": 1.70, "savunma": 1.28, "seviye": 1.16},
     "bournemouth": {"hucum": 1.52, "savunma": 1.28, "seviye": 1.10},
     "nottingham forest": {"hucum": 1.40, "savunma": 1.14, "seviye": 1.08},
     "brentford": {"hucum": 1.56, "savunma": 1.38, "seviye": 1.06},
     "fulham": {"hucum": 1.38, "savunma": 1.22, "seviye": 1.06},
+    "leeds": {"hucum": 1.52, "savunma": 1.30, "seviye": 1.05},
     "west ham": {"hucum": 1.40, "savunma": 1.42, "seviye": 1.04},
     "crystal palace": {"hucum": 1.32, "savunma": 1.22, "seviye": 1.02},
-    "everton": {"hucum": 1.22, "savunma": 1.22, "seviye": 1.00},
-    "leeds": {"hucum": 1.52, "savunma": 1.30, "seviye": 1.05},
+    "everton": {"hucum": 1.24, "savunma": 1.18, "seviye": 1.02},
     "sunderland": {"hucum": 1.48, "savunma": 1.18, "seviye": 1.02},
     "burnley": {"hucum": 1.34, "savunma": 1.18, "seviye": 0.98},
     "wolves": {"hucum": 1.28, "savunma": 1.52, "seviye": 0.95},
@@ -253,14 +253,14 @@ TAKIM_PROFILLERI = {
     # --- İTALYA SERIE A & SERIE B (2026-27) ---
     "inter": {"hucum": 2.20, "savunma": 0.86, "seviye": 1.42},
     "napoli": {"hucum": 1.82, "savunma": 0.92, "seviye": 1.32},
-    "atalanta": {"hucum": 1.95, "savunma": 1.32, "seviye": 1.18},
     "juventus": {"hucum": 1.70, "savunma": 0.96, "seviye": 1.25},
     "milan": {"hucum": 1.85, "savunma": 1.22, "seviye": 1.25},
-    "lazio": {"hucum": 1.78, "savunma": 1.22, "seviye": 1.20},
-    "roma": {"hucum": 1.62, "savunma": 1.16, "seviye": 1.18},
+    "lazio": {"hucum": 1.88, "savunma": 1.06, "seviye": 1.23},
+    "roma": {"hucum": 1.74, "savunma": 1.08, "seviye": 1.22},
+    "atalanta": {"hucum": 1.95, "savunma": 1.32, "seviye": 1.18},
     "bologna": {"hucum": 1.46, "savunma": 1.14, "seviye": 1.15},
-    "fiorentina": {"hucum": 1.55, "savunma": 1.22, "seviye": 1.12},
-    "como": {"hucum": 1.40, "savunma": 1.24, "seviye": 1.02},
+    "como": {"hucum": 1.48, "savunma": 1.12, "seviye": 1.06},
+    "fiorentina": {"hucum": 1.40, "savunma": 1.38, "seviye": 1.05},
     "torino": {"hucum": 1.24, "savunma": 1.18, "seviye": 1.00},
     "genoa": {"hucum": 1.22, "savunma": 1.24, "seviye": 0.96},
     "udinese": {"hucum": 1.22, "savunma": 1.32, "seviye": 0.94},
@@ -281,11 +281,11 @@ TAKIM_PROFILLERI = {
 
     # --- ALMANYA BUNDESLIGA & BUNDESLIGA 2 (2026-27) ---
     "bayern munih": {"hucum": 2.52, "savunma": 1.02, "seviye": 1.46},
-    "bayer leverkusen": {"hucum": 2.25, "savunma": 1.12, "seviye": 1.35},
+    "bayer leverkusen": {"hucum": 2.25, "savunma": 1.14, "seviye": 1.35},
     "leipzig": {"hucum": 1.94, "savunma": 1.10, "seviye": 1.28},
-    "dortmund": {"hucum": 1.48, "savunma": 1.12, "seviye": 1.18},
-    "eintracht frankfurt": {"hucum": 1.46, "savunma": 1.12, "seviye": 1.14},
+    "dortmund": {"hucum": 1.48, "savunma": 1.12, "seviye": 1.20},
     "stuttgart": {"hucum": 1.88, "savunma": 1.28, "seviye": 1.20},
+    "eintracht frankfurt": {"hucum": 1.46, "savunma": 1.12, "seviye": 1.14},
     "freiburg": {"hucum": 1.55, "savunma": 1.22, "seviye": 1.12},
     "koln": {"hucum": 1.62, "savunma": 1.22, "seviye": 1.08},
     "werder bremen": {"hucum": 1.50, "savunma": 1.38, "seviye": 1.05},
@@ -353,12 +353,17 @@ TAKIM_PROFILLERI = {
     "fortuna sittard": {"hucum": 1.24, "savunma": 1.35, "seviye": 0.90},
     "estoril praia": {"hucum": 1.28, "savunma": 1.40, "seviye": 0.90},
     "arouca": {"hucum": 1.20, "savunma": 1.40, "seviye": 0.86},
+    "rio ave": {"hucum": 1.14, "savunma": 1.36, "seviye": 0.86},
     "sparta rotterdam": {"hucum": 1.18, "savunma": 1.50, "seviye": 0.86},
     "excelsior": {"hucum": 1.24, "savunma": 1.50, "seviye": 0.85},
     "zwolle": {"hucum": 1.24, "savunma": 1.45, "seviye": 0.85},
     "willem 2": {"hucum": 1.20, "savunma": 1.40, "seviye": 0.85},
+    "casa pia": {"hucum": 1.06, "savunma": 1.38, "seviye": 0.84},
     "cambuur": {"hucum": 1.40, "savunma": 1.40, "seviye": 0.84},
     "ado": {"hucum": 1.36, "savunma": 1.40, "seviye": 0.84},
+    "boavista": {"hucum": 1.05, "savunma": 1.42, "seviye": 0.82},
+    "avs": {"hucum": 1.06, "savunma": 1.40, "seviye": 0.82},
+    "nacional": {"hucum": 1.04, "savunma": 1.44, "seviye": 0.80},
     "telstar": {"hucum": 1.28, "savunma": 1.45, "seviye": 0.80},
     "torreense": {"hucum": 1.15, "savunma": 1.35, "seviye": 0.80},
 
@@ -372,8 +377,9 @@ TAKIM_PROFILLERI = {
     "genk": {"hucum": 1.68, "savunma": 1.18, "seviye": 1.10},
     "antwerp": {"hucum": 1.56, "savunma": 1.24, "seviye": 1.08},
     "gent": {"hucum": 1.54, "savunma": 1.22, "seviye": 1.06},
-    "standard liege": {"hucum": 1.28, "savunma": 1.30, "seviye": 0.94},
     "anderlecht": {"hucum": 1.48, "savunma": 1.15, "seviye": 1.04},
+    "standard liege": {"hucum": 1.28, "savunma": 1.30, "seviye": 0.94},
+    "cercle brugge": {"hucum": 1.26, "savunma": 1.42, "seviye": 0.90},
     "panathinaikos": {"hucum": 1.55, "savunma": 1.12, "seviye": 1.10},
     "aek atina": {"hucum": 1.58, "savunma": 1.12, "seviye": 1.10},
     "paok": {"hucum": 1.60, "savunma": 1.12, "seviye": 1.10},
@@ -512,7 +518,11 @@ TAKMA_ADLAR = {
     "fc twente": "twente", "twente": "twente", "glasgow rangers": "rangers", "rangers": "rangers",
     "sk brann": "brann", "brann": "brann", "ud almeria": "almeria", "almeria": "almeria",
     "burgos cf": "burgos", "burgos": "burgos", "granada cf": "granada", "granada": "granada",
-    "brugge": "club brugge", "club brugge": "club brugge", "krc genk": "genk", "genk": "genk",
+    "brugge": "club brugge", "club brugge": "club brugge", "club brugge kv": "club brugge",
+    "cercle": "cercle brugge", "cercle brugge ksv": "cercle brugge",
+    "krc genk": "genk", "racing genk": "genk", "genk": "genk",
+    "casa pia ac": "casa pia", "casa pia": "casa pia",
+    "rio ave fc": "rio ave", "boavista fc": "boavista", "cd nacional": "nacional", "avs futebol sad": "avs",
     "kaa gent": "gent", "standard": "standard liege",
     "cd santa clara": "santa clara", "santa clara": "santa clara",
     "scpaderborn": "paderborn", "paderborn": "paderborn",
@@ -603,11 +613,17 @@ def sabika_hafizasi_getir():
                     sabika[d_k] = max(0, sabika.get(d_k, 0) - 1)
     return sabika
 
-def canli_api_takim_esle(espn_name):
+def canli_api_takim_esle(espn_name, lig_kodu=""):
     g = espn_name.lower().strip()
-    # Rezerv / Altyapı / B takımlarını ana takımla eşleşip istatistiklerini bozmaması için filtrele
+    # Rezerv / Altyapı / B takımlarını ve Fransız Ligue 2 Red Star FC 93'ü (Kızılyıldız çakışması) filtrele
     if re.search(r'(\b(ii|reserve|reserves|u21|u23|u19|amateur|amateure|youth|jong)\b|\s+[b2]$)', g):
         return None
+    if "red star" in g and ("93" in g or "fc" in g or lig_kodu == "fra.2"):
+        return None
+    if "cercle" in g and "brugge" in g:
+        return "cercle brugge"
+    if "racing" in g and "genk" in g:
+        return "genk"
     g = g.replace("İ", "i").replace("I", "i").replace("ı", "i").replace("ğ", "g").replace("ü", "u").replace("ş", "s").replace("ö", "o").replace("ç", "c")
     words = re.findall(r'[a-z0-9]+', g)
     clean = " ".join([w for w in words if w not in ["fc", "cf", "sc", "sv", "afc", "ac", "fk", "bb", "as", "tsv", "rb", "1", "07", "04"]])
@@ -621,7 +637,7 @@ def canli_api_takim_esle(espn_name):
         if len(k) >= 4 and (k == clean or f" {k} " in f" {clean} " or clean.startswith(f"{k} ") or clean.endswith(f" {k}")):
             return k
     for alias, target in TAKMA_ADLAR.items():
-        if alias in ["city", "united", "real"]: continue
+        if alias in ["city", "united", "real", "brugge", "racing"]: continue
         if len(alias) >= 4 and (alias == clean or f" {alias} " in f" {clean} " or clean.startswith(f"{alias} ") or clean.endswith(f" {alias}")):
             return target
     return None
@@ -661,9 +677,9 @@ def canli_api_guncelle():
                 entries = data.get('children', [{}])[0].get('standings', {}).get('entries', [])
                 for e in entries:
                     raw_name = e['team']['displayName']
-                    tk = canli_api_takim_esle(raw_name)
+                    tk = canli_api_takim_esle(raw_name, code)
                     if not tk:
-                        tk = canli_api_takim_esle(e['team'].get('shortDisplayName', ''))
+                        tk = canli_api_takim_esle(e['team'].get('shortDisplayName', ''), code)
                     if tk:
                         st_map = {s['name']: s.get('value', s.get('displayValue')) for s in e.get('stats', [])}
                         gp = float(st_map.get('gamesPlayed', 0) or 0)
@@ -1283,11 +1299,27 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     min_seviye = min(ep["seviye"], dp["seviye"])
     ortalama_savunma = (ep["savunma"] + dp["savunma"]) / 2.0
     derbi_kilit_tuzagi = (
-        min_seviye >= 1.20
+        min_seviye >= 1.18
         and max_seviye <= 1.28
         and mutlak_fark <= 0.08
         and min(ep["savunma"], dp["savunma"]) >= 1.12
+        and max(ep["hucum"], dp["hucum"]) <= 1.92
     )
+    elit_savunma_derbi_kilidi = (
+        (min_seviye >= 1.35 and mutlak_fark <= 0.04 and max(ep["savunma"], dp["savunma"]) <= 0.95 and max(ep["hucum"], dp["hucum"]) <= 2.22)
+        or (min_seviye >= 1.24 and mutlak_fark <= 0.01 and ep["savunma"] <= 1.00)
+    )
+    zirve_direnc_deplasmani = (
+        ep["seviye"] >= 1.40
+        and dp["seviye"] >= 1.20
+        and bool(canli_dep and canli_dep.get("sira", 20) <= 3 and canli_dep.get("mb_yg", 2.0) <= 0.90)
+    )
+    if canli_ev and canli_ev.get("sira", 20) <= 5 and ep["seviye"] <= 0.88:
+        radar_uyarilari.append(f"⚠️ Şişik Puan Tablosu Uyarısı ({ev_key.title()}): Ligde #{canli_ev['sira']}. sırada olsa da gerçek kadro kalitesi düşük ({ep['seviye']:.2f}); sıralamasına aldanma!")
+    if canli_dep and canli_dep.get("sira", 20) <= 5 and dp["seviye"] <= 0.88:
+        radar_uyarilari.append(f"⚠️ Şişik Puan Tablosu Uyarısı ({dep_key.title()}): Ligde #{canli_dep['sira']}. sırada olsa da gerçek kadro kalitesi düşük ({dp['seviye']:.2f}); sıralamasına aldanma!")
+    if zirve_direnc_deplasmani:
+        radar_uyarilari.append(f"🛡️ Zirve Direnç Deplasmanı ({dep_key.title()} Lig #{canli_dep.get('sira')}): Rakip çok az gol yiyor ({canli_dep.get('mb_yg'):.2f} YG/m); düz MS 1 tuzağına girilmez!")
     alt_lig_denk_tuzak = (
         min_seviye < 1.00
         and max_seviye <= 1.05
@@ -1342,7 +1374,7 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     # denk derbiler (Chelsea-Tottenham, Dortmund-Frankfurt, Newcastle-Villa) veya alt lig denk maçlarında (Paderborn-Hamburg) el freni çekilir!
     if denk_taktik_kilit:
         tempo_carpani *= 0.80
-    elif derbi_kilit_tuzagi or alt_lig_denk_tuzak:
+    elif derbi_kilit_tuzagi or alt_lig_denk_tuzak or elit_savunma_derbi_kilidi:
         tempo_carpani *= 0.86
     elif min_seviye >= 1.10 and ev_key not in KISIR_TAKTIK_TAKIMLAR and dep_key not in KISIR_TAKTIK_TAKIMLAR:
         tempo_carpani *= 1.03
@@ -1357,7 +1389,7 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
 
     # 3. Dixon-Coles Düşük Skor Korelasyonu (Taktiksel Kilitlenme Düzeltmesi)
     rho = -0.06
-    if denk_taktik_kilit:
+    if denk_taktik_kilit or elit_savunma_derbi_kilidi:
         rho = -0.15
     elif derbi_kilit_tuzagi or alt_lig_denk_tuzak or (mutlak_fark <= 0.15 and ortalama_savunma <= 1.20) or zayif_halka_otobus:
         rho = -0.12
@@ -1415,15 +1447,18 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     ms1_baraj = 64.0 if ep["savunma"] >= 1.25 else 61.0
     ms2_baraj = 62.0 if dp["savunma"] >= 1.25 else 59.5
 
-    if derbi_kilit_tuzagi or alt_lig_denk_tuzak:
+    if derbi_kilit_tuzagi or alt_lig_denk_tuzak or elit_savunma_derbi_kilidi:
         durum, aksiyon, guven_orani = "SARI", "PAS GEÇ / RİSKLİ", 0.0
+    # Zirve Direnç Deplasmanı (Bayern-Dortmund, Man City-Brighton, Liverpool-Brighton): Düz MS 1 Tuzağı Yerine 1X Çifte Şans!
+    elif zirve_direnc_deplasmani and p_ev < 75.5 and p_1x >= 80.0:
+        durum, aksiyon, guven_orani = "YESIL", "1X Çifte Şans", p_1x
     # B) Yüksek Tempolu Açık Gol Şölenleri (3.65+ xG & %70+ 2.5Ü): Deplasman Taraf Bahsi Tuzağı Yerine 2.5 ÜST! (Hoffenheim, Stuttgart & PSG-Barça Kuralı)
     elif p_15_ust >= 88.2 and p_25_ust >= 70.0 and toplam_xg >= 3.65 and (mutlak_fark >= 0.09 or max_seviye >= 1.44):
         durum, aksiyon, guven_orani = "YESIL", "2.5 ÜST", p_25_ust
-    # A) Net Favori Galibiyeti (MS 1 / MS 2)
-    elif p_ev >= ms1_baraj and (seviye_farki >= 0.14 or p_ev >= 64.0):
+    # A) Net Favori Galibiyeti (MS 1 / MS 2) - Güçlü Deplasman (seviye >= 1.20) MS 1 Kalkanı Korumalı!
+    elif p_ev >= ms1_baraj and (seviye_farki >= 0.14 or p_ev >= 64.0) and not (dp["seviye"] >= 1.20 and p_ev < 75.5):
         durum, aksiyon, guven_orani = "YESIL", f"MS 1 ({ev_key.title()})", p_ev
-    elif p_dep >= ms2_baraj and (seviye_farki <= -0.14 or p_dep >= 63.0):
+    elif p_dep >= ms2_baraj and (seviye_farki <= -0.14 or p_dep >= 63.0) and not (ep["seviye"] >= 1.20 and p_dep < 72.0):
         durum, aksiyon, guven_orani = "YESIL", f"MS 2 ({dep_key.title()})", p_dep
     # C) İdeal Banko 1.5 ÜST Bandı (Zayıf Halka Otobüs Kilitlenmesi Korumalı!)
     elif (
@@ -1442,8 +1477,14 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     # F) X2 Çifte Şans (Minimal baraj: %73.5 - Kısır deplasman tuzağı korumalı)
     elif p_x2 >= 73.5 and dp["seviye"] >= 1.12 and seviye_farki <= -0.12 and exp_a >= 1.38:
         durum, aksiyon, guven_orani = "YESIL", "X2 Çifte Şans", p_x2
-    # G) 1X Çifte Şans (Minimal baraj: %73.5 - Alt sıra/kısır 1X tuzağı korumalı)
-    elif p_1x >= 73.5 and ep["seviye"] >= 1.05 and exp_h >= 1.48 and (seviye_farki >= 0.12 or ep["savunma"] <= 1.10):
+    # G) 1X Çifte Şans (Minimal baraj: %73.5 - Alt sıra/kısır/formsuz ev 1X tuzağı korumalı)
+    elif (
+        p_1x >= 73.5
+        and ep["seviye"] >= 1.05
+        and exp_h >= 1.48
+        and (seviye_farki >= 0.12 or ep["savunma"] <= 1.10)
+        and not (canli_ev and canli_ev.get("sira", 1) >= 11 and canli_ev.get("mb_yg", 1.0) >= 1.60)
+    ):
         durum, aksiyon, guven_orani = "YESIL", "1X Çifte Şans", p_1x
     # H) Gerçek 2.5 ALT & Taktiksel Denk Maç Kilitlenmesi (Deplasman Favorisi Tuzağı ve Açık Takım Korumalı!)
     elif (
@@ -1505,7 +1546,9 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
 
     # Eğer maç SARI (PAS) kaldıysa neden elendiğini açıkla
     if durum == "SARI":
-        if derbi_kilit_tuzagi or (mutlak_fark <= 0.08 and min_seviye >= 1.14 and p_15_ust >= 70.0):
+        if elit_savunma_derbi_kilidi:
+            tuzak_notu = f"🚨 ELİT SAVUNMA / ZİRVE DERBİSİ KİLİDİ ({ev_key.title()} vs {dep_key.title()}): İki üst düzey çelik savunmalı takımın ({ep['savunma']:.2f} vs {dp['savunma']:.2f}) taktik satrancında 0-0 / 1-0 kilitlenme riski çok yüksektir; Üst/Taraf tuzağına girilmez!"
+        elif derbi_kilit_tuzagi or (mutlak_fark <= 0.08 and min_seviye >= 1.14 and p_15_ust >= 70.0):
             tuzak_notu = f"🚨 DENK DERBİ / 6 PUAN KİLİDİ TUZAĞI ({ev_key.title()} vs {dep_key.title()}): Güçleri birbirine çok yakın ({ep['seviye']:.2f} vs {dp['seviye']:.2f}) iki üst sıra takımının kritik maçında el freni çekilir; Üst/KG tuzağına girilmez!"
         elif alt_lig_denk_tuzak:
             tuzak_notu = f"🚨 ALT LİG DENK MAÇ TUZAĞI ({ev_key.title()} vs {dep_key.title()}): İki denk alt klasman takımının ({ep['seviye']:.2f} vs {dp['seviye']:.2f}) mücadelesi 0-0 / 1-0 kilitlenmeye çok açıktır!"
@@ -1517,8 +1560,8 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
         elif p_25_alt >= 58.0 and (ev_key in ACIK_GOLCU_TAKIMLAR or dep_key in ACIK_GOLCU_TAKIMLAR or ep["savunma"] > 1.20 or dp["savunma"] > 1.20):
             acik_takim = ev_key.title() if (ev_key in ACIK_GOLCU_TAKIMLAR or ep["savunma"] > 1.20) else dep_key.title()
             tuzak_notu = f"🚨 SAHTE 2.5 ALT TUZAĞI: Kağıt üzerinde Alt (%{p_25_alt:.0f}) görünse de {acik_takim} savunması açık; maç bir anda Üst'e patlayabilir!"
-        elif p_1x >= 72.0 and (ep["seviye"] < 1.05 or exp_h < 1.48):
-            tuzak_notu = f"🚨 SAHTE 1X TUZAĞI ({ev_key.title()}): Ev sahibi kısır ({exp_h:.2f} xG) veya orta/alt sıra; ilk golü yerse çeviremez!"
+        elif p_1x >= 72.0 and (ep["seviye"] < 1.08 or exp_h < 1.48 or ep["savunma"] > 1.28):
+            tuzak_notu = f"🚨 SAHTE 1X TUZAĞI ({ev_key.title()}): Ev sahibi savunması kırılgan ({ep['savunma']:.2f}) veya orta/alt sıra; ilk golü yerse çeviremez!"
         elif tempo_carpani < 1.0 and p_15_ust >= 70.0:
             tuzak_notu = f"🚨 KISIR LİG / SAVUNMA KİLİDİ: Takımlar kontrollü/savunmacı karakterde (1.5Ü: %{p_15_ust:.0f}), 0-0 / 1-0 bitme riski var!"
         else:
@@ -1556,7 +1599,7 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
 
     yz_kalite_puani -= sabika_ceza
 
-    # 6. Canlı API Form & Kısırlık İnce Ayarı
+    # 6. Canlı API Form & Kısırlık İnce Ayarı (Şişik Puan Tablosu Korumalı - Amed SK Kuralı!)
     if canli_ev and canli_dep and canli_ev.get("mac", 0) >= 4 and canli_dep.get("mac", 0) >= 4:
         # İki takım da maç başı 1.05 golün altında atıyorsa ÜST tuzağına karşı koru
         if canli_ev["mb_ag"] <= 1.05 and canli_dep["mb_ag"] <= 1.05 and canli_ev["mb_toplam"] <= 2.30 and durum == "YESIL" and "ÜST" in aksiyon:
@@ -1565,13 +1608,13 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
         elif durum == "YESIL" and "2.5 ALT" in aksiyon and (canli_ev.get("mb_toplam", 0) >= 3.20 and canli_dep.get("mb_toplam", 0) >= 3.20):
             durum, aksiyon, guven_orani = "SARI", "PAS GEÇ / RİSKLİ", 0.0
             tuzak_notu = f"⚠️ CANLI TEMPO & SAVUNMA ZAAFI TUZAĞI ({ev_key.title()} vs {dep_key.title()}): Kağıt üstünde 2.5 Alt görünse de canlı lig istatistiklerinde iki takımın da maçları çok gollü geçiyor ({canli_ev.get('mb_toplam', 0):.2f} vs {canli_dep.get('mb_toplam', 0):.2f} gol ort.); maç Üst'e patlayabilir!"
-        elif "MS 1" in aksiyon and canli_ev.get("win_rate", 0) >= 70.0 and canli_dep.get("win_rate", 0) <= 35.0:
+        elif "MS 1" in aksiyon and canli_ev.get("win_rate", 0) >= 70.0 and canli_dep.get("win_rate", 0) <= 35.0 and ep["seviye"] >= 1.05:
             yz_kalite_puani += 1.0
-        elif "MS 2" in aksiyon and canli_dep.get("win_rate", 0) >= 70.0 and canli_ev.get("win_rate", 0) <= 35.0:
+        elif "MS 2" in aksiyon and canli_dep.get("win_rate", 0) >= 70.0 and canli_ev.get("win_rate", 0) <= 35.0 and dp["seviye"] >= 1.05:
             yz_kalite_puani += 1.0
-        elif ("MS 2" in aksiyon or "X2" in aksiyon) and canli_dep.get("sira", 10) <= 3 and canli_ev.get("sira", 10) >= 15:
+        elif ("MS 2" in aksiyon or "X2" in aksiyon) and canli_dep.get("sira", 10) <= 3 and canli_ev.get("sira", 10) >= 15 and dp["seviye"] >= 1.08:
             yz_kalite_puani += 4.5
-        elif ("MS 1" in aksiyon or "1X" in aksiyon) and canli_ev.get("sira", 10) <= 3 and canli_dep.get("sira", 10) >= 15:
+        elif ("MS 1" in aksiyon or "1X" in aksiyon) and canli_ev.get("sira", 10) <= 3 and canli_dep.get("sira", 10) >= 15 and ep["seviye"] >= 1.08:
             yz_kalite_puani += 4.5
 
     min_oran = round(max(1.10, (100.0 / max(guven_orani, 50.0)) * 0.84), 2) if guven_orani > 0 else 0.0
@@ -2163,7 +2206,7 @@ with tab2:
                 st.markdown(sari_df.to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
 
 # ==============================================================================
-# TAB 3: GÜNLÜK KASA & -1200 TL KURTARMA KOÇU (TILT / ALL-IN KORUMALI)
+# TAB 3: GÜNLÜK KASA & -1500 TL KURTARMA KOÇU (TILT / ALL-IN KORUMALI)
 # ==============================================================================
 with tab3:
     st.markdown("### 📊 Günlük Kasa Takibi & Zarar Kurtarma Koçu")
