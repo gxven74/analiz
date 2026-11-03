@@ -1452,8 +1452,9 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     # Zirve Direnç Deplasmanı (Bayern-Dortmund, Man City-Brighton, Liverpool-Brighton): Düz MS 1 Tuzağı Yerine 1X Çifte Şans!
     elif zirve_direnc_deplasmani and p_ev < 75.5 and p_1x >= 80.0:
         durum, aksiyon, guven_orani = "YESIL", "1X Çifte Şans", p_1x
-    # B) Yüksek Tempolu Açık Gol Şölenleri (3.65+ xG & %70+ 2.5Ü): Deplasman Taraf Bahsi Tuzağı Yerine 2.5 ÜST! (Hoffenheim, Stuttgart & PSG-Barça Kuralı)
-    elif p_15_ust >= 88.2 and p_25_ust >= 70.0 and toplam_xg >= 3.65 and (mutlak_fark >= 0.09 or max_seviye >= 1.44):
+    # B) Yüksek Tempolu Açık Gol Şölenleri (3.65+ xG & %70+ 2.5Ü): Deplasman Taraf Bahsi Tuzağı Yerine 2.5 ÜST!
+    # (2-0 Clean-Sheet Favori Kalkanı: Ev sahibinin savunması sıkıysa [ep['savunma'] < 1.05, Örn: GS 2-0 Stuttgart] 2.5 ÜST yerine 1.5 ÜST / MS 1 korunur!)
+    elif p_15_ust >= 88.2 and p_25_ust >= 70.0 and toplam_xg >= 3.65 and ep["savunma"] >= 1.05 and (mutlak_fark >= 0.09 or max_seviye >= 1.44):
         durum, aksiyon, guven_orani = "YESIL", "2.5 ÜST", p_25_ust
     # A) Net Favori Galibiyeti (MS 1 / MS 2) - Güçlü Deplasman (seviye >= 1.20) MS 1 Kalkanı Korumalı!
     elif p_ev >= ms1_baraj and (seviye_farki >= 0.14 or p_ev >= 64.0) and not (dp["seviye"] >= 1.20 and p_ev < 75.5):
@@ -1527,6 +1528,9 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
         )
     ):
         katlayici_aksiyon, katlayici_yuzde = f"KG VAR (%{p_kg_var:.0f})", p_kg_var
+    # 2.5) Evinde Sıkı Savunmalı Favori Baskısı (Örn: Galatasaray 2-0 Stuttgart): 2-0 Clean-Sheet riskine karşı 2.5 ÜST yerine Ev 1.5 ÜST / MS 1 & 1.5 ÜST!
+    elif aksiyon == "1.5 ÜST" and p_ev >= 60.0 and ep["savunma"] <= 1.00 and p_ev_15_ust >= 70.0:
+        katlayici_aksiyon, katlayici_yuzde = f"Ev 1.5 ÜST (%{p_ev_15_ust:.0f})", p_ev_15_ust
     # 3) Açık ve bol gollü maçlarda 2.5 ÜST
     elif p_25_ust >= 59.0 and aksiyon == "1.5 ÜST":
         katlayici_aksiyon, katlayici_yuzde = f"2.5 ÜST (%{p_25_ust:.0f})", p_25_ust
