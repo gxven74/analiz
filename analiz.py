@@ -1577,7 +1577,7 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
             and mutlak_fark <= 0.10
             and ortalama_savunma > 1.20
         )
-        or max_seviye <= 0.96
+        or max_seviye <= 0.94
     )
     iki_acik_takim = (
         ev_key in ACIK_GOLCU_TAKIMLAR
