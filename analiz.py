@@ -9,6 +9,7 @@ import urllib.request
 import json
 import concurrent.futures
 import re
+import unicodedata
 
 # Dosyaların her zaman kodun olduğu klasörde açılmasını garantileyen tam yol ayarı
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -449,7 +450,146 @@ TAKIM_PROFILLERI = {
     "vancouver whitecaps": {"hucum": 1.65, "savunma": 1.22, "seviye": 1.08},
     "philadelphia union": {"hucum": 1.58, "savunma": 1.26, "seviye": 1.06},
     "san diego fc": {"hucum": 1.48, "savunma": 1.30, "seviye": 0.98},
-    "austin fc": {"hucum": 1.34, "savunma": 1.35, "seviye": 0.94}
+    "austin fc": {"hucum": 1.34, "savunma": 1.35, "seviye": 0.94},
+    # --- EK AVRUPA 1. & 2. LİG VE MLS KULÜPLERİ (TAM CANLI FİKSTÜR ENTEGRASYONU) ---
+    "hertha berlin": {"hucum": 1.48, "savunma": 1.18, "seviye": 0.96},
+    "nurnberg": {"hucum": 1.46, "savunma": 1.24, "seviye": 0.94},
+    "kaiserslautern": {"hucum": 1.28, "savunma": 1.18, "seviye": 0.93},
+    "magdeburg": {"hucum": 1.44, "savunma": 1.26, "seviye": 0.92},
+    "bielefeld": {"hucum": 1.32, "savunma": 1.28, "seviye": 0.88},
+    "greuther furth": {"hucum": 1.24, "savunma": 1.38, "seviye": 0.86},
+    "hannover": {"hucum": 1.26, "savunma": 1.32, "seviye": 0.88},
+    "energie cottbus": {"hucum": 1.30, "savunma": 1.42, "seviye": 0.84},
+    "eintracht braunschweig": {"hucum": 1.22, "savunma": 1.38, "seviye": 0.84},
+    "vfl osnabruck": {"hucum": 1.18, "savunma": 1.40, "seviye": 0.82},
+    "dynamo dresden": {"hucum": 1.24, "savunma": 1.42, "seviye": 0.83},
+    "karlsruher": {"hucum": 1.28, "savunma": 1.46, "seviye": 0.84},
+    "darmstadt": {"hucum": 1.15, "savunma": 1.48, "seviye": 0.82},
+    "academico de viseu": {"hucum": 1.28, "savunma": 1.22, "seviye": 0.88},
+    "alverca": {"hucum": 1.22, "savunma": 1.28, "seviye": 0.86},
+    "estrela": {"hucum": 1.24, "savunma": 1.42, "seviye": 0.85},
+    "maritimo": {"hucum": 1.14, "savunma": 1.44, "seviye": 0.83},
+    "charleroi": {"hucum": 1.46, "savunma": 1.20, "seviye": 0.96},
+    "lommel": {"hucum": 1.28, "savunma": 1.22, "seviye": 0.88},
+    "westerlo": {"hucum": 1.50, "savunma": 1.56, "seviye": 0.90},
+    "oh leuven": {"hucum": 1.20, "savunma": 1.32, "seviye": 0.88},
+    "mechelen": {"hucum": 1.24, "savunma": 1.38, "seviye": 0.88},
+    "zulte waregem": {"hucum": 1.22, "savunma": 1.40, "seviye": 0.86},
+    "waasland beveren": {"hucum": 1.20, "savunma": 1.44, "seviye": 0.84},
+    "la louviere": {"hucum": 1.18, "savunma": 1.46, "seviye": 0.82},
+    "kortrijk": {"hucum": 1.05, "savunma": 1.48, "seviye": 0.80},
+    "birmingham": {"hucum": 1.46, "savunma": 1.14, "seviye": 0.96},
+    "stoke city": {"hucum": 1.36, "savunma": 1.22, "seviye": 0.92},
+    "swansea": {"hucum": 1.32, "savunma": 1.22, "seviye": 0.90},
+    "portsmouth": {"hucum": 1.28, "savunma": 1.24, "seviye": 0.88},
+    "blackburn": {"hucum": 1.32, "savunma": 1.32, "seviye": 0.88},
+    "cardiff": {"hucum": 1.36, "savunma": 1.38, "seviye": 0.87},
+    "wrexham": {"hucum": 1.26, "savunma": 1.28, "seviye": 0.87},
+    "bristol city": {"hucum": 1.20, "savunma": 1.34, "seviye": 0.86},
+    "bolton": {"hucum": 1.24, "savunma": 1.42, "seviye": 0.84},
+    "charlton": {"hucum": 1.14, "savunma": 1.34, "seviye": 0.84},
+    "lincoln city": {"hucum": 1.16, "savunma": 1.38, "seviye": 0.82},
+    "derby county": {"hucum": 1.15, "savunma": 1.44, "seviye": 0.82},
+    "preston": {"hucum": 1.12, "savunma": 1.44, "seviye": 0.82},
+    "castellon": {"hucum": 1.42, "savunma": 1.08, "seviye": 0.94},
+    "eibar": {"hucum": 1.38, "savunma": 1.18, "seviye": 0.92},
+    "sporting gijon": {"hucum": 1.24, "savunma": 1.22, "seviye": 0.88},
+    "cordoba": {"hucum": 1.34, "savunma": 1.36, "seviye": 0.87},
+    "sabadell": {"hucum": 1.14, "savunma": 1.18, "seviye": 0.84},
+    "eldense": {"hucum": 1.18, "savunma": 1.28, "seviye": 0.84},
+    "albacete": {"hucum": 1.16, "savunma": 1.38, "seviye": 0.83},
+    "andorra": {"hucum": 1.22, "savunma": 1.40, "seviye": 0.82},
+    "ceuta": {"hucum": 1.08, "savunma": 1.48, "seviye": 0.80},
+    "modena": {"hucum": 1.40, "savunma": 1.14, "seviye": 0.92},
+    "ascoli": {"hucum": 1.34, "savunma": 1.10, "seviye": 0.90},
+    "mantova": {"hucum": 1.28, "savunma": 1.18, "seviye": 0.88},
+    "avellino": {"hucum": 1.30, "savunma": 1.18, "seviye": 0.88},
+    "benevento": {"hucum": 1.28, "savunma": 1.18, "seviye": 0.88},
+    "padova": {"hucum": 1.20, "savunma": 1.22, "seviye": 0.85},
+    "cesena": {"hucum": 1.20, "savunma": 1.26, "seviye": 0.85},
+    "juve stabia": {"hucum": 1.20, "savunma": 1.18, "seviye": 0.85},
+    "sampdoria": {"hucum": 1.18, "savunma": 1.34, "seviye": 0.85},
+    "arezzo": {"hucum": 1.12, "savunma": 1.38, "seviye": 0.82},
+    "virtus entella": {"hucum": 1.16, "savunma": 1.26, "seviye": 0.83},
+    "carrarese": {"hucum": 1.12, "savunma": 1.26, "seviye": 0.82},
+    "vicenza": {"hucum": 1.22, "savunma": 1.44, "seviye": 0.82},
+    "catanzaro": {"hucum": 1.16, "savunma": 1.44, "seviye": 0.82},
+    "nancy": {"hucum": 1.32, "savunma": 1.12, "seviye": 0.90},
+    "pau": {"hucum": 1.28, "savunma": 1.20, "seviye": 0.87},
+    "dijon": {"hucum": 1.36, "savunma": 1.32, "seviye": 0.87},
+    "red star 93": {"hucum": 1.20, "savunma": 1.28, "seviye": 0.84},
+    "annecy": {"hucum": 1.20, "savunma": 1.30, "seviye": 0.84},
+    "dunkerque": {"hucum": 1.26, "savunma": 1.28, "seviye": 0.85},
+    "boulogne": {"hucum": 1.12, "savunma": 1.14, "seviye": 0.84},
+    "rodez": {"hucum": 1.26, "savunma": 1.40, "seviye": 0.83},
+    "clermont": {"hucum": 1.16, "savunma": 1.26, "seviye": 0.84},
+    "sochaux": {"hucum": 1.10, "savunma": 1.26, "seviye": 0.82},
+    "grenoble": {"hucum": 1.18, "savunma": 1.38, "seviye": 0.82},
+    "laval": {"hucum": 1.20, "savunma": 1.40, "seviye": 0.82},
+    "dundee": {"hucum": 1.32, "savunma": 1.26, "seviye": 0.88},
+    "dundee united": {"hucum": 1.30, "savunma": 1.28, "seviye": 0.88},
+    "st johnstone": {"hucum": 1.24, "savunma": 1.34, "seviye": 0.85},
+    "st mirren": {"hucum": 1.16, "savunma": 1.36, "seviye": 0.84},
+    "motherwell": {"hucum": 1.20, "savunma": 1.36, "seviye": 0.85},
+    "kilmarnock": {"hucum": 1.16, "savunma": 1.46, "seviye": 0.83},
+    "kifisia": {"hucum": 1.28, "savunma": 1.30, "seviye": 0.86},
+    "kalamata": {"hucum": 1.26, "savunma": 1.38, "seviye": 0.84},
+    "iraklis": {"hucum": 1.20, "savunma": 1.28, "seviye": 0.84},
+    "panetolikos": {"hucum": 1.12, "savunma": 1.40, "seviye": 0.82},
+    "asteras tripoli": {"hucum": 1.16, "savunma": 1.36, "seviye": 0.83},
+    "atromitos": {"hucum": 1.18, "savunma": 1.28, "seviye": 0.84},
+    "levadiakos": {"hucum": 1.06, "savunma": 1.28, "seviye": 0.80},
+    "volos": {"hucum": 1.12, "savunma": 1.40, "seviye": 0.81},
+    "hartberg": {"hucum": 1.40, "savunma": 1.34, "seviye": 0.90},
+    "ried": {"hucum": 1.36, "savunma": 1.38, "seviye": 0.87},
+    "tirol": {"hucum": 1.24, "savunma": 1.32, "seviye": 0.85},
+    "austria lustenau": {"hucum": 1.22, "savunma": 1.50, "seviye": 0.82},
+    "grazer ak": {"hucum": 1.10, "savunma": 1.48, "seviye": 0.81},
+    "altach": {"hucum": 1.16, "savunma": 1.36, "seviye": 0.83},
+    "wolfsberger": {"hucum": 1.12, "savunma": 1.44, "seviye": 0.82},
+    "viborg": {"hucum": 1.38, "savunma": 1.16, "seviye": 0.92},
+    "odense": {"hucum": 1.24, "savunma": 1.28, "seviye": 0.87},
+    "horsens": {"hucum": 1.34, "savunma": 1.34, "seviye": 0.87},
+    "agf": {"hucum": 1.28, "savunma": 1.32, "seviye": 0.87},
+    "silkeborg": {"hucum": 1.26, "savunma": 1.36, "seviye": 0.86},
+    "lyngby": {"hucum": 1.24, "savunma": 1.44, "seviye": 0.83},
+    "randers": {"hucum": 1.18, "savunma": 1.40, "seviye": 0.83},
+    "sonderjyske": {"hucum": 1.24, "savunma": 1.48, "seviye": 0.82},
+    "sirius": {"hucum": 1.46, "savunma": 1.24, "seviye": 0.93},
+    "vasteras": {"hucum": 1.30, "savunma": 1.28, "seviye": 0.87},
+    "aik": {"hucum": 1.34, "savunma": 1.36, "seviye": 0.88},
+    "goteborg": {"hucum": 1.26, "savunma": 1.34, "seviye": 0.86},
+    "brommapojkarna": {"hucum": 1.28, "savunma": 1.34, "seviye": 0.85},
+    "mjallby": {"hucum": 1.20, "savunma": 1.32, "seviye": 0.85},
+    "kalmar": {"hucum": 1.14, "savunma": 1.32, "seviye": 0.83},
+    "degerfors": {"hucum": 1.12, "savunma": 1.38, "seviye": 0.82},
+    "orgryte": {"hucum": 1.20, "savunma": 1.44, "seviye": 0.81},
+    "halmstad": {"hucum": 1.08, "savunma": 1.40, "seviye": 0.81},
+    "viking": {"hucum": 1.66, "savunma": 1.18, "seviye": 1.00},
+    "tromso": {"hucum": 1.36, "savunma": 1.32, "seviye": 0.88},
+    "valerenga": {"hucum": 1.36, "savunma": 1.38, "seviye": 0.87},
+    "sarpsborg": {"hucum": 1.24, "savunma": 1.34, "seviye": 0.85},
+    "kfum oslo": {"hucum": 1.24, "savunma": 1.38, "seviye": 0.84},
+    "hamkam": {"hucum": 1.28, "savunma": 1.44, "seviye": 0.83},
+    "fredrikstad": {"hucum": 1.22, "savunma": 1.38, "seviye": 0.84},
+    "kristiansund": {"hucum": 1.20, "savunma": 1.42, "seviye": 0.82},
+    "aalesund": {"hucum": 1.32, "savunma": 1.48, "seviye": 0.82},
+    "ik start": {"hucum": 1.14, "savunma": 1.48, "seviye": 0.80},
+    "nashville": {"hucum": 1.56, "savunma": 1.12, "seviye": 1.02},
+    "new england revolution": {"hucum": 1.42, "savunma": 1.26, "seviye": 0.96},
+    "chicago fire": {"hucum": 1.46, "savunma": 1.32, "seviye": 0.94},
+    "charlotte": {"hucum": 1.48, "savunma": 1.30, "seviye": 0.95},
+    "columbus crew": {"hucum": 1.44, "savunma": 1.32, "seviye": 0.94},
+    "orlando city": {"hucum": 1.44, "savunma": 1.46, "seviye": 0.91},
+    "cincinnati": {"hucum": 1.48, "savunma": 1.44, "seviye": 0.92},
+    "red bull new york": {"hucum": 1.32, "savunma": 1.38, "seviye": 0.89},
+    "new york city": {"hucum": 1.34, "savunma": 1.26, "seviye": 0.92},
+    "toronto": {"hucum": 1.34, "savunma": 1.42, "seviye": 0.87},
+    "atlanta united": {"hucum": 1.26, "savunma": 1.36, "seviye": 0.88},
+    "dc united": {"hucum": 1.20, "savunma": 1.38, "seviye": 0.85},
+    "montreal": {"hucum": 1.18, "savunma": 1.44, "seviye": 0.84},
+    "dallas": {"hucum": 1.32, "savunma": 1.34, "seviye": 0.90},
+    "portland timbers": {"hucum": 1.38, "savunma": 1.36, "seviye": 0.91}
 }
 
 TAKMA_ADLAR = {
@@ -548,12 +688,74 @@ TAKMA_ADLAR = {
     "hapoel beer-sheva": "hapoel beer sheva", "hapoel beersheba": "hapoel beer sheva", "beersheba": "hapoel beer sheva",
     "st truidense": "truidense", "sint truidense": "truidense", "sint-truidense": "truidense",
     "st. truidense": "truidense", "stvv": "truidense", "sint truiden": "truidense", "st truiden": "truidense",
-    "omonia nicosia": "omonia", "omonia lefkosa": "omonia", "ac omonia": "omonia", "omonoia": "omonia"
+    "omonia nicosia": "omonia", "omonia lefkosa": "omonia", "ac omonia": "omonia", "omonoia": "omonia",
+    # --- CANLI API (ESPN / SOFASCORE) EVRENSEL TAKIM EŞLEŞTİRME ALIASLARI ---
+    "internazionale": "inter", "fc internazionale": "inter", "athletic club": "athletic bilbao",
+    "fc cologne": "koln", "cologne": "koln", "marseille": "marsilya", "olympique de marseille": "marsilya",
+    "olympique marseille": "marsilya", "stade rennais": "rennes", "psv eindhoven": "psv",
+    "aek athens": "aek atina", "ofi crete": "ofi", "rapid vienna": "rapid wien", "austria vienna": "austria wien",
+    "f c kobenhavn": "kopenhag", "f.c. kobenhavn": "kopenhag", "kobenhavn": "kopenhag",
+    "union st gilloise": "union st.g", "union st.-gilloise": "union st.g", "union st-gilloise": "union st.g",
+    "heart of midlothian": "hearts", "djurgarden": "djurgardens", "ifk goteborg": "goteborg",
+    "1 fc heidenheim 1846": "heidenheim", "heidenheim 1846": "heidenheim",
+    "1 fc nurnberg": "nurnberg", "fc nurnberg": "nurnberg", "spvgg greuther furth": "greuther furth",
+    "sv darmstadt 98": "darmstadt", "darmstadt 98": "darmstadt", "hertha": "hertha berlin",
+    "hannover 96": "hannover", "karlsruher sc": "karlsruher", "arminia bielefeld": "bielefeld",
+    "1 fc magdeburg": "magdeburg", "fc magdeburg": "magdeburg",
+    "tsv eintracht braunschweig": "eintracht braunschweig", "e braunschweig": "eintracht braunschweig",
+    "osnabruck": "vfl osnabruck", "d dresden": "dynamo dresden", "cottbus": "energie cottbus",
+    "royal charleroi sc": "charleroi", "royal charleroi": "charleroi", "lommel sk": "lommel",
+    "kvc westerlo": "westerlo", "oud-heverlee leuven": "oh leuven", "oud heverlee leuven": "oh leuven",
+    "kv mechelen": "mechelen", "zulte-waregem": "zulte waregem", "waasland-beveren": "waasland beveren",
+    "raal la louviere": "la louviere", "kv kortrijk": "kortrijk",
+    "birmingham city": "birmingham", "swansea city": "swansea", "blackburn rovers": "blackburn",
+    "cardiff city": "cardiff", "bolton wanderers": "bolton", "charlton athletic": "charlton",
+    "preston north end": "preston", "derby": "derby county", "stoke": "stoke city",
+    "cd sabadell": "sabadell", "fc andorra": "andorra", "sporting gijon": "sporting gijon",
+    "us avellino": "avellino", "juve stabia": "juve stabia",
+    "as nancy lorraine": "nancy", "nancy lorraine": "nancy", "dijon fco": "dijon",
+    "rodez aveyron": "rodez", "clermont foot": "clermont", "stade laval": "laval",
+    "red star fc 93": "red star 93", "red star fc": "red star 93",
+    "dundee utd": "dundee united", "volos nfc": "volos", "asteras trip": "asteras tripoli",
+    "tsv hartberg": "hartberg", "sv josko ried": "ried", "josko ried": "ried",
+    "wsg swarovski tirol": "tirol", "swarovski tirol": "tirol", "grazer": "grazer ak",
+    "sc rheindorf altach": "altach", "rheindorf altach": "altach", "sc rheindorf": "altach",
+    "viborg ff": "viborg", "odense boldklub": "odense", "ac horsens": "horsens",
+    "silkeborg if": "silkeborg", "lyngby boldklub": "lyngby", "randers fc": "randers",
+    "sonderjyske fodbold": "sonderjyske", "ik sirius": "sirius", "vasteras sk": "vasteras",
+    "if brommapojkarna": "brommapojkarna", "brommapojkar": "brommapojkarna",
+    "mjallby aif": "mjallby", "kalmar ff": "kalmar", "degerfors if": "degerfors",
+    "orgryte is": "orgryte", "halmstads bk": "halmstad", "halmstads": "halmstad",
+    "viking fk": "viking", "sarpsborg fk": "sarpsborg", "kfum": "kfum oslo",
+    "hamarkameratene": "hamkam", "kristiansund bk": "kristiansund",
+    "chicago fire fc": "chicago fire", "chicago": "chicago fire", "columbus": "columbus crew",
+    "new england": "new england revolution", "red bull ny": "red bull new york",
+    "d.c. united": "dc united", "d c united": "dc united", "toronto fc": "toronto",
+    "cf montreal": "montreal", "orlando city sc": "orlando city", "orlando": "orlando city",
+    "new york city fc": "new york city", "nycfc": "new york city", "fc cincinnati": "cincinnati",
+    "atlanta united fc": "atlanta united", "atlanta": "atlanta united",
+    "nashville sc": "nashville", "charlotte fc": "charlotte", "fc dallas": "dallas"
 }
 
+def metin_normalize_et(s):
+    g = str(s).strip().replace("İ", "i").replace("I", "i").lower()
+    g = g.replace("ı", "i").replace("ğ", "g").replace("ü", "u").replace("ş", "s").replace("ö", "o").replace("ç", "c")
+    g = g.replace("ø", "o").replace("æ", "ae").replace("ß", "ss")
+    g = unicodedata.normalize("NFKD", g).encode("ascii", "ignore").decode("ascii")
+    return g
+
 def takim_bul(girdi):
-    g = girdi.strip().replace("İ", "i").replace("I", "i").lower()
-    g = g.replace("ı", "i").replace("ğ", "g").replace("ü", "u").replace("ş", "s").replace("ö", "o").replace("ç", "c").replace("æ", "ae")
+    g = metin_normalize_et(girdi)
+    if "willem ii" in g:
+        return "willem 2"
+    if "juve stabia" in g:
+        return "juve stabia"
+    if "sporting gijon" in g:
+        return "sporting gijon"
+    if "cercle" in g and "brugge" in g:
+        return "cercle brugge"
+    if "racing" in g and "genk" in g:
+        return "genk"
     if g in TAKIM_PROFILLERI: return g
     if g in TAKMA_ADLAR: return TAKMA_ADLAR[g]
     for k in TAKIM_PROFILLERI:
@@ -614,30 +816,39 @@ def sabika_hafizasi_getir():
     return sabika
 
 def canli_api_takim_esle(espn_name, lig_kodu=""):
-    g = espn_name.lower().strip()
-    # Rezerv / Altyapı / B takımlarını ve Fransız Ligue 2 Red Star FC 93'ü (Kızılyıldız çakışması) filtrele
-    if re.search(r'(\b(ii|reserve|reserves|u21|u23|u19|amateur|amateure|youth|jong)\b|\s+[b2]$)', g):
+    if not espn_name:
         return None
+    g = metin_normalize_et(espn_name)
+    if "tbd" in g:
+        return None
+    if "willem ii" in g:
+        return "willem 2"
+    if "juve stabia" in g:
+        return "juve stabia"
+    if "sporting gijon" in g:
+        return "sporting gijon"
     if "red star" in g and ("93" in g or "fc" in g or lig_kodu == "fra.2"):
+        return "red star 93"
+    # Rezerv / Altyapı / B takımlarını filtrele (Örn: Real Sociedad II, Jong Ajax)
+    if re.search(r'(\b(ii|reserve|reserves|u21|u23|u19|amateur|amateure|youth|jong)\b|\s+[b2]$)', g):
         return None
     if "cercle" in g and "brugge" in g:
         return "cercle brugge"
     if "racing" in g and "genk" in g:
         return "genk"
-    g = g.replace("İ", "i").replace("I", "i").replace("ı", "i").replace("ğ", "g").replace("ü", "u").replace("ş", "s").replace("ö", "o").replace("ç", "c")
     words = re.findall(r'[a-z0-9]+', g)
-    clean = " ".join([w for w in words if w not in ["fc", "cf", "sc", "sv", "afc", "ac", "fk", "bb", "as", "tsv", "rb", "1", "07", "04"]])
-    
+    clean = " ".join([w for w in words if w not in ["fc", "cf", "sc", "sv", "afc", "ac", "fk", "bb", "as", "tsv", "rb", "1", "07", "04", "if", "bk", "sk", "ff", "aif", "boldklub", "fodbold"]])
+
     if g in TAKIM_PROFILLERI: return g
     if g in TAKMA_ADLAR: return TAKMA_ADLAR[g]
     if clean in TAKIM_PROFILLERI: return clean
     if clean in TAKMA_ADLAR: return TAKMA_ADLAR[clean]
-    
+
     for k in TAKIM_PROFILLERI:
         if len(k) >= 4 and (k == clean or f" {k} " in f" {clean} " or clean.startswith(f"{k} ") or clean.endswith(f" {k}")):
             return k
     for alias, target in TAKMA_ADLAR.items():
-        if alias in ["city", "united", "real", "brugge", "racing"]: continue
+        if alias in ["city", "united", "real", "brugge", "racing", "juve", "sporting"]: continue
         if len(alias) >= 4 and (alias == clean or f" {alias} " in f" {clean} " or clean.startswith(f"{alias} ") or clean.endswith(f" {alias}")):
             return target
     return None
@@ -729,18 +940,39 @@ def canli_api_guncelle():
         pass
     return canli_db
 
-def canli_api_fikstur_cek(tarih_str=None):
+LIG_BILGI_HARITASI = {
+    "eng.1": "🇬🇧 Premier Lig", "esp.1": "🇪🇸 La Liga", "ita.1": "🇮🇹 Serie A",
+    "ger.1": "🇩🇪 Bundesliga", "fra.1": "🇫🇷 Ligue 1", "tur.1": "🇹🇷 Süper Lig",
+    "ned.1": "🇳🇱 Eredivisie", "por.1": "🇵🇹 Portekiz 1", "bel.1": "🇧🇪 Belçika 1",
+    "sco.1": "🏴󠁧󠁢󠁳󠁣󠁴󠁿 İskoçya 1", "gre.1": "🇬🇷 Yunanistan 1", "aut.1": "🇦🇹 Avusturya 1",
+    "sui.1": "🇨🇭 İsviçre 1", "den.1": "🇩🇰 Danimarka 1", "swe.1": "🇸🇪 İsveç 1",
+    "nor.1": "🇳🇴 Norveç 1", "usa.1": "🇺🇸 MLS",
+    "eng.2": "🇬🇧 Championship (2.Lig)", "esp.2": "🇪🇸 La Liga 2", "ita.2": "🇮🇹 Serie B",
+    "ger.2": "🇩🇪 Bundesliga 2", "fra.2": "🇫🇷 Ligue 2",
+    "uefa.champions": "🏆 Şampiyonlar Ligi", "uefa.europa": "🏆 Avrupa Ligi", "uefa.europa.conf": "🏆 Konferans Ligi",
+    "eng.fa": "🏆 FA Cup", "eng.league_cup": "🏆 EFL Cup", "esp.copa_del_rey": "🏆 Kral Kupası",
+    "ger.dfb_pokal": "🏆 Almanya Kupası", "ita.coppa_italia": "🏆 İtalya Kupası",
+    "fra.coupe_de_france": "🏆 Fransa Kupası", "ned.cup": "🏆 Hollanda Kupası"
+}
+
+def canli_api_fikstur_cek(tarih_str=None, sadece_ust_lig=False):
     if not tarih_str:
-        tarih_str = datetime.now().strftime("%Y%m%d")
-    ligler = TUM_FIKSTUR_LIGLERI
-    mac_listesi = []
-    gorulen = set()
-    def fetch_lig_fikstur(code):
+        tarih_listesi = [datetime.now().strftime("%Y%m%d")]
+    elif isinstance(tarih_str, (list, tuple)):
+        tarih_listesi = list(tarih_str)
+    else:
+        tarih_listesi = [str(tarih_str)]
+
+    ligler = [c for c in TUM_FIKSTUR_LIGLERI if not (sadece_ust_lig and ".2" in c)]
+    gorevler = [(t, code) for t in tarih_listesi for code in ligler]
+
+    def fetch_lig_fikstur(args):
+        t_kod, code = args
         res = []
         try:
-            url = f'https://site.api.espn.com/apis/site/v2/sports/soccer/{code}/scoreboard?dates={tarih_str}'
+            url = f'https://site.api.espn.com/apis/site/v2/sports/soccer/{code}/scoreboard?dates={t_kod}'
             req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=5) as resp:
+            with urllib.request.urlopen(req, timeout=4) as resp:
                 data = json.loads(resp.read().decode())
                 for ev in data.get('events', []):
                     comp = ev['competitions'][0]
@@ -748,20 +980,38 @@ def canli_api_fikstur_cek(tarih_str=None):
                     c_away = [c for c in comp['competitors'] if c['homeAway'] == 'away'][0]
                     h_name = c_home['team']['displayName']
                     a_name = c_away['team']['displayName']
-                    h_tk = canli_api_takim_esle(h_name) or canli_api_takim_esle(c_home['team'].get('shortDisplayName', ''))
-                    a_tk = canli_api_takim_esle(a_name) or canli_api_takim_esle(c_away['team'].get('shortDisplayName', ''))
+                    h_tk = canli_api_takim_esle(h_name, code) or canli_api_takim_esle(c_home['team'].get('shortDisplayName', ''), code)
+                    a_tk = canli_api_takim_esle(a_name, code) or canli_api_takim_esle(c_away['team'].get('shortDisplayName', ''), code)
                     if h_tk and a_tk:
-                        res.append(f"{h_tk.title()} vs {a_tk.title()}")
+                        raw_dt = ev.get("date", "")
+                        tr_zaman = t_kod
+                        try:
+                            dt_utc = datetime.strptime(raw_dt[:16], "%Y-%m-%dT%H:%M")
+                            dt_tr = dt_utc + timedelta(hours=3)
+                            tr_zaman = dt_tr.strftime("%d.%m %H:%M")
+                        except Exception:
+                            pass
+                        lig_adi = LIG_BILGI_HARITASI.get(code, code.upper())
+                        res.append((h_tk, a_tk, f"{h_tk.title()} vs {a_tk.title()}", f"{lig_adi} • {tr_zaman}"))
         except Exception:
             pass
         return res
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=14) as ex:
-        for lig_maclar in ex.map(fetch_lig_fikstur, ligler):
-            for m in lig_maclar:
-                if m not in gorulen:
-                    gorulen.add(m)
-                    mac_listesi.append(m)
+    mac_listesi = []
+    gorulen = set()
+    detay_haritasi = dict(st.session_state.get("fikstur_detay_haritasi", {}))
+    hizli_liste = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=24) as ex:
+        for lig_maclar in ex.map(fetch_lig_fikstur, gorevler):
+            for h_tk, a_tk, m_str, det_str in lig_maclar:
+                if (h_tk, a_tk) not in gorulen:
+                    gorulen.add((h_tk, a_tk))
+                    mac_listesi.append(m_str)
+                    detay_haritasi[(h_tk, a_tk)] = det_str
+                    hizli_liste.append({"ev": h_tk, "dep": a_tk, "etiket": f"{det_str} | {m_str}"})
+    st.session_state["fikstur_detay_haritasi"] = detay_haritasi
+    if hizli_liste:
+        st.session_state["canli_bulten_listesi"] = hizli_liste
     return "\n".join(mac_listesi)
 
 def canli_biten_skorlari_getir():
@@ -1321,10 +1571,13 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     if zirve_direnc_deplasmani:
         radar_uyarilari.append(f"🛡️ Zirve Direnç Deplasmanı ({dep_key.title()} Lig #{canli_dep.get('sira')}): Rakip çok az gol yiyor ({canli_dep.get('mb_yg'):.2f} YG/m); düz MS 1 tuzağına girilmez!")
     alt_lig_denk_tuzak = (
-        min_seviye < 1.00
-        and max_seviye <= 1.05
-        and mutlak_fark <= 0.10
-        and ortalama_savunma > 1.20
+        (
+            min_seviye < 1.00
+            and max_seviye <= 1.05
+            and mutlak_fark <= 0.10
+            and ortalama_savunma > 1.20
+        )
+        or max_seviye <= 0.96
     )
     iki_acik_takim = (
         ev_key in ACIK_GOLCU_TAKIMLAR
@@ -1674,11 +1927,35 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 # ==============================================================================
 with tab1:
     takim_listesi = sorted(list(TAKIM_PROFILLERI.keys()))
+    ch1, ch2 = st.columns([3, 1.3])
+    with ch2:
+        if st.button("📡 Bugün & Yarının Maçlarını Getir", use_container_width=True, key="tab1_canli_getir_btn"):
+            with st.spinner("Bugün ve yarının canlı maçları çekiliyor..."):
+                b_s = datetime.now().strftime("%Y%m%d")
+                y_s = (datetime.now() + timedelta(days=1)).strftime("%Y%m%d")
+                canli_api_fikstur_cek([b_s, y_s], sadece_ust_lig=True)
+                st.rerun()
+    canli_bulten_lst = st.session_state.get("canli_bulten_listesi", [])
+    with ch1:
+        if canli_bulten_lst:
+            secenekler = ["Manuel Takım Seçimi (Aşağıdaki Kutulardan)"] + [x["etiket"] for x in canli_bulten_lst]
+            hizli_secim = st.selectbox("⚡ Canlı Bültenden Tek Tıkla Maç Yükle (Bugün & Yarın)", secenekler, index=0, key="tab1_hizli_mac_sec")
+            if hizli_secim != "Manuel Takım Seçimi (Aşağıdaki Kutulardan)":
+                eslesen = next((x for x in canli_bulten_lst if x["etiket"] == hizli_secim), None)
+                if eslesen:
+                    st.session_state["tab1_ev_default"] = eslesen["ev"]
+                    st.session_state["tab1_dep_default"] = eslesen["dep"]
+                    st.session_state["tab1_aktif_analiz"] = True
+        else:
+            st.caption("💡 Sağdaki **'📡 Bugün & Yarının Maçlarını Getir'** butonuna basarak bültendeki maçları tek tıkla buraya yükleyebilirsin.")
+
+    ev_varsayilan = st.session_state.get("tab1_ev_default", "galatasaray")
+    dep_varsayilan = st.session_state.get("tab1_dep_default", "fenerbahce")
     c1, c2 = st.columns(2)
     with c1:
-        ev = st.selectbox("🏠 Ev Sahibi", takim_listesi, index=takim_listesi.index("galatasaray") if "galatasaray" in takim_listesi else 0)
+        ev = st.selectbox("🏠 Ev Sahibi", takim_listesi, index=takim_listesi.index(ev_varsayilan) if ev_varsayilan in takim_listesi else 0)
     with c2:
-        dep = st.selectbox("✈️ Deplasman", takim_listesi, index=takim_listesi.index("fenerbahce") if "fenerbahce" in takim_listesi else 1)
+        dep = st.selectbox("✈️ Deplasman", takim_listesi, index=takim_listesi.index(dep_varsayilan) if dep_varsayilan in takim_listesi else 1)
 
     with st.expander("🚑 Kadro / Sakatlık & Fikstür Yorgunluğu Radarı (İsteğe Bağlı)"):
         col_ek1, col_ek2 = st.columns(2)
@@ -1936,35 +2213,67 @@ with tab1:
 # TAB 2: BÜLTEN & OTOMATİK YZ DİNAMİK KUPON SEÇİCİ (SABİT SAYI YOK, BARAJ ÜSTÜ TÜM MAÇLAR!)
 # ==============================================================================
 with tab2:
-    st.caption("📋 Tüm maçları alt alta yapıştır veya aşağıdaki butona basarak günün canlı bültenini API'den tek tıkla çek. Sen maç seçme; YZ belirlediğin barajın üstüne çıkan TÜM sağlam maçları otomatik seçip kuponlarını hazırlar:")
+    st.markdown("#### 📡 Canlı Bülten Çekici & Otomatik Kasa Katlama Motoru")
+    st.caption("📋 Tek tıkla **Bugünün**, **Yarının** veya **Bugün + Yarın Birleşik** tüm Avrupa maçlarını canlı API'den çekip anında analiz ettirebilir ya da maçları kutuya kendin yapıştırabilirsin:")
 
-    col_api1, col_api2, col_api3 = st.columns(3)
+    sadece_ust_lig_secim = st.checkbox(
+        "🏆 Sadece 1. Lig & Avrupa Kupası Maçlarını Çek (2. Lig / Alt Lig Tuzaklarını Otomatik Gizle)",
+        value=True,
+        key="sadece_ust_lig_cb",
+        help="İşaretliyken sadece Süper Lig, Premier Lig, La Liga, Serie A, Bundesliga, Ligue 1, Eredivisie vb. 1. lig ve Avrupa kupası maçlarını getirir; 2. lig maçlarını bültene karıştırmaz."
+    )
+
+    col_api1, col_api2, col_api3, col_api4 = st.columns(4)
     bugun_str = datetime.now().strftime("%Y%m%d")
     yarin_str = (datetime.now() + timedelta(days=1)).strftime("%Y%m%d")
+    ertesi_str = (datetime.now() + timedelta(days=2)).strftime("%Y%m%d")
 
     with col_api1:
-        if st.button("🌐 Bugünün Maçlarını Çek", use_container_width=True, help=f"Bugünkü ({datetime.now().strftime('%d.%m.%Y')}) Avrupa maçlarını canlı API'den bültene aktarır"):
-            with st.spinner("Bugünün canlı fikstürü çekiliyor..."):
-                fiksturler = canli_api_fikstur_cek(bugun_str)
+        if st.button(f"🌐 Bugünün Maçlarını Çek ({datetime.now().strftime('%d.%m')})", use_container_width=True, type="primary", help="Bugünkü maçları canlı çeker ve otomatik analiz eder"):
+            with st.spinner("📡 Bugünün canlı fikstürü çekiliyor ve analiz ediliyor..."):
+                fiksturler = canli_api_fikstur_cek(bugun_str, sadece_ust_lig=sadece_ust_lig_secim)
                 if not fiksturler:
-                    fiksturler = canli_api_fikstur_cek(yarin_str)
+                    fiksturler = canli_api_fikstur_cek([bugun_str, yarin_str], sadece_ust_lig=sadece_ust_lig_secim)
                 st.session_state["bulten_metni_api"] = fiksturler
+                st.session_state["bulten_metni_input"] = fiksturler
+                st.session_state["oto_bulten_analiz"] = True
                 st.rerun()
     with col_api2:
-        if st.button("📅 Yarının Maçlarını Çek", use_container_width=True, help=f"Yarının ({(datetime.now() + timedelta(days=1)).strftime('%d.%m.%Y')}) Avrupa maçlarını canlı API'den bültene aktarır"):
-            with st.spinner("Yarının canlı fikstürü çekiliyor..."):
-                fiksturler = canli_api_fikstur_cek(yarin_str)
+        if st.button(f"📅 Yarının Maçlarını Çek ({(datetime.now() + timedelta(days=1)).strftime('%d.%m')})", use_container_width=True, type="primary", help="Yarının maçlarını canlı çeker ve otomatik analiz eder"):
+            with st.spinner("📡 Yarının canlı fikstürü çekiliyor ve analiz ediliyor..."):
+                fiksturler = canli_api_fikstur_cek(yarin_str, sadece_ust_lig=sadece_ust_lig_secim)
                 st.session_state["bulten_metni_api"] = fiksturler
+                st.session_state["bulten_metni_input"] = fiksturler
+                st.session_state["oto_bulten_analiz"] = True
                 st.rerun()
     with col_api3:
-        if st.button("🔄 Puan & Formları Güncelle", use_container_width=True, help="14 büyük ligin canlı gol ve puan durumlarını ESPN'den anlık günceller"):
-            with st.spinner("Canlı puan durumları senkronize ediliyor..."):
+        if st.button("🔥 Bugün + Yarın (2 Gün) Birleştir", use_container_width=True, type="primary", help="Hem bugünün hem yarının tüm maçlarını tek bültende birleştirir ve en sağlam kuponları kurar"):
+            with st.spinner("📡 Bugün + Yarın (48 Saatlik) birleşik fikstür çekiliyor..."):
+                fiksturler = canli_api_fikstur_cek([bugun_str, yarin_str], sadece_ust_lig=sadece_ust_lig_secim)
+                st.session_state["bulten_metni_api"] = fiksturler
+                st.session_state["bulten_metni_input"] = fiksturler
+                st.session_state["oto_bulten_analiz"] = True
+                st.rerun()
+    with col_api4:
+        if st.button("🏆 3 Günlük Bülten + Puan Güncelle", use_container_width=True, help="22 ligin canlı puan durumlarını günceller ve 3 günlük tüm hafta sonu bültenini çeker"):
+            with st.spinner("📡 Canlı puan durumları ve 3 günlük tam bülten senkronize ediliyor..."):
                 db = canli_api_guncelle()
-                st.success(f"✅ {len(db)} kulübün 2026-27 sezon karnesi güncellendi!")
+                fiksturler = canli_api_fikstur_cek([bugun_str, yarin_str, ertesi_str], sadece_ust_lig=sadece_ust_lig_secim)
+                st.session_state["bulten_metni_api"] = fiksturler
+                st.session_state["bulten_metni_input"] = fiksturler
+                st.session_state["oto_bulten_analiz"] = True
+                st.success(f"✅ {len(db)} kulübün canlı puan/gol karnesi güncellendi!")
                 st.rerun()
 
-    varsayilan_metin = st.session_state.get("bulten_metni_api", "")
-    bulten_metni = st.text_area("Maçlar", value=varsayilan_metin, height=220, label_visibility="collapsed", placeholder="Örn:\nStuttgart vs Monchengladbach\nGo Ahead vs Telstar\nElfsborg vs Malmö\nTorino vs Monza\nBrest vs Nice")
+    if "bulten_metni_input" not in st.session_state:
+        st.session_state["bulten_metni_input"] = st.session_state.get("bulten_metni_api", "")
+    bulten_metni = st.text_area(
+        "Maçlar",
+        key="bulten_metni_input",
+        height=200,
+        label_visibility="collapsed",
+        placeholder="Yukarıdaki butonlardan birine basarak Bugünün / Yarının maçlarını tek tıkla çekebilir veya maçları buraya alt alta yazabilirsin:\nBayern Munih vs Koln\nGalatasaray vs Samsunspor\nReal Madrid vs Celta Vigo"
+    )
 
     col_baraj1, col_baraj2 = st.columns([2, 1])
     with col_baraj1:
@@ -1983,10 +2292,12 @@ with tab2:
 
     tara_btn = st.button("🤖 YZ Analiz Etsin ve Baraj Üstü Tüm Maçları Seçip Kuponları Kursun", use_container_width=True)
 
-    if tara_btn:
+    if tara_btn or (st.session_state.get("oto_bulten_analiz", False) and bulten_metni.strip()):
+        st.session_state["oto_bulten_analiz"] = True
         satirlar = bulten_metni.strip().split("\n")
         yz_secilenler, sinirda_kalanlar, sari_maclar, bulunamayanlar, ayni_takim_hatalari = [], [], [], [], []
         gorulen_maclar = set()
+        detay_haritasi = st.session_state.get("fikstur_detay_haritasi", {})
         for satir in satirlar:
             if not satir.strip():
                 continue
@@ -2017,7 +2328,8 @@ with tab2:
             cev, cdep = sonuc.get("canli_ev"), sonuc.get("canli_dep")
             ev_form_str = f"{cev['karne']} ({cev['ag']}-{cev['yg']} Gol)" if cev else "-"
             dep_form_str = f"{cdep['karne']} ({cdep['ag']}-{cdep['yg']} Gol)" if cdep else "-"
-            
+            lig_saat_str = detay_haritasi.get((ev_k, dep_k), "-")
+
             avrupa_durum = []
             if ev_k in AVRUPA_KUPASI_TAKIMLARI:
                 avrupa_durum.append(f"{ev_k.title()}")
@@ -2027,6 +2339,7 @@ with tab2:
 
             bilgi = {
                 "Kademe": sonuc["kademe"],
+                "🗓️ Lig & Saat": lig_saat_str,
                 "Maç": f"{ev_k.title()} vs {dep_k.title()}",
                 "Ana Öneri": f"{sonuc['aksiyon']} (%{sonuc['guven_orani']:.0f})" if sonuc["durum"] == "YESIL" else "PAS GEÇ",
                 "🔥 Oran Katlayıcı": sonuc["katlayici_aksiyon"],
@@ -2065,13 +2378,83 @@ with tab2:
         secilen_sayisi = len(sirali_secilenler)
 
         if secilen_sayisi > 0:
+            # 0) 💰 SIFIR HATA: KASA İNŞA İKİLİSİ & İDEAL 3'LÜ KASA KATLAMA KUPONU (En Yüksek YZ Kalite + Güven)
+            kasa_sirali = sorted(yz_secilenler, key=lambda x: (x["yz_raw"] * 0.65 + x["guven_raw"] * 0.35, x["guven_raw"]), reverse=True)
+            ikili_kupon = kasa_sirali[:2]
+            uclu_kupon = kasa_sirali[:3]
+
+            if len(ikili_kupon) >= 2:
+                st.markdown("#### 💰 Sıfır Sermaye / Kasa İnşa & Katlama Özel Banko Kuponları")
+                st.caption("Kasa sıfıra yakınken veya milli ara dönüşünde 6 maçlık uzun kuponlar yerine, bültenin **en yüksek YZ kalite ve güven puanına sahip 2'li ve 3'lü Elmas** kombinasyonlarıyla kasayı adım adım katla:")
+                kk_col1, kk_col2 = st.columns(2)
+                with kk_col1:
+                    ikili_guven = float(np.prod([x["guven_raw"] / 100.0 for x in ikili_kupon])) * 100.0
+                    ikili_oran = float(np.prod([max(1.22, x["min_oran_raw"]) for x in ikili_kupon]))
+                    ikili_html = "<br>".join([
+                        f"• <b>{x['Maç']}</b> <small style='opacity:0.8;'>({x['🗓️ Lig & Saat']})</small><br>"
+                        f"&nbsp;&nbsp;➔ <b style='color:#2ecc71;'>{x['aksiyon_raw']} (%{x['guven_raw']:.0f})</b> &nbsp;|&nbsp; <small>🔥 Katlayıcı: {x['katlayici_raw']}</small>"
+                        for x in ikili_kupon
+                    ])
+                    st.markdown(f"""
+                    <div class="kombine-box" style="padding:15px; border-radius:12px; margin-bottom:12px; border:2px solid #2ecc71;">
+                        <h5 style="margin:0; color:#2ecc71;">🥇 1. Seçenek: Kasa İnşa İkilisi (En Banko 2 Maç)</h5>
+                        <small style="color:#d4efdf;">Tek golden yatma riskini minimuma indiren en yüksek puanlı 2 Elmas maç:</small>
+                        <hr style="border:0.5px solid rgba(255,255,255,0.25); margin:8px 0;">
+                        {ikili_html}
+                        <hr style="border:0.5px solid rgba(255,255,255,0.25); margin:8px 0;">
+                        <small><b>🎯 Ortak Tutma İhtimali:</b> %{ikili_guven:.1f} &nbsp;|&nbsp; <b>📈 Tahmini Taban Oran:</b> ~{ikili_oran:.2f}</small>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                with kk_col2:
+                    uclu_guven = float(np.prod([x["guven_raw"] / 100.0 for x in uclu_kupon])) * 100.0
+                    uclu_oran = float(np.prod([max(1.22, x["min_oran_raw"]) for x in uclu_kupon]))
+                    uclu_html = "<br>".join([
+                        f"• <b>{x['Maç']}</b> <small style='opacity:0.8;'>({x['🗓️ Lig & Saat']})</small><br>"
+                        f"&nbsp;&nbsp;➔ <b style='color:#5dade2;'>{x['aksiyon_raw']} (%{x['guven_raw']:.0f})</b> &nbsp;|&nbsp; <small>🔥 Katlayıcı: {x['katlayici_raw']}</small>"
+                        for x in uclu_kupon
+                    ])
+                    st.markdown(f"""
+                    <div class="kurtarma-box" style="padding:15px; border-radius:12px; margin-bottom:12px; border:2px solid #5dade2;">
+                        <h5 style="margin:0; color:#5dade2;">🥈 2. Seçenek: İdeal Kasa Katlama Üçlüsü ({len(uclu_kupon)} Maç)</h5>
+                        <small style="color:#d6eaf8;">Kasayı 2'ye katlamak (~2.00+ oran) için en dengeli 3 Elmas maç:</small>
+                        <hr style="border:0.5px solid rgba(255,255,255,0.25); margin:8px 0;">
+                        {uclu_html}
+                        <hr style="border:0.5px solid rgba(255,255,255,0.25); margin:8px 0;">
+                        <small><b>🎯 Ortak Tutma İhtimali:</b> %{uclu_guven:.1f} &nbsp;|&nbsp; <b>📈 Tahmini Taban Oran:</b> ~{uclu_oran:.2f}</small>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                if st.button("💎 En Güvenli 3'lü Kasa Katlama Kuponunu İstatistik Defterine Kaydet", use_container_width=True, key="kasa_katlama_uclu_kaydet_btn"):
+                    bugun_kayit_str = datetime.now().strftime("%d/%m/%Y")
+                    eklenen_kk = 0
+                    mevcut_maclar = {f"{r.get('Maç')}_{r.get('Tarih')}_{r.get('Tahmin')}" for r in st.session_state.istatistik_verileri}
+                    for m in uclu_kupon:
+                        anahtar = f"{m['Maç']}_{bugun_kayit_str}_{m['aksiyon_raw']}"
+                        if anahtar not in mevcut_maclar:
+                            st.session_state.istatistik_verileri.append({
+                                "Tarih": bugun_kayit_str,
+                                "Maç": m["Maç"],
+                                "Tahmin": m["aksiyon_raw"],
+                                "Sonuç": "Bekliyor ⏳"
+                            })
+                            mevcut_maclar.add(anahtar)
+                            eklenen_kk += 1
+                    try:
+                        pd.DataFrame(st.session_state.istatistik_verileri).to_csv(DOSYA_ISTATISTIK, index=False, encoding="utf-8")
+                    except Exception:
+                        pass
+                    st.success(f"💎 Kasa Katlama Kuponundaki {eklenen_kk} banko maç İstatistik Defteri'ne eklendi!")
+                    st.rerun()
+
             # 1) ANA KUTU: BARAJI GEÇEN TÜM MAÇLAR (SABİT 3-4 DEĞİL, HEPSİ!)
             tum_satirlar_html = ""
             for i, m in enumerate(sirali_secilenler, 1):
                 kat_metin = f" &nbsp;|&nbsp; <span style='color:#f1c40f;'>🔥 Yüksek Oran: <b>{m['katlayici_raw']}</b></span>" if m["katlayici_raw"] != "-" else ""
+                lig_etiket_kisa = f" <small style='opacity:0.75;'>[{m['🗓️ Lig & Saat']}]</small>" if m.get("🗓️ Lig & Saat", "-") != "-" else ""
                 tum_satirlar_html += (
                     f"<div style='padding:5px 0; border-bottom:0.5px solid rgba(255,255,255,0.12);'>"
-                    f"<b>{i}. {m['Maç']}</b> ➔ <b style='color:#2ecc71;'>{m['aksiyon_raw']}</b> "
+                    f"<b>{i}. {m['Maç']}</b>{lig_etiket_kisa} ➔ <b style='color:#2ecc71;'>{m['aksiyon_raw']}</b> "
                     f"(Güven: %{m['guven_raw']:.1f} | YZ Puanı: {m['YZ Puanı']} | Min Oran: {m['min_oran_raw']:.2f}){kat_metin}"
                     f"</div>"
                 )
