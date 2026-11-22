@@ -1582,7 +1582,10 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     iki_acik_takim = (
         ev_key in ACIK_GOLCU_TAKIMLAR
         and dep_key in ACIK_GOLCU_TAKIMLAR
-        and not (min_seviye < 1.05 and mutlak_fark >= 0.20)
+        and (
+            not (min_seviye < 1.05 and mutlak_fark >= 0.20)
+            or bool(canli_ev and canli_dep and canli_ev.get("mb_toplam", 0) >= 3.50 and canli_dep.get("mb_toplam", 0) >= 3.50)
+        )
         and not (mutlak_fark <= 0.12 and ortalama_savunma <= 1.20)
         and not derbi_kilit_tuzagi
         and not alt_lig_denk_tuzak
@@ -1709,8 +1712,23 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     # (2-0 Clean-Sheet Favori Kalkanı: Ev sahibinin savunması sıkıysa [ep['savunma'] < 1.05, Örn: GS 2-0 Stuttgart] 2.5 ÜST yerine 1.5 ÜST / MS 1 korunur!)
     elif p_15_ust >= 88.2 and p_25_ust >= 70.0 and toplam_xg >= 3.65 and ep["savunma"] >= 1.05 and (mutlak_fark >= 0.09 or max_seviye >= 1.44):
         durum, aksiyon, guven_orani = "YESIL", "2.5 ÜST", p_25_ust
-    # A) Net Favori Galibiyeti (MS 1 / MS 2) - Güçlü Deplasman (seviye >= 1.20) MS 1 Kalkanı Korumalı!
-    elif p_ev >= ms1_baraj and (seviye_farki >= 0.14 or p_ev >= 64.0) and not (dp["seviye"] >= 1.20 and p_ev < 75.5):
+    # A) Net Favori Galibiyeti (MS 1 / MS 2) - Güçlü Deplasman, Açık Lig Savunma Zaafı (Feyenoord 2-3 Excelsior) ve Beraberlik Direnci (Man City 1-1 Fulham, Bayern 1-1 Köln) Korumalı!
+    elif (
+        p_ev >= ms1_baraj
+        and (seviye_farki >= 0.14 or p_ev >= 64.0)
+        and not (dp["seviye"] >= 1.20 and p_ev < 75.5)
+        and not (canli_ev and canli_ev.get("mb_yg", 1.0) >= 1.40 and canli_ev.get("win_rate", 100.0) < 60.0 and p_ev < 74.0)
+        and not (
+            p_ev < 75.5
+            and p_15_ust >= 84.0
+            and canli_ev
+            and canli_dep
+            and canli_ev.get("sira", 10) <= 3
+            and canli_ev.get("win_rate", 100.0) <= 70.0
+            and (canli_dep.get("b", 0) / max(1, canli_dep.get("mac", 1))) >= 0.33
+            and (canli_ev.get("mb_yg", 0) >= 1.25 or (canli_ev.get("b", 0) / max(1, canli_ev.get("mac", 1))) >= 0.30)
+        )
+    ):
         durum, aksiyon, guven_orani = "YESIL", f"MS 1 ({ev_key.title()})", p_ev
     elif p_dep >= ms2_baraj and (seviye_farki <= -0.14 or p_dep >= 63.0) and not (ep["seviye"] >= 1.20 and p_dep < 72.0):
         durum, aksiyon, guven_orani = "YESIL", f"MS 2 ({dep_key.title()})", p_dep
@@ -1731,13 +1749,14 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     # F) X2 Çifte Şans (Minimal baraj: %73.5 - Kısır deplasman tuzağı korumalı)
     elif p_x2 >= 73.5 and dp["seviye"] >= 1.12 and seviye_farki <= -0.12 and exp_a >= 1.38:
         durum, aksiyon, guven_orani = "YESIL", "X2 Çifte Şans", p_x2
-    # G) 1X Çifte Şans (Minimal baraj: %73.5 - Alt sıra/kısır/formsuz ev 1X tuzağı korumalı)
+    # G) 1X Çifte Şans (Minimal baraj: %73.5 - Alt sıra/kısır/formsuz ev 1X tuzağı [Bilbao 0-1 Espanyol] korumalı)
     elif (
         p_1x >= 73.5
         and ep["seviye"] >= 1.05
         and exp_h >= 1.48
         and (seviye_farki >= 0.12 or ep["savunma"] <= 1.10)
         and not (canli_ev and canli_ev.get("sira", 1) >= 11 and canli_ev.get("mb_yg", 1.0) >= 1.60)
+        and not (canli_ev and canli_ev.get("mac", 0) >= 6 and canli_ev.get("win_rate", 100.0) < 40.0 and p_15_ust < 66.0)
     ):
         durum, aksiyon, guven_orani = "YESIL", "1X Çifte Şans", p_1x
     # H) Gerçek 2.5 ALT & Taktiksel Denk Maç Kilitlenmesi (Deplasman Favorisi Tuzağı ve Açık Takım Korumalı!)
@@ -1862,9 +1881,33 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
         if canli_ev["mb_ag"] <= 1.05 and canli_dep["mb_ag"] <= 1.05 and canli_ev["mb_toplam"] <= 2.30 and durum == "YESIL" and "ÜST" in aksiyon:
             durum, aksiyon, guven_orani = "SARI", "PAS GEÇ / RİSKLİ", 0.0
             tuzak_notu = f"🚨 CANLI FORM KISIRLIK TUZAĞI ({ev_key.title()} vs {dep_key.title()}): Bu sezon iki takım da ligde maç başı 1 golün altında üretiyor ({canli_ev['mb_ag']:.2f} vs {canli_dep['mb_ag']:.2f})!"
-        elif durum == "YESIL" and "2.5 ALT" in aksiyon and (canli_ev.get("mb_toplam", 0) >= 3.20 and canli_dep.get("mb_toplam", 0) >= 3.20):
+        # Canlı Zirve Savunma Kilidi (Lille 0-1 Lyon, Trabzonspor 0-1 Freiburg): İki denk üst sıra takımının da canlı savunması çok sertse ÜST tuzağını kapat!
+        elif (
+            durum == "YESIL"
+            and "ÜST" in aksiyon
+            and ev_key not in ACIK_GOLCU_TAKIMLAR
+            and mutlak_fark <= 0.045
+            and canli_ev.get("sira", 20) <= 5
+            and canli_dep.get("sira", 20) <= 5
+            and canli_ev.get("mb_yg", 2.0) <= 0.78
+            and canli_dep.get("mb_yg", 2.0) <= 1.15
+        ):
             durum, aksiyon, guven_orani = "SARI", "PAS GEÇ / RİSKLİ", 0.0
-            tuzak_notu = f"⚠️ CANLI TEMPO & SAVUNMA ZAAFI TUZAĞI ({ev_key.title()} vs {dep_key.title()}): Kağıt üstünde 2.5 Alt görünse de canlı lig istatistiklerinde iki takımın da maçları çok gollü geçiyor ({canli_ev.get('mb_toplam', 0):.2f} vs {canli_dep.get('mb_toplam', 0):.2f} gol ort.); maç Üst'e patlayabilir!"
+            tuzak_notu = f"🚨 CANLI ZİRVE SAVUNMA KİLİDİ ({ev_key.title()} #{canli_ev['sira']} vs {dep_key.title()} #{canli_dep['sira']}): İki denk üst sıra takımının da bu sezon savunması çok sert ({canli_ev['mb_yg']:.2f} vs {canli_dep['mb_yg']:.2f} YG/m); maç 0-0 veya 0-1 kilitlenmeye çok açıktır!"
+        elif (
+            durum == "YESIL"
+            and "2.5 ALT" in aksiyon
+            and (
+                (canli_ev.get("mb_toplam", 0) >= 3.20 and canli_dep.get("mb_toplam", 0) >= 3.20)
+                or (
+                    canli_ev.get("mb_ag", 0) >= 1.55
+                    and canli_dep.get("mb_ag", 0) >= 1.55
+                    and max(canli_ev.get("mb_toplam", 0), canli_dep.get("mb_toplam", 0)) >= 3.10
+                )
+            )
+        ):
+            durum, aksiyon, guven_orani = "SARI", "PAS GEÇ / RİSKLİ", 0.0
+            tuzak_notu = f"⚠️ CANLI TEMPO & SAVUNMA ZAAFI TUZAĞI ({ev_key.title()} vs {dep_key.title()}): Kağıt üstünde 2.5 Alt görünse de canlı lig istatistiklerinde iki takım da yüksek gol ortalamasıyla oynuyor ({canli_ev.get('mb_ag', 0):.2f} vs {canli_dep.get('mb_ag', 0):.2f} AG/m); maç Üst'e patlayabilir!"
         elif "MS 1" in aksiyon and canli_ev.get("win_rate", 0) >= 70.0 and canli_dep.get("win_rate", 0) <= 35.0 and ep["seviye"] >= 1.05:
             yz_kalite_puani += 1.0
         elif "MS 2" in aksiyon and canli_dep.get("win_rate", 0) >= 70.0 and canli_ev.get("win_rate", 0) <= 35.0 and dp["seviye"] >= 1.05:
@@ -2373,8 +2416,8 @@ with tab2:
         if bulunamayanlar:
             st.info(f"ℹ️ Tanınmayan satırlar ({len(bulunamayanlar)}): {', '.join(bulunamayanlar)}")
 
-        # Sıralama: En yüksek Tutma Yüzdesinden (% Güven) aşağıya doğru sıralama
-        sirali_secilenler = sorted(yz_secilenler, key=lambda x: (x["guven_raw"], x["yz_raw"]), reverse=True)
+        # Sıralama: En yüksek YZ Kalite Puanından (💎 YZ ELMAS) aşağıya doğru sıralama (1X %88 tuzaklarının %96.5 YZ'li Galatasaray/Real Madrid'in üstüne çıkmasını engeller!)
+        sirali_secilenler = sorted(yz_secilenler, key=lambda x: (x["yz_raw"], x["guven_raw"]), reverse=True)
         secilen_sayisi = len(sirali_secilenler)
 
         if secilen_sayisi > 0:
