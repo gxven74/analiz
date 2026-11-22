@@ -815,6 +815,190 @@ def sabika_hafizasi_getir():
                     sabika[d_k] = max(0, sabika.get(d_k, 0) - 1)
     return sabika
 
+def tahmin_kategori_norm(tahmin_str):
+    t = re.sub(r'\s*\(\s*%?\s*[\d\.]+\s*%?\s*\)', '', str(tahmin_str or "")).strip()
+    if t.startswith("MS 1 ("):
+        return "MS 1"
+    if t.startswith("MS 2 ("):
+        return "MS 2"
+    return t
+
+def istatistik_hafiza_motoru_getir():
+    veriler = st.session_state.get("istatistik_verileri", [])
+    genel_w, genel_l = 0, 0
+    market_karnesi = {}
+    takim_karnesi = {}
+    eslesme_gecmisi = {}
+
+    for kayit in veriler:
+        sonuc = str(kayit.get("Sonuç", ""))
+        kazandi = "Kazandı" in sonuc
+        kaybetti = "Kaybetti" in sonuc
+        if not (kazandi or kaybetti):
+            continue
+        if kazandi:
+            genel_w += 1
+        else:
+            genel_l += 1
+
+        mkt = tahmin_kategori_norm(kayit.get("Tahmin", ""))
+        if mkt:
+            m_obj = market_karnesi.setdefault(mkt, {"w": 0, "l": 0, "toplam": 0, "oran": 0.0})
+            if kazandi:
+                m_obj["w"] += 1
+            else:
+                m_obj["l"] += 1
+            m_obj["toplam"] = m_obj["w"] + m_obj["l"]
+            m_obj["oran"] = round((m_obj["w"] / m_obj["toplam"]) * 100.0, 1)
+
+        mac_raw = str(kayit.get("Maç", ""))
+        parcalar = mac_raw.split(" vs ") if " vs " in mac_raw else mac_raw.split(" - ")
+        if len(parcalar) == 2:
+            e_k, d_k = takim_bul(parcalar[0]), takim_bul(parcalar[1])
+            if e_k and d_k:
+                eslesme_gecmisi.setdefault((e_k, d_k), []).append({
+                    "tarih": kayit.get("Tarih", ""),
+                    "tahmin": mkt,
+                    "kazandi": kazandi,
+                    "sonuc": sonuc
+                })
+            for tk in (e_k, d_k):
+                if not tk:
+                    continue
+                t_obj = takim_karnesi.setdefault(tk, {"w": 0, "l": 0, "toplam": 0, "oran": 0.0, "marketler": {}})
+                if kazandi:
+                    t_obj["w"] += 1
+                else:
+                    t_obj["l"] += 1
+                t_obj["toplam"] = t_obj["w"] + t_obj["l"]
+                t_obj["oran"] = round((t_obj["w"] / t_obj["toplam"]) * 100.0, 1)
+                if mkt:
+                    tm = t_obj["marketler"].setdefault(mkt, [0, 0])
+                    if kazandi:
+                        tm[0] += 1
+                    else:
+                        tm[1] += 1
+
+    genel_top = genel_w + genel_l
+    return {
+        "genel": {
+            "w": genel_w,
+            "l": genel_l,
+            "toplam": genel_top,
+            "oran": round((genel_w / genel_top) * 100.0, 1) if genel_top > 0 else 0.0
+        },
+        "market_karnesi": market_karnesi,
+        "takim_karnesi": takim_karnesi,
+        "eslesme_gecmisi": eslesme_gecmisi
+    }
+
+def mac_istatistik_yorumu_uret(ev_key, dep_key, durum, aksiyon, guven_orani, katlayici_aksiyon, katlayici_yuzde, p_15_ust, p_25_ust, p_ev, p_dep, p_1x, p_x2, p_kg_var, p_ms1_15_ust, yz_kalite_puani):
+    hafiza = istatistik_hafiza_motoru_getir()
+    tk_db = hafiza["takim_karnesi"]
+    mk_db = hafiza["market_karnesi"]
+    es_db = hafiza["eslesme_gecmisi"]
+
+    ev_ist = tk_db.get(ev_key, {"w": 0, "l": 0, "toplam": 0, "oran": 0.0, "marketler": {}})
+    dep_ist = tk_db.get(dep_key, {"w": 0, "l": 0, "toplam": 0, "oran": 0.0, "marketler": {}})
+    mkt_norm = tahmin_kategori_norm(aksiyon)
+    mkt_ist = mk_db.get(mkt_norm, {"w": 0, "l": 0, "toplam": 0, "oran": 0.0})
+
+    # Takım geçmiş karne etiketleri
+    def karne_rozet(isim, ist):
+        if ist["toplam"] == 0:
+            return f"{isim.title()} (Defterde Yeni)"
+        ikon = "🍀" if (ist["oran"] >= 80.0 and ist["w"] >= 2) else ("⚠️" if ist["l"] > ist["w"] else "📊")
+        return f"{ikon} {isim.title()} ({ist['w']}G-{ist['l']}M %{ist['oran']:.0f})"
+
+    ev_rozet = karne_rozet(ev_key, ev_ist)
+    dep_rozet = karne_rozet(dep_key, dep_ist)
+
+    # İki takımın ortak en başarılı marketini bul
+    birlesik_marketler = {}
+    for m_k, (mw, ml) in ev_ist["marketler"].items():
+        birlesik_marketler[m_k] = [mw, ml]
+    for m_k, (mw, ml) in dep_ist["marketler"].items():
+        mevcut = birlesik_marketler.get(m_k, [0, 0])
+        birlesik_marketler[m_k] = [mevcut[0] + mw, mevcut[1] + ml]
+
+    en_iyi_takim_marketi = ""
+    en_iyi_tm_w = 0
+    for m_k, (mw, ml) in birlesik_marketler.items():
+        if mw >= 2 and ml == 0 and mw > en_iyi_tm_w:
+            en_iyi_takim_marketi = f"{m_k} ({mw}/{mw} %100)"
+            en_iyi_tm_w = mw
+
+    # İstatistik uyum puanı hesaplama
+    uyum_bonus = 0.0
+    for ist in (ev_ist, dep_ist):
+        if ist["toplam"] >= 2:
+            if ist["oran"] >= 85.0:
+                uyum_bonus += min(3.5, ist["w"] * 0.65)
+            elif ist["oran"] < 50.0:
+                uyum_bonus -= 3.0
+    if mkt_ist["toplam"] >= 3:
+        if mkt_ist["oran"] >= 85.0:
+            uyum_bonus += 2.0
+        elif mkt_ist["oran"] <= 55.0:
+            uyum_bonus -= 3.5
+
+    ist_uyum_puani = round(yz_kalite_puani + uyum_bonus, 1)
+
+    # İstatistik tablosuna göre özel tahmin ve yorum
+    mkt_bilgi_kisa = f"Defterde %{mkt_ist['oran']:.0f} ({mkt_ist['w']}/{mkt_ist['toplam']})" if mkt_ist["toplam"] > 0 else "Yeni Market"
+    ust25_ist = mk_db.get("2.5 ÜST", {"w": 0, "l": 0, "toplam": 0, "oran": 100.0})
+    ust15_ist = mk_db.get("1.5 ÜST", {"w": 0, "l": 0, "toplam": 0, "oran": 85.0})
+
+    if durum != "YESIL":
+        ist_ozel_tahmin = "PAS GEÇ (Tuzak / Risk)"
+        ist_kisa_tablo = f"{ev_rozet} | {dep_rozet} ➔ 🔴 PAS GEÇ"
+        ist_detay_yorum = f"🛑 **İstatistik & Tuzak Kararı:** {ev_rozet} vs {dep_rozet} maçı modelin tuzak kalkanına takıldı. Defter karnesini korumak için pas geçilmeli."
+    else:
+        # Eğer ana öneri 2.5 ALT ise ve defterde 2.5 ALT %55'in altındaysa uyar ve alternatif sun
+        if mkt_norm == "2.5 ALT" and mkt_ist["toplam"] >= 3 and mkt_ist["oran"] <= 55.0:
+            alt_secim = f"1X Çifte Şans (%{p_1x:.0f})" if p_1x >= 76.0 else (f"X2 Çifte Şans (%{p_x2:.0f})" if p_x2 >= 76.0 else f"Temkinli 2.5 ALT (%{guven_orani:.0f})")
+            ist_ozel_tahmin = f"⚠️ 2.5 ALT Defterde %{mkt_ist['oran']:.0f} ➔ Öneri: {alt_secim}"
+        elif mkt_norm == "1.5 ÜST" and p_25_ust >= 62.5 and (ev_ist["w"] + dep_ist["w"] >= 4) and (ev_ist["l"] + dep_ist["l"] <= 1):
+            ist_ozel_tahmin = f"🎯 Banko: 1.5 ÜST (%{p_15_ust:.0f}) | 🔥 Defter Özel: 2.5 ÜST (%{p_25_ust:.0f})"
+        elif "MS 1" in aksiyon and p_15_ust >= 84.0 and (ev_ist["marketler"].get("1.5 ÜST", [0, 0])[0] + dep_ist["marketler"].get("1.5 ÜST", [0, 0])[0] >= 3):
+            ist_ozel_tahmin = f"🎯 Banko: {aksiyon} (%{guven_orani:.0f}) | 🍀 Defter Serisi: 1.5 ÜST (%{p_15_ust:.0f})"
+        elif katlayici_aksiyon != "-" and (ev_ist["oran"] >= 85.0 or dep_ist["oran"] >= 85.0) and (ev_ist["w"] + dep_ist["w"] >= 3):
+            ist_ozel_tahmin = f"🎯 Banko: {aksiyon} (%{guven_orani:.0f}) | 🍀 Uğurlu Katlayıcı: {katlayici_aksiyon}"
+        else:
+            ist_ozel_tahmin = f"🎯 {aksiyon} (%{guven_orani:.0f}) [{mkt_bilgi_kisa}]"
+
+        ist_kisa_tablo = f"{ev_rozet} | {dep_rozet} ➔ {ist_ozel_tahmin}"
+
+        # Detaylı açıklama cümlesi
+        gecmis_eslesme_notu = ""
+        if (ev_key, dep_key) in es_db or (dep_key, ev_key) in es_db:
+            gecmis_kayitlar = es_db.get((ev_key, dep_key), []) + es_db.get((dep_key, ev_key), [])
+            son_k = gecmis_kayitlar[-1]
+            gecmis_eslesme_notu = f" Daha önce defterinde bu eşleşmeye **{son_k['tahmin']}** oynanmış ve **{son_k['sonuc']}** sonuçlanmıştı."
+
+        seri_notu = f" Bu takımların defterde en çok kazandıran ortak tercihi: **{en_iyi_takim_marketi}**." if en_iyi_takim_marketi else ""
+
+        if (ev_ist["w"] + dep_ist["w"] >= 4) and (ev_ist["l"] + dep_ist["l"] <= 1):
+            vurgu = "🍀 **DEFTERİN UĞURLU KULÜPLERİ:**"
+        elif ev_ist["l"] > ev_ist["w"] or dep_ist["l"] > dep_ist["w"]:
+            vurgu = "⚠️ **DEFTER SABIKA UYARISI:**"
+        else:
+            vurgu = "📊 **İSTATİSTİK TABLOSU ANALİZİ:**"
+
+        ist_detay_yorum = (
+            f"{vurgu} Geçmiş istatistik defterinde {ev_rozet} ve {dep_rozet} karnesine sahip. "
+            f"**{mkt_norm}** tahmini senin defterinde bugüne kadar **{mkt_ist['w']}/{mkt_ist['toplam']} (%{mkt_ist['oran']:.1f})** başarı oranıyla çalışmış."
+            f"{seri_notu}{gecmis_eslesme_notu} ➔ **İstatistik Onaylı Tercih:** **{ist_ozel_tahmin}**"
+        )
+
+    return {
+        "ist_takim_ozeti": f"{ev_rozet} | {dep_rozet}",
+        "ist_ozel_tahmin": ist_ozel_tahmin,
+        "ist_kisa_tablo": ist_kisa_tablo,
+        "ist_detay_yorum": ist_detay_yorum,
+        "ist_uyum_puani": ist_uyum_puani
+    }
+
 def canli_api_takim_esle(espn_name, lig_kodu=""):
     if not espn_name:
         return None
@@ -1927,6 +2111,12 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
     else:
         kademe = "🔴 PAS / TUZAK"
 
+    ist_yorum_verisi = mac_istatistik_yorumu_uret(
+        ev_key, dep_key, durum, aksiyon, guven_orani,
+        katlayici_aksiyon, katlayici_yuzde,
+        p_15_ust, p_25_ust, p_ev, p_dep, p_1x, p_x2, p_kg_var, p_ms1_15_ust, yz_kalite_puani
+    )
+
     return {
         "exp_h": exp_h, "exp_a": exp_a, "toplam_xg": toplam_xg, "matrix": matrix,
         "p_ev": p_ev, "p_ber": p_ber, "p_dep": p_dep,
@@ -1940,7 +2130,12 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
         "min_oran": min_oran, "kademe": kademe, "tuzak_notu": tuzak_notu,
         "sabika_etiketi": sabika_etiketi, "ev_sabika": ev_sabika, "dep_sabika": dep_sabika,
         "canli_ev": canli_ev, "canli_dep": canli_dep,
-        "radar_uyarilari": radar_uyarilari
+        "radar_uyarilari": radar_uyarilari,
+        "ist_takim_ozeti": ist_yorum_verisi["ist_takim_ozeti"],
+        "ist_ozel_tahmin": ist_yorum_verisi["ist_ozel_tahmin"],
+        "ist_kisa_tablo": ist_yorum_verisi["ist_kisa_tablo"],
+        "ist_detay_yorum": ist_yorum_verisi["ist_detay_yorum"],
+        "ist_uyum_puani": ist_yorum_verisi["ist_uyum_puani"]
     }
 
 col_baslik, col_tema = st.columns([5, 1])
@@ -2042,6 +2237,9 @@ with tab1:
             )
         else:
             st.warning(f"⚠️ **SNIPER KARARI: PAS GEÇ / RİSKLİ MAÇ**  \n{res['tuzak_notu']}")
+
+        if res.get("ist_detay_yorum"):
+            st.info(f"🧠 **İSTATİSTİK TABLOSU (GEÇMİŞ KARNE) YORUMU:**  \n{res['ist_detay_yorum']}")
 
         # Canlı API 2026-27 Sezon Karnesi (Varsa)
         cev, cdep = res.get("canli_ev"), res.get("canli_dep")
@@ -2386,6 +2584,7 @@ with tab2:
                 "Maç": f"{ev_k.title()} vs {dep_k.title()}",
                 "Ana Öneri": f"{sonuc['aksiyon']} (%{sonuc['guven_orani']:.0f})" if sonuc["durum"] == "YESIL" else "PAS GEÇ",
                 "🔥 Oran Katlayıcı": sonuc["katlayici_aksiyon"],
+                "📊 İstatistik Defteri & Özel Tahmin": sonuc["ist_kisa_tablo"],
                 "🏠 Ev Formu (G-B-M)": ev_form_str,
                 "✈️ Dep Formu (G-B-M)": dep_form_str,
                 "⚡ Fikstür Radarı": avrupa_str,
@@ -2401,7 +2600,11 @@ with tab2:
                 "katlayici_raw": sonuc["katlayici_aksiyon"],
                 "katlayici_yuzde_raw": sonuc["katlayici_yuzde"],
                 "min_oran_raw": sonuc["min_oran"],
-                "tuzak_notu": sonuc["tuzak_notu"]
+                "tuzak_notu": sonuc["tuzak_notu"],
+                "ist_detay_raw": sonuc["ist_detay_yorum"],
+                "ist_uyum_raw": sonuc["ist_uyum_puani"],
+                "ist_takim_raw": sonuc["ist_takim_ozeti"],
+                "ist_tahmin_raw": sonuc["ist_ozel_tahmin"]
             }
             if sonuc["durum"] == "YESIL" and sonuc["yz_kalite_puani"] >= yz_baraji:
                 yz_secilenler.append(bilgi)
@@ -2490,6 +2693,49 @@ with tab2:
                     st.success(f"💎 Kasa Katlama Kuponundaki {eklenen_kk} banko maç İstatistik Defteri'ne eklendi!")
                     st.rerun()
 
+            # 0.5) 🧠 İSTATİSTİK TABLOSU (GEÇMİŞ KARNE) HAFIZA YORUMU & EN UĞURLU KUPON
+            hafiza_rapor = istatistik_hafiza_motoru_getir()
+            genel_k = hafiza_rapor["genel"]
+            mk_k = hafiza_rapor["market_karnesi"]
+            en_iyi_mk_list = [
+                f"<b>{k}</b>: %{v['oran']:.1f} ({v['w']}/{v['toplam']})"
+                for k, v in sorted(mk_k.items(), key=lambda x: (x[1]["oran"], x[1]["toplam"]), reverse=True)
+                if v["toplam"] >= 3 and v["oran"] >= 80.0
+            ]
+            riskli_mk_list = [
+                f"<b>{k}</b>: %{v['oran']:.1f} ({v['w']}/{v['toplam']})"
+                for k, v in mk_k.items()
+                if v["toplam"] >= 2 and v["oran"] <= 60.0
+            ]
+            en_iyi_mk_str = " &nbsp;|&nbsp; ".join(en_iyi_mk_list[:4]) if en_iyi_mk_list else "Veri toplanıyor"
+            riskli_mk_str = f"<br>⚠️ <b>Defterde Dikkat Edilmesi Gereken Marketler:</b> {' | '.join(riskli_mk_list)}" if riskli_mk_list else ""
+
+            ist_sirali_kupon = sorted(yz_secilenler, key=lambda x: (x["ist_uyum_raw"], x["yz_raw"], x["guven_raw"]), reverse=True)[:3]
+            ist_kupon_guven = float(np.prod([x["guven_raw"] / 100.0 for x in ist_sirali_kupon])) * 100.0 if ist_sirali_kupon else 0.0
+            ist_kupon_html = "<br>".join([
+                f"• <b>{x['Maç']}</b> <small>({x['ist_takim_raw']})</small> ➔ <b style='color:#2ecc71;'>{x['ist_tahmin_raw']}</b> <small>(Uyum Puanı: {x['ist_uyum_raw']:.1f})</small>"
+                for x in ist_sirali_kupon
+            ])
+
+            st.markdown(f"""
+            <div class="kurtarma-box" style="padding:16px; border-radius:12px; margin-bottom:14px; border:2px solid #f1c40f;">
+                <h4 style="margin:0; color:#f1c40f;">🧠 İstatistik Tablosu (Geçmiş Karne) Hafıza Yorumu & Özel Tahmin</h4>
+                <small style="color:#fcf3cf;">Sistemin senin <b>İstatistik Defteri</b>'ndeki geçmiş <b>{genel_k['toplam']}</b> resmi maçı (<b>{genel_k['w']}G - {genel_k['l']}M | %{genel_k['oran']:.1f} İsabet</b>) tarayarak bu bülten için çıkardığı hafıza raporu:</small>
+                <hr style="border:0.5px solid rgba(255,255,255,0.25); margin:8px 0;">
+                📌 <b>Defterinin En Çok Kazandıran Tercihleri:</b> {en_iyi_mk_str}{riskli_mk_str}
+                <hr style="border:0.5px solid rgba(255,255,255,0.25); margin:8px 0;">
+                <b style="color:#2ecc71;">🍀 İstatistik Defterine Göre Bültenin En Uğurlu {len(ist_sirali_kupon)}'lü Banko Seçimi (Takım + Market Uyumu En Yüksek):</b><br>
+                {ist_kupon_html}
+                <div style="margin-top:8px;"><small><b>🎯 Geçmiş Karne + Poisson Ortak İsabet Olasılığı:</b> %{ist_kupon_guven:.1f}</small></div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            with st.expander(f"📝 Bültendeki {secilen_sayisi} Maç İçin Tek Tek İstatistik Tablosu Yorumlarını ve Özel Tahminleri Gör", expanded=True):
+                for idx_y, m_y in enumerate(sirali_secilenler, 1):
+                    st.markdown(f"**{idx_y}. {m_y['Maç']}** (`{m_y['🗓️ Lig & Saat']}`)  \n{m_y['ist_detay_raw']}")
+                    if idx_y < len(sirali_secilenler):
+                        st.markdown("<hr style='margin:6px 0; border:0.3px solid rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
+
             # 1) ANA KUTU: BARAJI GEÇEN TÜM MAÇLAR (SABİT 3-4 DEĞİL, HEPSİ!)
             tum_satirlar_html = ""
             for i, m in enumerate(sirali_secilenler, 1):
@@ -2567,8 +2813,9 @@ with tab2:
                 """, unsafe_allow_html=True)
 
             # 3) TABLO GÖRÜNÜMÜ
+            raw_drop_cols = ["guven_raw", "yz_raw", "aksiyon_raw", "katlayici_raw", "katlayici_yuzde_raw", "min_oran_raw", "tuzak_notu", "ist_detay_raw", "ist_uyum_raw", "ist_takim_raw", "ist_tahmin_raw"]
             st.markdown(f"#### 🟢 YZ Tarafından Seçilen Maçların Detay Tablosu ({secilen_sayisi} Maç)")
-            goster_df = pd.DataFrame(sirali_secilenler).drop(columns=["guven_raw", "yz_raw", "aksiyon_raw", "katlayici_raw", "katlayici_yuzde_raw", "min_oran_raw", "tuzak_notu"])
+            goster_df = pd.DataFrame(sirali_secilenler).drop(columns=[c for c in raw_drop_cols if c in pd.DataFrame(sirali_secilenler).columns])
             st.markdown(goster_df.to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
             
             st.markdown("<br>", unsafe_allow_html=True)
@@ -2625,9 +2872,10 @@ with tab2:
             st.warning(f"⚠️ Bültende **{yz_baraji:.1f}** YZ kalite barajını geçen maç bulunamadı. Yukarıdaki kaydırıcıdan barajı biraz düşürebilirsin.")
 
         if sinirda_kalanlar:
-            sinir_sirali = sorted(sinirda_kalanlar, key=lambda x: (x["guven_raw"], x["yz_raw"]), reverse=True)
+            raw_drop_sinir = ["guven_raw", "yz_raw", "aksiyon_raw", "katlayici_raw", "katlayici_yuzde_raw", "min_oran_raw", "tuzak_notu", "ist_detay_raw", "ist_uyum_raw", "ist_takim_raw", "ist_tahmin_raw"]
+            sinir_sirali = sorted(sinirda_kalanlar, key=lambda x: (x["yz_raw"], x["guven_raw"]), reverse=True)
             with st.expander(f"🟡 Yeşil Olup YZ Barajının ({yz_baraji:.1f}) Altında Kalan Sınırda Maçlar ({len(sinirda_kalanlar)}) - Ana Kupona Alınmadı"):
-                sinir_df = pd.DataFrame(sinir_sirali).drop(columns=["guven_raw", "yz_raw", "aksiyon_raw", "katlayici_raw", "katlayici_yuzde_raw", "min_oran_raw", "tuzak_notu"])
+                sinir_df = pd.DataFrame(sinir_sirali).drop(columns=[c for c in raw_drop_sinir if c in pd.DataFrame(sinir_sirali).columns])
                 st.markdown(sinir_df.to_html(classes='custom-table', index=False, escape=False), unsafe_allow_html=True)
 
         if sari_maclar:
