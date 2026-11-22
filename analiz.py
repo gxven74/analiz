@@ -1720,10 +1720,10 @@ def mac_hesapla(ev_key, dep_key, ev_mod=None, dep_mod=None):
         and not (canli_ev and canli_ev.get("mb_yg", 1.0) >= 1.40 and canli_ev.get("win_rate", 100.0) < 60.0 and p_ev < 74.0)
         and not (
             p_ev < 75.5
-            and p_15_ust >= 84.0
+            and p_15_ust >= 82.0
+            and dp["seviye"] >= 1.02
             and canli_ev
             and canli_dep
-            and canli_ev.get("sira", 10) <= 3
             and canli_ev.get("win_rate", 100.0) <= 70.0
             and (canli_dep.get("b", 0) / max(1, canli_dep.get("mac", 1))) >= 0.33
             and (canli_ev.get("mb_yg", 0) >= 1.25 or (canli_ev.get("b", 0) / max(1, canli_ev.get("mac", 1))) >= 0.30)
